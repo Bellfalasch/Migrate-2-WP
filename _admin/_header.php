@@ -49,7 +49,7 @@
 					<ul class="nav">
 						<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_root . $SYS_folder ?>/index.php">Start</a></li>
 						<?php if ($SYS_adminlvl > 0) { ?>
-							<li<?php flagAsActiveOn("examples") ?>><a href="<?= $SYS_root . $SYS_folder ?>/examples.php">Examples</a></li>
+							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate.php">Migrate</a></li>
 							<?php if ($SYS_adminlvl == 2) { ?>
 							<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
 							<?php } ?>
@@ -76,12 +76,12 @@
 				<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
 
 
-			<?php } else if (isActiveOn("examples")) { ?>
+			<?php } else if (isActiveOn("migrate")) { ?>
 
 				<?php if ($SYS_adminlvl > 0) { ?>
-					<li<?php flagAsActiveOn("example1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/examples-example1.php">Example1</a></li>
-					<li<?php flagAsActiveOn("image") ?>><a href="<?= $SYS_root . $SYS_folder ?>/examples-image.php">Image</a></li>
-					<li<?php flagAsActiveOn("upload") ?>><a href="<?= $SYS_root . $SYS_folder ?>/examples-upload.php">Upload</a></li>
+					<li<?php flagAsActiveOn("intro") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-intro.php">Introduktion</a></li>
+					<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
+					<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">Step 1</a></li>
 				<?php } ?>
 
 			<?php } ?>
