@@ -27,15 +27,23 @@ This admin is based on:
 Version 0.9.2.1 (heavily modified)
 By me
 https://github.com/Bellfalasch/Bobby-CMS
+Used as included and heavily modified files
 
 ### Bootstrap
 Version 2.3.1
-By Twitter (included)
+By Twitter
 http://twitter.github.io/bootstrap/
+Used as included file
 
 ### TinyMCE
 Version ?
-By Moxiecode (included).
+By Moxiecode
+Used as included files
+
+### jQuery
+Version 1.8.1
+By jQuery
+Used as linked CDN
 
 
 Basic structure:
