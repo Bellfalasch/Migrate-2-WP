@@ -21,3 +21,26 @@ CREATE TABLE IF NOT EXISTS `ffueater` (
  PRIMARY KEY  (`id`),
  KEY `site` (`site`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+-- Table structure for table `nxtcms_users`
+--
+
+CREATE TABLE IF NOT EXISTS `nxtcms_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `mail` varchar(255) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `lastlogin` datetime DEFAULT NULL,
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `nxtcms_users`
+--
+
+INSERT INTO `nxtcms_users` (`id`, `name`, `mail`, `username`, `password`, `lastlogin`, `level`) VALUES
+(1, NULL, 'test@test.no', 'Nils', 'pills', '2013-05-13 13:37:00', 2);

@@ -27,7 +27,6 @@
  * Stöd till aspx-filer, och möjliga andra formater som man kan tänkas behöva (också till settings?)
  */
 
-
 $site_address = "http://www.x.y/"; // To settings
 $site = $site_address . "default.asp"; // To settings
 $SITEID = 7; // To settings, and database
