@@ -18,10 +18,32 @@
 	// WP-data
 
 	addField( array(
+		"label" => "Wordpress &gt; DB url:",
+		"id" => "wp_dburl",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
 		"label" => "Wordpress &gt; DB name:",
 		"id" => "wp_dbname",
 		"type" => "text(3)",
 		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Wordpress &gt; Table name:",
+		"id" => "wp_tablename",
+		"type" => "text(3)",
+		"description" => "xxx",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -50,35 +72,35 @@
 					)
 	) );
 
-	addField( array(
-		"label" => "Wordpress &gt; DB url:",
-		"id" => "wp_dburl",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Wordpress &gt; Table name:",
-		"id" => "wp_tablename",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
 	// CLEANER-data
+
+	addField( array(
+		"label" => "Cleaner &gt; DB url:",
+		"id" => "cleaner_dburl",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
 
 	addField( array(
 		"label" => "Cleaner &gt; DB name:",
 		"id" => "cleaner_dbname",
 		"type" => "text(3)",
 		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Cleaner &gt; Table name:",
+		"id" => "cleaner_tablename",
+		"type" => "text(3)",
+		"description" => "xxx",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -106,28 +128,6 @@
 						"min" => "Please keep number of character's on at least [MIN].",
 					)
 	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; DB url:",
-		"id" => "cleaner_dburl",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; Table name:",
-		"id" => "cleaner_tablename",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
 ?>
 <?php require('_header.php'); ?>
 
@@ -142,17 +142,47 @@
 			var_dump($PAGE_form);
 
 			// If no errors:
-			if (empty($_SESSION['ERRORS'])) {
+			if (empty(SYS_errors)) {
 				
 				echo "<div class='alert alert-block alert-success'><h4>Success</h4><p><strong>Your posted data validated!</strong> (we have not set this up yet to save to your database =/)</p></div>";
 
-				// Pseudo:
-				// * Do some simple cleaning of data
+				// Stupid way of getting all the form data into variables for use to save the data.
+				$wp_dburl  = $PAGE_form[0]["content"];
+				$wp_dbname = $PAGE_form[1]["content"];
+				$wp_table  = $PAGE_form[2]["content"];
+				$wp_dbuser = $PAGE_form[3]["content"];
+				$wp_dbpass = $PAGE_form[4]["content"];
+
+				$cleaner_dburl  = $PAGE_form[5]["content"];
+				$cleaner_dbname = $PAGE_form[6]["content"];
+				$cleaner_table  = $PAGE_form[7]["content"];
+				$cleaner_dbuser = $PAGE_form[8]["content"];
+				$cleaner_dbpass = $PAGE_form[9]["content"];
+
+				// Do some simple cleaning of data
+				// Todo, if not washed when validated - answer: not washed			
+
 				// * Save data in cookies
 				// * Read this data into sessions, if exist (in header)
 				// * Then read data into constants (in header)
 
 			}
+
+		} else {
+
+			// Data from form already saved, so set it from our variables.
+
+			$PAGE_form[0]["content"] = $wp_dburl;
+			$PAGE_form[1]["content"] = $wp_dbname;
+			$PAGE_form[2]["content"] = $wp_table;
+			$PAGE_form[3]["content"] = $wp_dbuser;
+			$PAGE_form[4]["content"] = $wp_dbpass;
+
+			$PAGE_form[5]["content"] = $cleaner_dburl;
+			$PAGE_form[6]["content"] = $cleaner_dbname;
+			$PAGE_form[7]["content"] = $cleaner_table;
+			$PAGE_form[8]["content"] = $cleaner_dbuser;
+			$PAGE_form[9]["content"] = $cleaner_dbpass;
 
 		}
 
