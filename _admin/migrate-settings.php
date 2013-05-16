@@ -10,26 +10,119 @@
 	// See README.md in root for more information about how to set up and use the form-generator!
 
 	/*
-	 Needed fields:
-	 * database cleaner
-	 * table-name cleaner
-	 * database WP
-	 * table-name WP
-	 * Database password cleaner
-	 * Database password WP
-	 * db URL cleaner
-	 * db URL WP
-
 	 Spara detta i en cookie så att man slipper fylla i dem om och om.
 	 Så klart inte så säkert live sen, men då kan funktionen tas bort. 
 	 T.ex. kanske låta den sniffa localhost och bara aktiveras då.
 	 */
 
+	// WP-data
+
 	addField( array(
-		"label" => "Wordpress &gt; Database:",
+		"label" => "Wordpress &gt; DB name:",
 		"id" => "wp_dbname",
 		"type" => "text(3)",
 		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Wordpress &gt; DB user:",
+		"id" => "wp_dbuser",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Wordpress &gt; DB password:",
+		"id" => "wp_dbpass",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Wordpress &gt; DB url:",
+		"id" => "wp_dburl",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Wordpress &gt; Table name:",
+		"id" => "wp_tablename",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	// CLEANER-data
+
+	addField( array(
+		"label" => "Cleaner &gt; DB name:",
+		"id" => "cleaner_dbname",
+		"type" => "text(3)",
+		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Cleaner &gt; DB user:",
+		"id" => "cleaner_dbuser",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Cleaner &gt; DB password:",
+		"id" => "cleaner_dbpass",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Cleaner &gt; DB url:",
+		"id" => "cleaner_dburl",
+		"type" => "text(3)",
+		"description" => "xxx",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+	addField( array(
+		"label" => "Cleaner &gt; Table name:",
+		"id" => "cleaner_tablename",
+		"type" => "text(3)",
+		"description" => "xxx",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -53,138 +146,22 @@
 				
 				echo "<div class='alert alert-block alert-success'><h4>Success</h4><p><strong>Your posted data validated!</strong> (we have not set this up yet to save to your database =/)</p></div>";
 
-				// UPDATE
-				if ( $PAGE_dbid > 0 )
-				{
-					// CALL YOUR DATABASE AND UPDATE WITH THIS NEW DATA ... (TODO)
-/*
-					$result = db2_updateCampaign( array(
-								'title' => $formTitle,
-								'url' => $formUrl,
-								'start' => $formStart . ' 00:00:00',
-								'stop' => $formStop . ' 23:59:59',
-								'short_info' => $formShortInfo,
-								'verv_step1' => $formVervStep1,
-								'verv_step2' => $formVervStep2,
-								'verv_takk' => $formVervTakk,
-								'give_step1' => $formGiveStep1,
-								'give_takk' => $formGiveTakk,
-								'image' => $formImage,
-								'id' => $PAGE_dbid
-							) );
+				// Pseudo:
+				// * Do some simple cleaning of data
+				// * Save data in cookies
+				// * Read this data into sessions, if exist (in header)
+				// * Then read data into constants (in header)
 
-					if ($result >= 0) {
-						echo "<div class='alert alert-success'><h4>Save successful</h4><p>$PAGE_name updated</p></div>";
-					} else {
-						pushError("NOT saved");
-					}
-*/
-				// CREATE
-				} else {
-
-					// CALL YOUR DATABASE AND INSERT THIS NEW DATA ... (TODO)
-/*
-					$result = db2_createCampaign( array(
-								'title' => $formTitle,
-								'url' => $formUrl,
-								'start' => $formStart . ' 00:00:00',
-								'stop' => $formStop . ' 23:59:59',
-								'short_info' => $formShortInfo,
-								'verv_step1' => $formVervStep1,
-								'verv_step2' => $formVervStep2,
-								'verv_takk' => $formVervTakk,
-								'give_step1' => $formGiveStep1,
-								'give_takk' => $formGiveTakk,
-								'image' => $formImage
-							) );
-
-					if ($result > 0) {
-						
-						echo "<div class='alert alert-success'><h4>Save successful</h4><p>New $PAGE_name saved, id: $result</p></div>";
-
-						// After save we have to reset all variabels so that we get a new clean form
-						$PAGE_dbid = -1;
-
-						foreach ($PAGE_form as $field) {
-							$field["content"] = '';
-						}
-
-						// If you don't wanna show the message, you could just redirect back to this page instead of "cleaning" all the variables.
-						//ob_clean();
-						//header('Location: ' . $SYS_folder . '/campaign.php');
-
-					} else {
-						pushError("NOT saved");
-					}
-*/
-				}
 			}
 
-		}
-
-
-		// TODO: If we have a given id, fetch form data from database.
-		if ( $PAGE_dbid > 0 )
-		{
-			// Pseudo: Run SQL, get result, loop through it and put each data in the correct "content" of all the arrays.
-			// 		   Maybe time for that setting in the arrays with name of field in database? Hmm ... TODO =)
-			/*
-			$result = db2_getCampaign( array('id' => $PAGE_dbid) );
-
-			if (!is_null($result))
-			{
-				$row = $result->fetch_object();
-
-				$formTitle = $row->title;
-				$formUrl = $row->url;
-				$formStart = substr($row->start,0,10);
-				$formStop = substr($row->stop,0,10);
-				$formShortInfo = $row->shortinfo;
-				$formVervStep1 = $row->verv_step1;
-				$formVervStep2 = $row->verv_step2;
-				$formVervTakk = $row->verv_takk;
-				$formGiveStep1 = $row->give_step1;
-				$formGiveTakk = $row->give_takk;
-				$formImage = $row->image;
-
-			} else {
-				pushError("Couldn't find the requested $PAGE_name");
-			}
-			*/
 		}
 
 	?>
 
-	<script language="javascript" type="text/javascript" src="<?= $SYS_root . $SYS_folder ?>/assets/tiny_mce/tiny_mce.js"></script>
-	<script type="text/javascript">
-		tinyMCE.init({
-			// General options
-			mode : "textareas",
-			theme : "advanced",
-			plugins : "spellchecker,iespell,inlinepopups,paste,nonbreaking",
-
-			// Theme options
-//			theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-//			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-//			theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,insertfile,insertimage",
-			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,justifyleft,justifycenter,justifyright,justifyfull,|,undo,redo",
-			theme_advanced_buttons2 : "outdent,indent,link,unlink,|,cut,copy,paste,pastetext,pasteword,|,cleanup",
-			theme_advanced_buttons3 : "",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : true,
-        	editor_selector : "mceEditor",
-        	editor_deselector : "mceNoEditor",
-			width: "100%",
-			height: "300"
-		});
-	</script>
-
 	<div class="page-header">
 		<h1>
-			<?= $PAGE_name ?>s
-			<small>create and manage <?= $PAGE_name ?>s</small>
+			<?= $PAGE_name ?>
+			<small>create and manage your migration</small>
 		</h1>
 	</div>
 
@@ -216,28 +193,6 @@
 
 		<div class="span4 offset1">
 
-			<a class="btn btn-success" href="?"><i class="icon-plus-sign icon-white"></i> Add new <?= $PAGE_name ?></a>
-
-			<hr />
-
-			<h4>Select <?= $PAGE_name ?></h4>
-			<?php
-				$result = db2_getCampaignsActive();
-
-				if (!is_null($result))
-				{
-					while ( $row = $result->fetch_object() )
-					{
-						echo "<a href='?id=" . $row->id . "'>" . $row->title . "</a><br />";
-					}
-				}
-				else
-				{
-					echo "<p>No active $PAGE_name found</p>";
-				}
-			?>
-			<hr />
-
 			<h4>Help</h4>
 			<p>
 				<strong>Help info</strong> just some random gibberish about this admin page that could be useful for somebody.
@@ -252,10 +207,6 @@
 
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save</button>
-
-		<?php if ($PAGE_dbid > 0 && 1 == 2) { ?>
-		<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger">Delete</a>
-		<?php } ?>
 	</div>
 
 </form>
