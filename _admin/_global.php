@@ -100,6 +100,28 @@
 	$PAGE_form = array();
 
 
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Migration settings:
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	if (isset($_COOKIES['wp_dburl'])) {
+		
+		$wp_dburl = 		$_COOKIES['wp_dburl'];
+		$wp_dbname = 		$_COOKIES['wp_dbname'];
+		$wp_table  = 		$_COOKIES['wp_table'];
+		$wp_dbuser = 		$_COOKIES['wp_dbuser'];
+		$wp_dbpass = 		$_COOKIES['wp_dbpass'];
+		$cleaner_dburl  = 	$_COOKIES['cleaner_dburl'];
+		$cleaner_dbname = 	$_COOKIES['cleaner_dbname'];
+		$cleaner_table  = 	$_COOKIES['cleaner_table'];
+		$cleaner_dbuser = 	$_COOKIES['cleaner_dbuser'];
+		$cleaner_dbpass = 	$_COOKIES['cleaner_dbpass'];
+
+	}
+
+
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// The magic forms ( ... should have it's own file, just to include to implement):
 	//////////////////////////////////////////////////////////////////////////////////
