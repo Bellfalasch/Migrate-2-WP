@@ -6,9 +6,9 @@
 	if ($_SERVER['SERVER_NAME'] == 'localhost')
 	{	// LOCAL
 		DEFINE('DB_USER', 'root');				// Username for database
-		DEFINE('DB_PASS', '');					// Password for database
+		DEFINE('DB_PASS', 'root');					// Password for database
 		DEFINE('DB_HOST', 'localhost');			// Server for database
-		DEFINE('DB_NAME', 'test');				// Select database on server
+		DEFINE('DB_NAME', 'migrate');				// Select database on server
 	} else {
 		// LIVE (change to your settings)
 		DEFINE('DB_USER', 'xxx');
