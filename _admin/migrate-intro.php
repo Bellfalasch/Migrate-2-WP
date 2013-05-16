@@ -322,7 +322,7 @@
 				<strong>Help info</strong> just some random gibberish about this admin page that could be useful for somebody.
 				I sometimes use screenshots here to connect these back-end fields to the front-end (clients love this because
 				after your first show-and-tell of this amdin with them they WILL forget it, mainly because most clients log in
-				maybe 4 times a year, and thos times are right after getting the product).
+				maybe 4 times a year, and those times are right after getting the product).
 			</p>
 
 		</div>
