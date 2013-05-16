@@ -152,7 +152,6 @@
 				$wp_table  = $PAGE_form[2]["content"];
 				$wp_dbuser = $PAGE_form[3]["content"];
 				$wp_dbpass = $PAGE_form[4]["content"];
-
 				$cleaner_dburl  = $PAGE_form[5]["content"];
 				$cleaner_dbname = $PAGE_form[6]["content"];
 				$cleaner_table  = $PAGE_form[7]["content"];
@@ -160,15 +159,30 @@
 				$cleaner_dbpass = $PAGE_form[9]["content"];
 
 				// Do some simple cleaning of data
-				// Todo, if not washed when validated - answer: not washed			
+				// Todo, if not washed when validated - answer: not washed
+				// * Wash data
 
-				// * Save data in cookies
+				// Save data in cookies
+				$expire = time() + (60*60*24*31);
+				setcookie( "wp_dburl",       $wp_dburl,       $expire );
+				setcookie( "wp_dbname",      $wp_dbname,      $expire );
+				setcookie( "wp_table",       $wp_table,       $expire );
+				setcookie( "wp_dbuser",      $wp_dbuser,      $expire );
+				setcookie( "wp_dbpass",      $wp_dbpass,      $expire );
+				setcookie( "cleaner_dburl",  $cleaner_dburl,  $expire );
+				setcookie( "cleaner_dbname", $cleaner_dbname, $expire );
+				setcookie( "cleaner_table",  $cleaner_table,  $expire );
+				setcookie( "cleaner_dbuser", $cleaner_dbuser, $expire );
+				setcookie( "cleaner_dbpass", $cleaner_dbpass, $expire );
+
+				// $_COOKIES['wp_dburl'] 
+
 				// * Read this data into sessions, if exist (in header)
 				// * Then read data into constants (in header)
 
 			}
 
-		} else {
+		} else if (isset($wp_url)) {
 
 			// Data from form already saved, so set it from our variables.
 
