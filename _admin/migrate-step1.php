@@ -253,7 +253,7 @@ mysql_close($mysql);
 	<div class="page-header">
 		<h1>
 			Step 1
-			<small>Crawl selected site</small>
+			<small>crawl selected site</small>
 		</h1>
 	</div>
 
@@ -272,9 +272,9 @@ mysql_close($mysql);
 				* Able to re-crawl site
 			</p>
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
+			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run crawl</button>
 
-			<button type="submit" class="btn">Test upgrade</button>
+			<button type="submit" class="btn">Test crawl</button>
 
 		</div>
 	</div>
