@@ -1,6 +1,6 @@
 <?php
 	/* Set up template variables */
-	$PAGE_name  = 'Upload';
+	$PAGE_name  = 'Step';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
@@ -12,21 +12,7 @@
 	if (ISPOST)
 	{
 		
-		if (isset($HTTP_POST_FILES)) {
-			$path = "uploads/" . $HTTP_POST_FILES['ufile']['name'];
-
-			if ( copy($HTTP_POST_FILES['ufile']['tmp_name'], $path) ) {
-				
-				echo '<div class="alert alert-success"><h4>Upload successful</h4>';
-				echo "File Name: ".$HTTP_POST_FILES['ufile']['name']."<br />"; 
-				echo "File Size: ".$HTTP_POST_FILES['ufile']['size']."<br />"; 
-				echo "File Type: ".$HTTP_POST_FILES['ufile']['type']."<br />"; 
-				echo "</div>";
-
-			}
-		} else {
-			pushError("Can't find required support on the server for file uploading =/");
-		}
+		// code
 
 	}
 
@@ -34,8 +20,8 @@
 
 	<div class="page-header">
 		<h1>
-			Upload
-			<small>Upload new file</small>
+			Step 1
+			<small>Description</small>
 		</h1>
 	</div>
 
@@ -49,12 +35,12 @@
 		<div class="span12">
 
 			<p>
-				Select a file to upload (one at-a-time).
+				Information
 			</p>
 
-			<input type="file" name="ufile" id="ufile" />
+			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
 
-			<button type="submit" class="btn">Upload</button>
+			<button type="submit" class="btn">Test upgrade</button>
 
 		</div>
 	</div>
