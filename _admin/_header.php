@@ -82,6 +82,12 @@
 					<li<?php flagAsActiveOn("intro") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-intro.php">Introduktion</a></li>
 					<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
 					<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">Step 1</a></li>
+					<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">Step 2</a></li>
+					<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">Step 3</a></li>
+					<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">Step 4</a></li>
+					<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">Step 5</a></li>
+					<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">Step 6</a></li>
+					<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">Step 7</a></li>
 				<?php } ?>
 
 			<?php } ?>
