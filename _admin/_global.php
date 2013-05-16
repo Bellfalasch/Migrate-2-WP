@@ -89,7 +89,7 @@
 		$SYS_adminlvl = $_SESSION['level'];
 	} else {
 		$SYS_adminlvl = 0;
-		if ($SYS_script != "index" )
+		if ($SYS_script != "index" && $SYS_script != "migrate_settings" )
 		{
 			ob_clean();
 			header('Location: ' . $SYS_root . $SYS_folder . '/index.php');
