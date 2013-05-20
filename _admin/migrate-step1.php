@@ -32,8 +32,6 @@
 
 		validateForm();
 
-		var_dump($PAGE_form);
-
 		if (empty($SYS_errors)) {
 
 //////////////////////////////////////////////////////////////
