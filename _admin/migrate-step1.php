@@ -22,6 +22,18 @@
 <?php include('_header.php'); ?>
 
 
+	<div class="page-header">
+		<h1>
+			Step 1
+			<small>crawl selected site</small>
+		</h1>
+	</div>
+
+	<div class="progress progress-striped">
+		<div class="bar" style="width: <?php if (ISPOST) { ?>12<?php } else { ?>1<?php } ?>%;"></div>
+	</div>
+
+
 <?php
 
 	if (ISPOST)
@@ -64,6 +76,8 @@ mysql_select_db( $cleaner_dbname, $mysql);
 // At the moment only way to delete data in the table and start anew:
 //mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
+
+// Simple insert into the database, no check if data already is there.
 function savepage($site, $buffer)
 {
 	global $mysql;
@@ -73,23 +87,28 @@ function savepage($site, $buffer)
 	
 }
 
+// 
 function checklink($link)
 {
 	global $checked_link;
 
+	// Find every space in URLs, and replcase it with %20
 	$space_search = array('/\\s/i');
 	$space_replace = array('%20');
 	$link = preg_replace($space_search, $space_replace, $link);
 
+	// Find all achors ( #-sign ) and replace them with '\2' (part two of url)
 	$square_search = array ('/(.*?)\#(.*?)/i');
 	$square_replace = array('\\2');
-	$link =preg_replace($square_search, $square_replace, $link);
+	$link = preg_replace($square_search, $square_replace, $link);
 
-	$endings = array('htm', 'html', 'asp');
+	// List of page file endings to crawl for
+	$endings = array('htm', 'html', 'asp', 'aspx');
 	$asd = explode(".", $link);
 	$asd = $asd[sizeof($asd)-1];
 	$asd = explode("?", $asd);
 	$asd = $asd[0];
+
 
 	if(in_array($asd, $endings))
 	{
@@ -104,6 +123,7 @@ function checklink($link)
 
 }
 
+// 
 function forsites($check_links)
 {
 	global $site_address;
@@ -127,15 +147,16 @@ function forsites($check_links)
 	}
 }
 
+// Request the site we want to crawl
 function getsite($site, $site_address)
 {
 	global $check_links;
 	global $checked_link;
 
-	echo "\n".$site;
+	echo "Requesting: <strong>" . $site . "</strong>";
 	if ($handle = fopen($site, "r"))
 	{
-		echo "OK";
+		echo " <span class=\"label label-success\">OK</span>";
 	}
 	else
 	{
@@ -145,6 +166,8 @@ function getsite($site, $site_address)
 
 	//$handle = stream_get_contents($handle);
 
+	// Different kind of link formats for this site.
+	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array ('/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
 		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i');
 
@@ -274,13 +297,6 @@ mysql_close($mysql);
 
 ?>
 
-	<div class="page-header">
-		<h1>
-			Step 1
-			<small>crawl selected site</small>
-		</h1>
-	</div>
-
 	<?php
 		outputErrors($SYS_errors);
 	?>
@@ -293,14 +309,12 @@ mysql_close($mysql);
 			<?php outputFormFields(); ?>
 
 			<p>
-				* Check current data (with view of it)<br />
-				* Crawl site<br />
-				* Able to re-crawl site
+				Crawling of a website can take very long time, depending on how many pages and links it has.
 			</p>
 
 			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run crawl</button>
 
-			<button type="submit" class="btn">Test crawl</button>
+			<button type="submit" name="spara" class="btn">Test crawl</button>
 
 		</div>
 	</div>
