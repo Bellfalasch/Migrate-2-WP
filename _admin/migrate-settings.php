@@ -73,7 +73,7 @@
 	) );
 
 	// CLEANER-data
-
+/*
 	addField( array(
 		"label" => "Cleaner &gt; DB url:",
 		"id" => "cleaner_dburl",
@@ -128,6 +128,7 @@
 						"min" => "Please keep number of character's on at least [MIN].",
 					)
 	) );
+*/
 ?>
 <?php require('_header.php'); ?>
 
@@ -152,11 +153,13 @@
 				$wp_table  = $PAGE_form[2]["content"];
 				$wp_dbuser = $PAGE_form[3]["content"];
 				$wp_dbpass = $PAGE_form[4]["content"];
+/*
 				$cleaner_dburl  = $PAGE_form[5]["content"];
 				$cleaner_dbname = $PAGE_form[6]["content"];
 				$cleaner_table  = $PAGE_form[7]["content"];
 				$cleaner_dbuser = $PAGE_form[8]["content"];
 				$cleaner_dbpass = $PAGE_form[9]["content"];
+*/
 
 				// Do some simple cleaning of data
 				// Todo, if not washed when validated - answer: not washed
@@ -169,11 +172,13 @@
 				setcookie( "wp_table",       $wp_table,       $expire );
 				setcookie( "wp_dbuser",      $wp_dbuser,      $expire );
 				setcookie( "wp_dbpass",      $wp_dbpass,      $expire );
+				/*
 				setcookie( "cleaner_dburl",  $cleaner_dburl,  $expire );
 				setcookie( "cleaner_dbname", $cleaner_dbname, $expire );
 				setcookie( "cleaner_table",  $cleaner_table,  $expire );
 				setcookie( "cleaner_dbuser", $cleaner_dbuser, $expire );
 				setcookie( "cleaner_dbpass", $cleaner_dbpass, $expire );
+				*/
 
 				// $_COOKIES['wp_dburl'] 
 
@@ -191,13 +196,13 @@
 			$PAGE_form[2]["content"] = $wp_table;
 			$PAGE_form[3]["content"] = $wp_dbuser;
 			$PAGE_form[4]["content"] = $wp_dbpass;
-
+/*
 			$PAGE_form[5]["content"] = $cleaner_dburl;
 			$PAGE_form[6]["content"] = $cleaner_dbname;
 			$PAGE_form[7]["content"] = $cleaner_table;
 			$PAGE_form[8]["content"] = $cleaner_dbuser;
 			$PAGE_form[9]["content"] = $cleaner_dbpass;
-
+*/
 		}
 
 	?>
