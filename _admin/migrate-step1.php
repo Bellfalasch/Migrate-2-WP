@@ -67,6 +67,8 @@ mysql_select_db( $cleaner_dbname, $mysql);
 function savepage($site, $buffer)
 {
 	global $mysql;
+	global $SITEID;
+	global $cleaner_table;
 	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $SITEID . ")");
 	
 }
@@ -92,7 +94,7 @@ function checklink($link)
 	if(in_array($asd, $endings))
 	{
 		$checked_link = $link;
-		echo  "\n" . $checked_link . " ---\n";
+		echo  "\n" . $checked_link . " ---<br />\n";
 		return TRUE;
 	}
 	else
