@@ -59,7 +59,7 @@
  */
 
 $site_address = $PAGE_form[0]["content"]; // "http://www.x.y/"; // To settings
-$site = $site_address . "default.asp"; // To settings
+$site = $site_address; // . "default.asp"; // To settings
 $SITEID = 9; // To settings, and database
 
 $check_links = array();
@@ -216,16 +216,28 @@ function getsite($site, $site_address)
 				else if (preg_match($search_links[1], $links[$i][$j][1], $res_links))
 				{
 					$break = false;
-	#				echo $res_links[0][strlen($site_address)] . $res_links[0][strlen($site_address)+1] . "\n";
-					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
+					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
+					/*
+					echo strlen($res_links[0]) . "<br />";
+					echo strlen($site_address) . "<br />";
+					echo strlen($res_links[0]) . "<br />";
+					echo strlen($site_address) . "<br />";
+					echo $res_links[0][strlen($site_address)] . "<br />";
+					*/
+					//if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
+					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) ))
 					{
-						for ($k=0; $k<strlen($site_address); $k++)
+						if ( (($res_links[0][strlen($site_address)] != ".") ) )
 						{
-							if ($res_links[0][$k] != $site_address[$k])
+							for ($k=0; $k<strlen($site_address); $k++)
 							{
-#								echo "TRUE";
-								$break = true;
-								break;
+								if ($res_links[0][$k] != $site_address[$k])
+								{
+	#								echo "TRUE";
+									//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
+									$break = true;
+									break;
+								}
 							}
 						}
 					}
@@ -243,8 +255,10 @@ function getsite($site, $site_address)
 						if (checklink($res_links[0])) {
 							if (!array_key_exists($checked_link, $check_links))
 							{
-								echo " <span class=\"label label-info\">Link</span>";
+								echo " <span class=\"label label-success\">Added</span>";
 								$check_links[$checked_link] = 0;
+							} else {
+								echo " <span class=\"label label-warning\">Skipped</span>";
 							}
 						}
 
@@ -265,10 +279,12 @@ function getsite($site, $site_address)
 						if (checklink($links[$i][$j][1]))
 						{
 							//echo "\n" . $checked_link . " ---\n";
-							echo " <span class=\"label label-info\">Link</span>";
 							if (!array_key_exists($checked_link, $check_links))
 							{
+								echo " <span class=\"label label-success\">Added</span>";
 								$check_links[$checked_link] = 0;
+							} else {
+								echo " <span class=\"label label-warning\">Skipped</span>";
 							}
 						}
 						echo "<br />";
