@@ -113,7 +113,7 @@
 		return db_MAIN("
 			SELECT `id`, `name`, `username`, `password`, `mail`, `level`
 			FROM `nxtcms_users`
-			WHERE `username` LIKE {$in['username']}
+			WHERE `mail` LIKE {$in['mail']}
 			LIMIT 1
 		;");
 	}
