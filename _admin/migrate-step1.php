@@ -113,7 +113,7 @@ function checklink($link)
 	if(in_array($asd, $endings))
 	{
 		$checked_link = $link;
-		echo  "\n" . $checked_link . " ---<br />\n";
+		//echo  "\n" . $checked_link . " ---<br />\n";
 		return TRUE;
 	}
 	else
@@ -163,6 +163,7 @@ function getsite($site, $site_address)
 		$check_links[$site] = 2;
 		return false;
 	}
+	echo "<br />";
 
 	//$handle = stream_get_contents($handle);
 
@@ -236,34 +237,41 @@ function getsite($site, $site_address)
 
 					if (!$break)
 					{		
-						echo "1: " . $res_links[0] . "\n";
+						echo "1: " . $res_links[0] . "";
 						#					print_r($res_links);
 #						$link = preg_replace($replace_search, $replace, $res_links[0]);
-						if (checklink($res_links[0]))
+						if (checklink($res_links[0])) {
 							if (!array_key_exists($checked_link, $check_links))
 							{
-								echo " NEW ";
+								echo " <span class=\"label label-info\">New</span>";
 								$check_links[$checked_link] = 0;
 							}
+						}
+
+						echo "<br />";
 					}
 				}
 				else
 				{
 #					echo "\n2: " . $links[$i][$j][1] . "\n";
 #					print_r($res_links);
-					if ($links[$i][$j][1][0] != "#" && $links[$i][$j][1] != "mailto:test@test.se")
+
+					// Don't collect garbage links (only # in the href, or mailto-links)
+					if ($links[$i][$j][1][0] != "#" && substr( $links[$i][$j][1], 0, 7 ) != "mailto:")
 					{
 						$links[$i][$j][1] = $site_address . $links[$i][$j][1];
 						echo "2: " . $links[$i][$j][1] . "\n";
 #						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
 						if (checklink($links[$i][$j][1]))
 						{
-							echo "\n" . $checked_link . " ---\n";
+							//echo "\n" . $checked_link . " ---\n";
+							echo " <span class=\"label label-info\">New</span>";
 							if (!array_key_exists($checked_link, $check_links))
 							{
 								$check_links[$checked_link] = 0;
 							}
 						}
+						echo "<br />";
 					}
 				}
 			}
