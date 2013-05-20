@@ -112,12 +112,13 @@
 		$wp_table  = 		$_COOKIES['wp_table'];
 		$wp_dbuser = 		$_COOKIES['wp_dbuser'];
 		$wp_dbpass = 		$_COOKIES['wp_dbpass'];
+		/*
 		$cleaner_dburl  = 	$_COOKIES['cleaner_dburl'];
 		$cleaner_dbname = 	$_COOKIES['cleaner_dbname'];
 		$cleaner_table  = 	$_COOKIES['cleaner_table'];
 		$cleaner_dbuser = 	$_COOKIES['cleaner_dbuser'];
 		$cleaner_dbpass = 	$_COOKIES['cleaner_dbpass'];
-
+		*/
 	}
 
 
