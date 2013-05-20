@@ -119,12 +119,13 @@
 		$cleaner_dbuser = 	$_COOKIES['cleaner_dbuser'];
 		$cleaner_dbpass = 	$_COOKIES['cleaner_dbpass'];
 		*/
-		$cleaner_dburl  = "localhost";
-		$cleaner_dbname = "test";
-		$cleaner_table  = "migrate_content";
-		$cleaner_dbuser = "root";
-		$cleaner_dbpass = "";
 	}
+	
+	$cleaner_dburl  = "localhost";
+	$cleaner_dbname = "test";
+	$cleaner_table  = "migrate_content";
+	$cleaner_dbuser = "root";
+	$cleaner_dbpass = "";
 
 
 
