@@ -25,7 +25,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf8" />
-	<title><?= $PAGE_title ?> - [SITENAME]</title>
+	<title><?= $PAGE_title ?> - [Migrate 2 WP]</title>
 	<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
@@ -42,7 +42,7 @@
 					<span class="icon-bar"></span>
 				</a>
 				
-				<a class="brand" href="http://www.nxt.no/">nxt cms</a>
+				<a class="brand" href="http://www.github.com/Bellfalasch/">Migrate 2 WP</a>
 				
 				<div class="nav-collapse">
 
