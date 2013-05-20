@@ -153,7 +153,7 @@ function getsite($site, $site_address)
 	global $check_links;
 	global $checked_link;
 
-	echo "Requesting: <strong>" . $site . "</strong>";
+	echo "<p>Requesting: <strong>" . $site . "</strong>";
 	if ($handle = fopen($site, "r"))
 	{
 		echo " <span class=\"label label-success\">OK</span>";
@@ -163,7 +163,7 @@ function getsite($site, $site_address)
 		$check_links[$site] = 2;
 		return false;
 	}
-	echo "<br />";
+	echo "</p>";
 
 	//$handle = stream_get_contents($handle);
 
@@ -243,7 +243,7 @@ function getsite($site, $site_address)
 						if (checklink($res_links[0])) {
 							if (!array_key_exists($checked_link, $check_links))
 							{
-								echo " <span class=\"label label-info\">New</span>";
+								echo " <span class=\"label label-info\">Link</span>";
 								$check_links[$checked_link] = 0;
 							}
 						}
@@ -265,7 +265,7 @@ function getsite($site, $site_address)
 						if (checklink($links[$i][$j][1]))
 						{
 							//echo "\n" . $checked_link . " ---\n";
-							echo " <span class=\"label label-info\">New</span>";
+							echo " <span class=\"label label-info\">Link</span>";
 							if (!array_key_exists($checked_link, $check_links))
 							{
 								$check_links[$checked_link] = 0;
@@ -280,8 +280,8 @@ function getsite($site, $site_address)
 	$check_links[$site] = 1;
 	savepage($site, $pagebuffer);
 
-	print_r($check_links);
-	echo count($check_links);
+	//print_r($check_links);
+	echo count("<span class=\"badge badge-success\">" . $check_links . "</span> unique links collected!<br />");
 
 
 }
