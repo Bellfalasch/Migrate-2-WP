@@ -258,7 +258,7 @@ mysql_close($mysql);
 	</div>
 
 	<?php
-		outputErrors($_SESSION['ERRORS']);
+		outputErrors($SYS_errors);
 	?>
 
 <form class="well form-inline" action="" method="post">
