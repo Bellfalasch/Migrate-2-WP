@@ -112,7 +112,7 @@
 	function db2_getUserLoginInfo($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `name`, `username`, `password`, `mail`, `level`
-			FROM `nxtcms_users`
+			FROM `migrate_users`
 			WHERE `mail` LIKE {$in['mail']}
 			LIMIT 1
 		;");
@@ -120,20 +120,20 @@
 	function db2_getUsers() {
 		return db_MAIN("
 			SELECT `id`, `name`, `username`, `password`, `mail`, `level`
-			FROM `nxtcms_users`
+			FROM `migrate_users`
 			ORDER BY `id` DESC
 		");
 	}
 	function db2_getUser($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `name`, `username`, `password`, `mail`, `level`
-			FROM `nxtcms_users`
+			FROM `migrate_users`
 			WHERE id = {$in['id']}
 		");
 	}
 	function db2_setUpdateUser($in) { cleanup($in);
 		return db_MAIN("
-			UPDATE `nxtcms_users`
+			UPDATE `migrate_users`
 			SET
 				`name` = {$in['name']},
 				`username` = {$in['username']},
@@ -145,7 +145,7 @@
 	}
 	function db2_setUser($in) { cleanup($in);
 		return db_MAIN("
-			INSERT INTO `nxtcms_users`
+			INSERT INTO `migrate_users`
 				(`name`,`username`,`mail`,`password`,`level`)
 			VALUES(
 				{$in['name']},
@@ -158,7 +158,7 @@
 	}
 	function db2_delUser($in) { cleanup($in);
 		return db_MAIN("
-			DELETE FROM `nxtcms_users`
+			DELETE FROM `migrate_users`
 			WHERE `id` = {$in['id']}
 		");
 	}
