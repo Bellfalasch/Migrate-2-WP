@@ -4,6 +4,21 @@
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
+
+<?php
+
+	addField( array(
+			"label" => "Crawl this URL:",
+			"id" => "crawl_url",
+			"type" => "text(5)",
+			"description" => "Type in the complete URL to crawl. The crawler will only visit links to that folder, and subfolders.",
+			"min" => "2",
+			"errors" => array(
+							"min" => "Please keep number of character's on at least [MIN].",
+						)
+		) );
+
+?>
 <?php include('_header.php'); ?>
 
 
@@ -14,6 +29,12 @@
 		
 		// Code made by epaaj at ninjaloot.se!
 		// Modifications by Bellfalasch
+
+		validateForm();
+
+		var_dump($PAGE_form);
+
+		if (empty($SYS_errors)) {
 
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
@@ -27,9 +48,9 @@
  * Stöd till aspx-filer, och möjliga andra formater som man kan tänkas behöva (också till settings?)
  */
 
-$site_address = "http://www.x.y/"; // To settings
+$site_address = $PAGE_form[0]["content"]; // "http://www.x.y/"; // To settings
 $site = $site_address . "default.asp"; // To settings
-$SITEID = 7; // To settings, and database
+$SITEID = 9; // To settings, and database
 
 $check_links = array();
 $check_links[$site] = 0;
@@ -48,7 +69,7 @@ mysql_select_db( $cleaner_dbname, $mysql);
 function savepage($site, $buffer)
 {
 	global $mysql;
-	mysql_query("INSERT INTO " . $cleaner_table . "(page, data, site) VALUES('".$site."', '".addslashes($buffer)."', " . $SITEID . ")");
+	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $SITEID . ")");
 	
 }
 
@@ -242,6 +263,9 @@ echo count($check_links);
 
 mysql_close($mysql);
 
+
+		}
+
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
@@ -266,9 +290,11 @@ mysql_close($mysql);
 	<div class="row">
 		<div class="span12">
 
+			<?php outputFormFields(); ?>
+
 			<p>
-				* Check current data (with view of it)
-				* Crawl site
+				* Check current data (with view of it)<br />
+				* Crawl site<br />
 				* Able to re-crawl site
 			</p>
 
