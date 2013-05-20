@@ -69,8 +69,8 @@
 
 	<div class="page-header">
 		<h1>
-			"Bobby CMS"
-			<small>Sign in to your account</small>
+			Migrate 2 WP
+			<small>sign in to your account</small>
 		</h1>
 	</div>
 
