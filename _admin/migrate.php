@@ -9,8 +9,8 @@
 
 	<div class="page-header">
 		<h1>
-			<?= $PAGE_name ?>s
-			<small>Startpage for <?= $PAGE_name ?>s</small>
+			<?= $PAGE_name ?>
+			<small>migrating to Wordpress in 1, 2, ... 7</small>
 		</h1>
 	</div>
 
@@ -18,7 +18,7 @@
 		<div class="span7">
 
 			<p>
-				Intro page
+				Introduction text here!
 			</p>
 
 		</div>
@@ -26,7 +26,7 @@
 
 		<div class="span4 offset1">
 
-			...
+			Help column
 
 		</div>
 	</div>
