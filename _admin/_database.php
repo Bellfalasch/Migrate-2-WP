@@ -4,6 +4,16 @@
 
 	//////////////////////////////////////////////////////////////////////////////////
 
+	function db_getHtmlFromFirstpage($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `html`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY `id` ASC
+			LIMIT 1
+		");
+	}
+
 	// Step 2
 	/**
 	 * Hæmta data från vald sajt som vi crawlat tidigare.

@@ -66,8 +66,8 @@
  * Stöd till aspx-filer, och möjliga andra formater som man kan tänkas behöva (också till settings?)
  */
 
-$site_address = $PAGE_form[0]["content"]; // "http://www.x.y/"; // To settings
-$site = $site_address; // . "default.asp"; // To settings
+$site_address = $PAGE_form[0]["content"]; // To settings
+$site = $site_address; // To settings
 $SITEID = 9; // To settings, and database
 
 $check_links = array();

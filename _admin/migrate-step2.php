@@ -11,7 +11,7 @@
 			"label" => "Header needle:",
 			"id" => "needle_head",
 			"type" => "text(5)",
-			"description" => "Add this to all your pages html: <!-- HOOK: HEADER -->, or define your own easily and always detectable html line that we can use to find where the header ends and content starts.",
+			"description" => "Add this to all your pages html: &lt;!-- HOOK: HEADER --&gt; - or define your own easily and always detectable html line that we can use to find where the header ends and content starts.",
 			"min" => "2",
 			"errors" => array(
 							"min" => "Please keep number of character's on at least [MIN].",
@@ -22,7 +22,7 @@
 			"label" => "Footer needle:",
 			"id" => "needle_foot",
 			"type" => "text(5)",
-			"description" => "xxx",
+			"description" => "Suggested: &lt;!-- HOOK: FOOTER --&gt;",
 			"min" => "2",
 			"errors" => array(
 							"min" => "Please keep number of character's on at least [MIN].",
@@ -46,6 +46,11 @@
 
 
 <?php
+		
+	// Settings
+	// ****************************************************************************	
+		$site = 9;
+
 
 	if (ISPOST)
 	{
@@ -53,15 +58,6 @@
 		validateForm();
 
 		if (empty($SYS_errors)) {
-		
-		// Settings
-		// ****************************************************************************	
-			$site = 9;
-
-
-
-		// Code
-		// ****************************************************************************	
 
 			$headerNeedle = $PAGE_form[0]["content"];
 			$footerNeedle = $PAGE_form[1]["content"];
@@ -78,7 +74,7 @@
 					//$footer = $footer;		
 					$body = $row->data;
 
-					$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
+					//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
 					$headerNeedleLength = mb_strlen($headerNeedle);
 					$headerStart = 0;
 					$headerEnd = mb_strpos($body, $headerNeedle, 0);
@@ -92,7 +88,7 @@
 
 					$headerEnd += $headerNeedleLength;
 					
-					$footerNeedle = "<!-- HOOK: FOOTER -->";
+					//$footerNeedle = "<!-- HOOK: FOOTER -->";
 					$footerNeedleLength = mb_strlen($footerNeedle);
 					$footerStart = mb_strpos($body, $footerNeedle, 0);
 					$footerEnd = mb_strlen($body);
@@ -122,7 +118,7 @@
 					echo "<code><pre style='color: red;'>" . htmlentities( $footer ) . "</pre></code>";
 					echo "</div>";
 					echo "<div style='float: left; width: 49%; font-size: 7pt; overflow: hidden;'>";
-					echo "<code><pre>" . htmlentities( $row->data ) . "</pre></code>";
+					echo "<code><pre>" . htmlentities( $row->html ) . "</pre></code>";
 					echo "</div>";
 
 					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
@@ -161,6 +157,19 @@
 	</div>
 
 </form>
+
+	<h2>Your main page html</h2>
+	<?php
+
+		$result = db_getHtmlFromFirstpage($site);
+		if ( isset( $result ) )
+		{
+			$row = $result->fetch_object();
+			$html = $row->html;
+		}
+
+	?>
+	<code><pre><?= htmlentities( $html ) ?></pre></code>
 
 
 <?php require('_footer.php'); ?>
