@@ -18,7 +18,7 @@
 	// WP-data
 
 	addField( array(
-		"label" => "Wordpress &gt; DB url:",
+		"label" => "WP &gt; DB url:",
 		"id" => "wp_dburl",
 		"type" => "text(3)",
 		"description" => "xxx",
@@ -29,7 +29,7 @@
 	) );
 
 	addField( array(
-		"label" => "Wordpress &gt; DB name:",
+		"label" => "WP &gt; DB name:",
 		"id" => "wp_dbname",
 		"type" => "text(3)",
 		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
@@ -40,18 +40,14 @@
 	) );
 
 	addField( array(
-		"label" => "Wordpress &gt; Table name:",
+		"label" => "WP &gt; Table prefix:",
 		"id" => "wp_tablename",
 		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
+		"description" => "If you prefixed your Wordpress tables with anything (you should for security, and not just 'wp') add it here (without the underscore)."
 	) );
 
 	addField( array(
-		"label" => "Wordpress &gt; DB user:",
+		"label" => "WP &gt; DB username:",
 		"id" => "wp_dbuser",
 		"type" => "text(3)",
 		"description" => "xxx",
@@ -62,14 +58,10 @@
 	) );
 
 	addField( array(
-		"label" => "Wordpress &gt; DB password:",
+		"label" => "WP &gt; DB password:",
 		"id" => "wp_dbpass",
 		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
+		"description" => "Database password"
 	) );
 
 	// CLEANER-data
