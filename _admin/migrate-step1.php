@@ -25,7 +25,7 @@
 	<div class="page-header">
 		<h1>
 			Step 1
-			<small>crawl selected site</small>
+			<small>crawl selected site ("ffueater")</small>
 		</h1>
 	</div>
 
