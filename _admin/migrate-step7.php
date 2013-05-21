@@ -13,6 +13,32 @@
 	{
 		
 		// code
+/*
+		// Fix old images in content:
+		UPDATE `" . $wp_table . "_posts` SET
+		post_content = REPLACE(post_content, '<img src="b/', '<img src="http://guide.ffuniverse.nu/ff7/wp-content/themes/ffu2_ff7/assets/_old/')
+
+		// Fix old image icons to be a simple classed span instead:
+		UPDATE `" . $wp_table . "_posts` SET post_content = REPLACE( post_content, '<img src="http://guide.ffuniverse.nu/ff7/wp-content/themes/ffu2_ff7/assets/_old/L2.jpg" />','<span class="psx_button l2">L2</span>' )
+
+		// Fix ugly html and bad semantics:
+		UPDATE `" . $wp_table . "_posts` SET
+		post_content = REPLACE(post_content, '<td><strong>LEVEL</strong></td>', '<th>Level</th>')
+
+		// And more advanced replacement spanning many rows:
+		UPDATE `" . $wp_table . "_posts` SET
+		post_content = REPLACE(post_content, '</td>
+		</tr>
+		</tbody>
+		</table>
+		<table>
+		<tbody>
+		<tr>
+		<td><strong>LEVEL</strong></td>', '</p><table>
+		<tbody>
+		<tr>
+		<td><strong>LEVEL</strong></td>')
+*/
 
 	}
 
