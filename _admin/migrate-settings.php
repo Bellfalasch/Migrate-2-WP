@@ -247,7 +247,7 @@
 
 
 	<div class="form-actions">
-		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="submit" class="btn btn-primary">Save settings</button>
 	</div>
 
 </form>
