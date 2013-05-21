@@ -1,8 +1,9 @@
 <!-- footer -->
 <?php
 
-	// Close database (from /inc/_database.php)
+	// Close database (from ../inc/database.php)
 	$mysqli->close();
+	$mysqWP->close();
 
 ?>
 

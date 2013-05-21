@@ -23,6 +23,10 @@
 	if (mysqli_connect_errno()) { die("<p>" . mysqli_connect_errno() . " - Can't connect to this database or server =/</p>"); }
 	$mysqli->set_charset('utf8');
 
+	global $mysqWP;
+	$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
+	$mysqWP->set_charset('utf8');
+
 
 
 
@@ -142,6 +146,31 @@
 			return $mysqli->affected_rows;
 		else {
 			db_printError($mysqli->error, $mysqli->errno, $sql);
+			return -1;
+		}
+	}
+
+	function wp_MAIN($sql)
+	{
+		global $mysqWP;
+		$result = $mysqWP->query( $sql );
+		if ( $result )
+		{
+			return $result;
+		} else {
+			printf("<div class='error'>There has been an error from MySQL: %s<br /><br />%s</div>", $mysqli->error, nl2br($sql));
+			exit;
+		}
+	}
+
+	function wp_EXEC($sql)
+	{
+		global $mysqWP;
+		$result = $mysqWP->query($sql);
+		if ( $result )
+			return $mysqWP->affected_rows;
+		else {
+			printf("$mysqWP->error, $mysqWP->errno, $sql");
 			return -1;
 		}
 	}

@@ -103,7 +103,7 @@
 	}
 
 	function db_updateWPwithText($wptable, $content, $postid) {
-		global $mysqWP;
+		//global $mysqWP;
 		return wp_MAIN("
 			UPDATE `" . $wptable . "_posts`
 			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
@@ -125,7 +125,7 @@
 	}
 
 	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
-		global $mysqWP;
+		//global $mysqWP;
 		return wp_EXEC("
 			UPDATE `" . $wptable . "_posts`
 			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')

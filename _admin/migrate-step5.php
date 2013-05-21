@@ -34,15 +34,6 @@
 	$site = 9;
 	$guide = "ff9";
 	$new_site = "http://guide.ffuniverse.nu/" . $guide . "/";
-	$wp_table = $wp_table;
-
-
-// Database setup (MySQL)
-// ****************************************************************************	
-
-	global $mysqWP;
-	$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
-	$mysqWP->set_charset('utf8');
 
 
 // The actual code
@@ -85,34 +76,6 @@
 		}
 
 	}
-
-
-
-// Database main function (does all the talking to the database class and handling of errors)
-// This can be updated so that it don't let empty results through, just uncomment all comments =)
-// ****************************************************************************	
-
-	function wp_MAIN($sql)
-	{
-		global $mysqWP;
-		$result = $mysqWP->query( $sql );
-		if ( $result )
-		{
-			return $result;
-		} else {
-			printf("<div class='error'>There has been an error from MySQL: %s<br /><br />%s</div>", $mysqli->error, nl2br($sql));
-			exit;
-		}
-	}
-
-
-
-// Close database
-// ****************************************************************************	
-
-	$mysqWP->close();
-
-
 
 // END FILE
 // ****************************************************************************
