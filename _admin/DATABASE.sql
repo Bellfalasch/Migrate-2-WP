@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
 
 
 --
+-- Tabellstruktur `migrate_sites`
+--
+
+CREATE TABLE IF NOT EXISTS `migrate_sites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(75) DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--
 -- Table structure for table `migrate_users`
 --
 
