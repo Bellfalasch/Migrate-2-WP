@@ -187,7 +187,7 @@
 
 			}
 
-		} else if (isset($wp_url)) {
+		} else if (isset($wp_dburl)) {
 
 			// Data from form already saved, so set it from our variables.
 
