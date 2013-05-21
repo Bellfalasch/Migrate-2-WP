@@ -161,7 +161,7 @@ function getsite($site, $site_address)
 	global $check_links;
 	global $checked_link;
 
-	echo "<p>Requesting: <strong>" . $site . "</strong>";
+	echo "<p><strong>Requesting:</strong> " . $site . "";
 	if ($handle = fopen($site, "r"))
 	{
 		echo " <span class=\"label label-success\">OK</span>";
@@ -233,7 +233,7 @@ function getsite($site, $site_address)
 					echo $res_links[0][strlen($site_address)] . "<br />";
 					*/
 					//if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
-					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) ))
+					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) ) && count($res_links[0] >= strlen($site_address) ) )
 					{
 						if ( (($res_links[0][strlen($site_address)] != ".") ) )
 						{
@@ -294,7 +294,7 @@ function getsite($site, $site_address)
 							//echo "\n" . $checked_link . " ---\n";
 							if (!array_key_exists($checked_link, $check_links))
 							{
-								echo " <span class=\"label label-success\">Added</span>";
+								echo " <span class=\"label label-info\">Added</span>";
 								$check_links[$checked_link] = 0;
 							} else {
 								echo " <span class=\"label\">Skipped</span>";
@@ -309,7 +309,7 @@ function getsite($site, $site_address)
 	$check_links[$site] = 1;
 
 	//print_r($check_links);
-	echo "<span class=\"badge badge-success\">" . count($check_links) . "</span> unique links collected (so far)!";
+	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
 
 	// Don't save on test
 	if (formGet("save_crawl") == "Run crawl") {
@@ -358,7 +358,7 @@ mysql_close($mysql);
 				<span class="label label-success">OK</span> - A link has been successfully crawled.
 			</p>
 			<p>
-				<span class="label label-success">Added</span> - Found a new link, it's added to the list of
+				<span class="label label-info">Added</span> - Found a new link, it's added to the list of
 				pages/links we will collect.
 			</p>
 			<p>
