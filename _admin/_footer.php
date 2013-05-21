@@ -3,7 +3,10 @@
 
 	// Close database (from ../inc/database.php)
 	$mysqli->close();
-	$mysqWP->close();
+
+	if (isset($wp_dburl)) {
+		$mysqWP->close();
+	}
 
 ?>
 

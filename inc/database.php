@@ -24,8 +24,10 @@
 	$mysqli->set_charset('utf8');
 
 	global $mysqWP;
-	$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
-	$mysqWP->set_charset('utf8');
+	if (isset($wp_dburl)) {
+		$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
+		$mysqWP->set_charset('utf8');
+	}
 
 
 
