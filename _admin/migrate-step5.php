@@ -1,46 +1,159 @@
 <?php
 	/* Set up template variables */
-	$PAGE_name  = 'Step';
+	$PAGE_name  = 'Step 5';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
 
-<?php
-
-	if (ISPOST)
-	{
-		
-		// code
-
-	}
-
-?>
-
 	<div class="page-header">
 		<h1>
-			Step 1
-			<small>Description</small>
+			Step 5
+			<small>push content into Wordpress ("ffu_merger")</small>
 		</h1>
 	</div>
 
-	<?php
-		outputErrors($SYS_errors);
-	?>
-
-<form class="well form-inline" action="" method="post" enctype="multipart/form-data">
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
 
-			<p>
-				Information
-			</p>
+<?php
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
+/*
+	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
+	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
+	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
+	url/slug till sidan, och kan användas för att underlätta mappningen.
 
-			<button type="submit" class="btn">Test upgrade</button>
+*/
+
+// Settings
+// ****************************************************************************	
+	$site = 9;
+	$guide = "ff9";
+	$new_site = "http://guide.ffuniverse.nu/" . $guide . "/";
+	$wp_table = $wp_table;
+
+
+// Database setup (MySQL)
+// ****************************************************************************	
+
+	global $mysqWP;
+	$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
+	$mysqWP->set_charset('utf8');
+
+
+
+// SQL
+// ****************************************************************************		
+	
+	// List all ffueater data (from current/old site)
+	function db_getDataFromSite($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			AND wp_postid > 0
+			AND wp_postid <> 14
+			ORDER BY wp_postid ASC, `page` DESC
+		");
+	}
+
+	// List all Wordpress-pages
+	function db_getPageFromWordpress($wptable, $postid) {
+		return wp_MAIN("
+			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			FROM `" . $wptable . "_posts`
+			WHERE ID = " . $postid . "
+		");
+	}
+
+	function db_updateWPwithText($wptable, $content, $postid) {
+		global $mysqWP;
+		return wp_MAIN("
+			UPDATE `" . $wptable . "_posts`
+			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
+			WHERE `id` = " . $postid . "
+			LIMIT 1
+		");
+	}
+
+
+// The actual code
+// ****************************************************************************	
+
+	// Öppna alla sidor i ffucleaner som har kopplats till WP
+	$result = db_getDataFromSite($site);
+	if ( isset( $result ) )
+	{
+
+		while ( $row = $result->fetch_object() )
+		{
+			
+			//$content = utf8_encode($row->clean);
+			$content = $row->clean;
+
+			$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
+
+			if (!is_null($getWP)) {
+				
+				$WProw = $getWP->fetch_object();
+
+				// Finns data redan i WP så skilj med hr-taggar
+				if ($WProw->post_content != '') {
+					$content = $WProw->post_content . "
+
+<hr /><hr /><hr />
+
+" . $content;
+				}
+
+				db_updateWPwithText($wp_table, $content, $row->wp_postid);
+				
+				echo $content;
+				echo '<div style="background-color:#bbb;">PAGEBREAKER</div>';
+
+			}
+
+
+		}
+
+	}
+
+
+
+// Database main function (does all the talking to the database class and handling of errors)
+// This can be updated so that it don't let empty results through, just uncomment all comments =)
+// ****************************************************************************	
+
+	function wp_MAIN($sql)
+	{
+		global $mysqWP;
+		$result = $mysqWP->query( $sql );
+		if ( $result )
+		{
+			return $result;
+		} else {
+			printf("<div class='error'>There has been an error from MySQL: %s<br /><br />%s</div>", $mysqli->error, nl2br($sql));
+			exit;
+		}
+	}
+
+
+
+// Close database
+// ****************************************************************************	
+
+	$mysqWP->close();
+
+
+
+// END FILE
+// ****************************************************************************
+
+?>
 
 		</div>
 	</div>
