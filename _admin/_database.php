@@ -1,106 +1,135 @@
 <?php
 
-	// All these SQLs can be deleted. They are just listed here as examples of structure and usage, also they are used in the
-	// example admin templates.
-
-	// However, the last few functions headlined "Users" is used for the login-system and they are critical for the admin.
+	// All these SQLs are for the different pages in this admin. Add yours here.
 
 	//////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////
 
-	function db2_searchInvoice($in) { cleanup($in);
-		return db_MAIN("
-			SELECT o.*, c.*
-			FROM `orders` o
-			LEFT OUTER JOIN `customers` c
-			ON c.id = o.customer_id
-			WHERE
-			o.invoice_no <> '' AND
-			(
-				c.`firstname` LIKE {$in['name']}
-			OR	c.`lastname` LIKE {$in['name']}
-			OR	c.`street1` LIKE {$in['address']}
-			OR	c.`street2` LIKE {$in['address']}
-			OR	c.`mail` LIKE {$in['mail']}
-			OR	LEFT(o.`dibs_date`,10) LIKE {$in['date']}
-			OR	o.`invoice_no` LIKE {$in['invoice']}
-			OR	o.`dibs_transid` LIKE {$in['transaction']}
-			)
-			ORDER BY o.`dibs_date` DESC
-		;");
-	}
-
+	// Step 2
 	/**
-	 * Hæmta precis alla fakturor (som betalats) och sammanstæll dem per månad før øverblick och revisorn.
-	 * @return mysqli->query			fields: xxx
+	 * Hæmta data från vald sajt som vi crawlat tidigare.
+	 * 
+	 * @param int site 				Vald site att hæmta data før
+	 * @return id, page, data
 	 */
-	function db_getInvoicesStatsAll() {
-		return db_FIND("
-			SELECT
-				SUM(o.`sum`) AS totalt,
-				SUM(o.`mva`) AS mvan,
-				SUM(o.`sum`) - SUM(o.`mva`) AS sale,
-				DATE_FORMAT(o.`dibs_date`,'%Y') AS ar,
-				DATE_FORMAT(o.`dibs_date`,'%m') AS manad,
-				COUNT(*) AS antal
-			FROM `orders` o
-			WHERE o.`invoice_no` IS NOT NULL
-			GROUP BY
-				DATE_FORMAT(o.`dibs_date`,'%Y-%m')
-			ORDER BY
-				YEAR(o.`dibs_date`) DESC,
-				MONTH(o.`dibs_date`) ASC
+	function db_getDataFromSite($site) {
+		$q = "SELECT `id`, `page`, `html`
+			  FROM `migrate_content`
+			  WHERE `site` = $site
+			  ORDER BY `page` DESC
+			  ";
+		return db_MAIN( $q );
+	}
+
+	// Step 3
+	/**
+	 * Hæmta data från vald sajt som vi crawlat tidigare.
+	 * 
+	 * @param int site 				Vald site att hæmta data før
+	 * @return id, page, data
+	 */
+	function db_getContentFromSite($site) {
+		$q = "SELECT `id`, `page`, `content`
+			  FROM `migrate_content`
+			  WHERE `site` = $site
+			  ORDER BY `page` DESC
+			  ";
+		return db_MAIN( $q );
+	}
+
+	// Step 4
+		// List all ffueater data (from current/old site)
+	function db_getWPDataFromSite($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY wp_postid ASC, `page` DESC
 		");
 	}
-	function db2_getCampaign($in) { cleanup($in);
-		return db_MAIN("
-			SELECT `id`, `title`, `url`, `start`, `stop`, `shortinfo`, `verv_step1`, `verv_step2`, `verv_takk`, `give_step1`, `give_takk`, `image`
-			FROM `campaigns`
-			WHERE id = {$in['id']}
+
+	// List all Wordpress-pages
+	function db_getDataFromWordpress($wptable) {
+		return wp_MAIN("
+			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			FROM `" . $wptable . "_posts`
+			WHERE
+				(`post_type` = 'page'
+				OR `post_type` = 'ffu_characters')
+				AND	`post_status` = 'publish'
+			ORDER BY `post_name` DESC
 		");
 	}
-	function db2_getCampaignsActive() {
-		return db_MAIN("
-			SELECT `id`, `title`, `url`, `start`, `stop`, `shortinfo`, `verv_step1`, `verv_step2`, `verv_takk`, `give_step1`, `give_takk`, `image`
-			FROM `campaigns`
-			WHERE NOW() BETWEEN start AND stop
+
+	// Get specific files WP data
+	function db_getPostFromWP($wptable, $id) {
+		return wp_MAIN("
+			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			FROM `" . $wptable . "_posts`
+			WHERE `id` = $id
 		");
 	}
-	function db2_updateCampaign($in) { cleanup($in);
+
+	function db_updateCleanerWithWP($id, $title, $name, $postid, $guid) {
 		return db_MAIN("
-			UPDATE `campaigns`
+			UPDATE `migrate_content`
 			SET
-				`title` = {$in['title']},
-				`url` = {$in['url']},
-				`start` = {$in['start']},
-				`stop` = {$in['stop']},
-				`shortinfo` = {$in['short_info']},
-				`verv_step1` = {$in['verv_step1']},
-				`verv_step2` = {$in['verv_step2']},
-				`verv_takk` = {$in['verv_takk']},
-				`give_step1` = {$in['give_step1']},
-				`give_takk` = {$in['give_takk']},
-				`image` = {$in['image']}
-			WHERE `id` = {$in['id']}
+				wp_slug = '$name',
+				wp_postid = '$postid',
+				wp_guid = '$guid'
+			WHERE `id` = $id
 		");
 	}
-	function db2_createCampaign($in) { cleanup($in);
+
+	// Step 5
+	// List all ffueater data (from current/old site)
+	function db_getWPDataFromSite2($site) {
 		return db_MAIN("
-			INSERT INTO `campaigns`
-				(`title`, `url`, `start`, `stop`, `shortinfo`, `verv_step1`, `verv_step2`, `verv_takk`, `give_step1`, `give_takk`, `image`)
-			VALUES(
-				{$in['title']},
-				{$in['url']},
-				{$in['start']},
-				{$in['stop']},
-				{$in['short_info']},
-				{$in['verv_step1']},
-				{$in['verv_step2']},
-				{$in['verv_takk']},
-				{$in['give_step1']},
-				{$in['give_takk']},
-				{$in['image']}
-			)
+			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			AND wp_postid > 0
+			AND wp_postid <> 14
+			ORDER BY wp_postid ASC, `page` DESC
+		");
+	}
+
+	// List all Wordpress-pages
+	function db_getPageFromWordpress($wptable, $postid) {
+		return wp_MAIN("
+			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			FROM `" . $wptable . "_posts`
+			WHERE ID = " . $postid . "
+		");
+	}
+
+	function db_updateWPwithText($wptable, $content, $postid) {
+		global $mysqWP;
+		return wp_MAIN("
+			UPDATE `" . $wptable . "_posts`
+			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
+			WHERE `id` = " . $postid . "
+			LIMIT 1
+		");
+	}
+
+	// Step 6
+	// List all ffueater data (from current/old site)
+	function db_getWPDataFromSite3($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			AND wp_postid > 0
+			ORDER BY wp_postid ASC, `page` DESC
+		");
+	}
+
+	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
+		global $mysqWP;
+		return wp_EXEC("
+			UPDATE `" . $wptable . "_posts`
+			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')
+			WHERE `post_status` = 'publish'
 		");
 	}
 

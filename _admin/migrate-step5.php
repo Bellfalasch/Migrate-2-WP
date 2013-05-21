@@ -45,47 +45,11 @@
 	$mysqWP->set_charset('utf8');
 
 
-
-// SQL
-// ****************************************************************************		
-	
-	// List all ffueater data (from current/old site)
-	function db_getDataFromSite($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			AND wp_postid > 0
-			AND wp_postid <> 14
-			ORDER BY wp_postid ASC, `page` DESC
-		");
-	}
-
-	// List all Wordpress-pages
-	function db_getPageFromWordpress($wptable, $postid) {
-		return wp_MAIN("
-			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE ID = " . $postid . "
-		");
-	}
-
-	function db_updateWPwithText($wptable, $content, $postid) {
-		global $mysqWP;
-		return wp_MAIN("
-			UPDATE `" . $wptable . "_posts`
-			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
-			WHERE `id` = " . $postid . "
-			LIMIT 1
-		");
-	}
-
-
 // The actual code
 // ****************************************************************************	
 
 	// Öppna alla sidor i ffucleaner som har kopplats till WP
-	$result = db_getDataFromSite($site);
+	$result = db_getWPDataFromSite2($site);
 	if ( isset( $result ) )
 	{
 

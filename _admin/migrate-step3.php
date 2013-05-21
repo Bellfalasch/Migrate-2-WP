@@ -44,25 +44,6 @@
 			$site = 9;
 
 
-		// Usages (change content in here, just for example purposes
-		// ****************************************************************************		
-			
-			/**
-			 * Hæmta data från vald sajt som vi crawlat tidigare.
-			 * 
-			 * @param int site 				Vald site att hæmta data før
-			 * @return id, page, data
-			 */
-			function db_getContentFromSite($site) {
-				$q = "SELECT `id`, `page`, `content`
-					  FROM `migrate_content`
-					  WHERE `site` = $site
-					  ORDER BY `page` DESC
-					  ";
-				return db_MAIN( $q );
-			}
-
-
 		// Code
 		// ****************************************************************************	
 

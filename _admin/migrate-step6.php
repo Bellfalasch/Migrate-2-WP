@@ -45,31 +45,6 @@
 	$mysqWP->set_charset('utf8');
 
 
-
-// SQL
-// ****************************************************************************		
-	
-	// List all ffueater data (from current/old site)
-	function db_getDataFromSite($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			AND wp_postid > 0
-			ORDER BY wp_postid ASC, `page` DESC
-		");
-	}
-
-	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
-		global $mysqWP;
-		return wp_EXEC("
-			UPDATE `" . $wptable . "_posts`
-			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')
-			WHERE `post_status` = 'publish'
-		");
-	}
-
-
 // The actual code
 // ****************************************************************************	
 

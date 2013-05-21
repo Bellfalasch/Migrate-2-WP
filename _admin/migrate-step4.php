@@ -45,54 +45,6 @@
 	$mysqWP->set_charset('utf8');
 
 
-
-// SQL
-// ****************************************************************************		
-	
-	// List all ffueater data (from current/old site)
-	function db_getDataFromSite($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			ORDER BY wp_postid ASC, `page` DESC
-		");
-	}
-
-	// List all Wordpress-pages
-	function db_getDataFromWordpress($wptable) {
-		return wp_MAIN("
-			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE
-				(`post_type` = 'page'
-				OR `post_type` = 'ffu_characters')
-				AND	`post_status` = 'publish'
-			ORDER BY `post_name` DESC
-		");
-	}
-
-	// Get specific files WP data
-	function db_getPostFromWP($wptable, $id) {
-		return wp_MAIN("
-			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE `id` = $id
-		");
-	}
-
-	function db_updateCleanerWithWP($id, $title, $name, $postid, $guid) {
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET
-				wp_slug = '$name',
-				wp_postid = '$postid',
-				wp_guid = '$guid'
-			WHERE `id` = $id
-		");
-	}
-
-
 // Do the moving
 // ****************************************************************************
 
@@ -128,7 +80,7 @@
 	// Array for all the WP-pages we have listed (don't list again)
 	$arrWPidDone = array();
 
-	$result = db_getDataFromSite($site);
+	$result = db_getWPDataFromSite($site);
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
