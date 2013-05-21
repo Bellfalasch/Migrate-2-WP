@@ -51,6 +51,10 @@
 		</h1>
 	</div>
 
+	<div class="progress progress-striped">
+		<div class="bar" style="width: <?php if (ISPOST) { ?>99<?php } else { ?>90<?php } ?>%;"></div>
+	</div>
+
 	<?php
 		outputErrors($SYS_errors);
 	?>
