@@ -313,7 +313,7 @@ function getsite($site, $site_address)
 
 	// Don't save on test
 	if (formGet("save_crawl") == "Run crawl") {
-		savepage($site, $pagebuffer);
+		savepage($site, trim($pagebuffer) );
 		//echo " <span class=\"label label-success\">Saved</span>";
 	} else {
 		//echo " <span class=\"label label-warning\">Not saved</span>";
