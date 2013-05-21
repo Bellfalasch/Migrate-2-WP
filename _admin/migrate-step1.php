@@ -80,6 +80,7 @@ $mysql = mysql_connect( $cleaner_dburl, $cleaner_dbuser, $cleaner_dbpass);
 if (!$mysql)
 	die('Could not connect: ' . mysql_error());
 mysql_select_db( $cleaner_dbname, $mysql);
+mysql_set_charset("UTF-8");
 
 // At the moment only way to delete data in the table and start anew:
 //mysql_query("TRUNCATE `" . $cleaner_table . "`");
@@ -91,6 +92,15 @@ function savepage($site, $buffer)
 	global $mysql;
 	global $SITEID;
 	global $cleaner_table;
+
+	if ( mb_detect_encoding($buffer, "utf-8, iso-8859-1") == "UTF-8" )
+		$buffer;
+	else
+		$buffer = iconv("iso-8859-1", "utf-8", $buffer);
+
+//	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
+//	exit;
+
 	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $SITEID . ")");
 	
 }

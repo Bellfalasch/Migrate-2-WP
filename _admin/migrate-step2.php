@@ -169,7 +169,7 @@
 		}
 
 	?>
-	<code><pre><?= htmlentities( $html ) ?></pre></code>
+	<pre><?= htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) ?></pre>
 
 
 <?php require('_footer.php'); ?>
