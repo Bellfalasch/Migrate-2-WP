@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
  `id` int(11) NOT NULL auto_increment,
  `page` varchar(1000) collate utf8_unicode_ci NOT NULL,
  `html` longtext collate utf8_unicode_ci NOT NULL,
- `site` tinyint(4) NOT NULL,
+ `site` int(11) NOT NULL,
  `content` longtext collate utf8_unicode_ci,
  `clean` longtext collate utf8_unicode_ci,
  `wp_url` varchar(100) collate utf8_unicode_ci default NULL,

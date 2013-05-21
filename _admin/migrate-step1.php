@@ -34,6 +34,14 @@
 	</div>
 
 
+	<?php
+		outputErrors($SYS_errors);
+	?>
+
+
+	<div class="row">
+		<div class="span7">
+
 <?php
 
 	if (ISPOST)
@@ -247,6 +255,9 @@ function getsite($site, $site_address)
 						$break = true;
 					}
 
+
+				// Looks like these are outside of the folder we're looking in =/
+				/*
 					if (!$break)
 					{		
 						echo "1: " . $res_links[0] . "";
@@ -264,6 +275,8 @@ function getsite($site, $site_address)
 
 						echo "<br />";
 					}
+
+				*/
 				}
 				else
 				{
@@ -284,7 +297,7 @@ function getsite($site, $site_address)
 								echo " <span class=\"label label-success\">Added</span>";
 								$check_links[$checked_link] = 0;
 							} else {
-								echo " <span class=\"label label-warning\">Skipped</span>";
+								echo " <span class=\"label\">Skipped</span>";
 							}
 						}
 						echo "<br />";
@@ -294,10 +307,19 @@ function getsite($site, $site_address)
 		}
 
 	$check_links[$site] = 1;
-	savepage($site, $pagebuffer);
 
 	//print_r($check_links);
-	echo count("<span class=\"badge badge-success\">" . $check_links . "</span> unique links collected!<br />");
+	echo "<span class=\"badge badge-success\">" . count($check_links) . "</span> unique links collected (so far)!";
+
+	// Don't save on test
+	if (formGet("save_crawl") == "Run crawl") {
+		savepage($site, $pagebuffer);
+		//echo " <span class=\"label label-success\">Saved</span>";
+	} else {
+		//echo " <span class=\"label label-warning\">Not saved</span>";
+	}
+
+	echo "<br /><br />";
 
 
 }
@@ -305,8 +327,15 @@ function getsite($site, $site_address)
 forsites($check_links);
 #getsite($site, $site_address);
 
-print_r($check_links);
-echo count($check_links);
+//print_r($check_links);
+//echo count($check_links);
+
+	// Don't save on test
+	if (formGet("save_crawl") == "Run crawl") {
+		echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+	} else {
+		echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+	}
 
 mysql_close($mysql);
 
@@ -320,10 +349,34 @@ mysql_close($mysql);
 	}
 
 ?>
+		</div>
 
-	<?php
-		outputErrors($SYS_errors);
-	?>
+		<div class="span4 offset1">
+
+			<h4>Legend:</h4>
+			<p>
+				<span class="label label-success">OK</span> - A link has been successfully crawled.
+			</p>
+			<p>
+				<span class="label label-success">Added</span> - Found a new link, it's added to the list of
+				pages/links we will collect.
+			</p>
+			<p>
+				<span class="label">Skipped</span> - This link is already crawled, it will not be
+				crawled again.
+			</p>
+			<p>
+				<span class="label label-success">Saved</span> - All the found links have been crawled
+				and the html saved to your database.
+			</p>
+			<p>
+				<span class="label label-important">Not saved</span> - All the found links have been crawled,
+				but none of them have been saved to your database. Click the "Run crawl"-button instead to
+				save your data (existing data will be replaced!).
+			</p>
+		</div>
+	</div>
+
 
 <form class="well form-inline" action="" method="post">
 
@@ -336,9 +389,9 @@ mysql_close($mysql);
 				Crawling of a website can take very long time, depending on how many pages and links it has.
 			</p>
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run crawl</button>
+			<input type="submit" name="save_crawl" value="Run crawl" class="btn btn-primary" />
 
-			<button type="submit" name="spara" class="btn">Test crawl</button>
+			<input type="submit" name="save_crawl" value="Test crawl" class="btn" />
 
 		</div>
 	</div>
