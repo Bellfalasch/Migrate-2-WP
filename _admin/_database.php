@@ -25,7 +25,7 @@
 		$q = "SELECT `id`, `page`, `html`
 			  FROM `migrate_content`
 			  WHERE `site` = $site
-			  ORDER BY `page` DESC
+			  ORDER BY `page` ASC
 			  ";
 		return db_MAIN( $q );
 	}

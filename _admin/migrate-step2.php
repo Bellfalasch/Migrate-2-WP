@@ -67,6 +67,18 @@
 			$footerNeedleLength = mb_strlen($footerNeedle);
 			$headerStart = 0;
 
+			echo "
+			<p>
+				<strong>Important!</strong> All html marked in red will be removed when saving these pages back to
+				the database. The originally crawled content will be kept in the column 'html' in the table
+				'migrate_content', if you need it for reference. The green html will be saved into the column
+				'content'.
+			</p>
+			<p>
+				Please do extra sure that all code is intact, that is that the ONLY allowed difference between the
+				left and the right side are the colors. Look for bad cuts ending the header or starting the footer!
+			</p>";
+
 			$result = db_getDataFromSite($PAGE_siteid);
 			if ( isset( $result ) )
 			{
@@ -119,13 +131,13 @@
 					$body = mb_substr( $body, mb_strlen($header), ( mb_strlen($body) - mb_strlen($footer) - mb_strlen($header) ) );
 					$body = trim( $body );
 					
-					echo "<div style='float: left; width: 49%; font-size: 7pt; overflow: hidden;'>";
-					echo "<code><pre style='color: red;'>" . htmlentities( $header ) . "</pre></code>";
-					echo "<code><pre style='color:green;'>" . htmlentities( $body ) . "</pre></code>";
-					echo "<code><pre style='color: red;'>" . htmlentities( $footer ) . "</pre></code>";
+					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
+					echo "<pre style='color: red; font-size: 7pt;'><strong>Header:</strong>\n" . htmlentities( $header ) . "</pre>";
+					echo "<pre style='color:green; font-size: 7pt;'><strong>Content:</strong>\n" . htmlentities( $body ) . "</pre>";
+					echo "<pre style='color: red; font-size: 7pt;'><strong>Footer:</strong>\n" . htmlentities( $footer ) . "</pre>";
 					echo "</div>";
 					echo "<div style='float: left; width: 49%; font-size: 7pt; overflow: hidden;'>";
-					echo "<code><pre>" . htmlentities( $row->html ) . "</pre></code>";
+					echo "<pre style='font-size: 7pt;'><strong>Source:</strong>\n" . htmlentities( $row->html ) . "</pre>";
 
 					if (formGet("save_needle") == "Run needles") {
 						
@@ -141,8 +153,7 @@
 					}
 
 					echo "</div><br />";
-					
-					
+
 				}
 
 			}
@@ -178,6 +189,8 @@
 
 </form>
 
+<?php if (!ISPOST) { ?>
+
 	<h2>Your main page html</h2>
 	<p>
 		Use this output of code extracted from the first page we crawled from your site. Identify
@@ -197,6 +210,8 @@
 
 	?>
 	<pre><?= htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) ?></pre>
+
+<?php } ?>
 
 
 <?php require('_footer.php'); ?>
