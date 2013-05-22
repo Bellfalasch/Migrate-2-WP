@@ -75,7 +75,7 @@
 				'content'.
 			</p>
 			<p>
-				Please do extra sure that all code is intact, that is that the ONLY allowed difference between the
+				Please do make extra sure that all code is intact, that is that the ONLY allowed difference between the
 				left and the right side are the colors. Look for bad cuts ending the header or starting the footer!
 			</p>";
 
