@@ -58,14 +58,6 @@
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-/*
- TODO:
- * Vad är skillnaden mellan två nedre variablerna?
- * Skippa mailto-länkar, de som startar på det, inte bara min adress
- * URLer och site id borde nog lätt in i egna settings (eventuellt egen project-tabell)
- * Stöd till aspx-filer, och möjliga andra formater som man kan tänkas behöva (också till settings?)
- */
-
 $site_address = $PAGE_form[0]["content"]; // To settings
 $site = $site_address; // To settings
 $SITEID = 9; // To settings, and database
