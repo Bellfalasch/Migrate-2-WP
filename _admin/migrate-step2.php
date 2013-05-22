@@ -131,19 +131,21 @@
 					echo "</div>";
 					echo "<div style='float: left; width: 49%; font-size: 7pt; overflow: hidden;'>";
 					echo "<code><pre>" . htmlentities( $row->html ) . "</pre></code>";
-					echo "</div>";
 
 					if (formGet("save_needle") == "Run needles") {
-						//echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+						
+						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
 						// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
 						db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
 					
 					} else {
 					
-						//echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+						echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 					
 					}
+
+					echo "</div><br />";
 					
 					
 				}
