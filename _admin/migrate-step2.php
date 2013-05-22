@@ -131,6 +131,7 @@
 					$body = mb_substr( $body, mb_strlen($header), ( mb_strlen($body) - mb_strlen($footer) - mb_strlen($header) ) );
 					$body = trim( $body );
 					
+					echo "<hr />";
 					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
 					echo "<pre style='color: red; font-size: 7pt;'><strong>Header:</strong>\n" . htmlentities( $header ) . "</pre>";
 					echo "<pre style='color:green; font-size: 7pt;'><strong>Content:</strong>\n" . htmlentities( $body ) . "</pre>";
