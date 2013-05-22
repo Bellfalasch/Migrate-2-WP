@@ -97,7 +97,7 @@
 						$headerEnd = mb_strpos($body, $headerNeedle, 0);
 					}
 					*/
-					
+
 					$headerEnd += $headerNeedleLength;
 					
 					//$footerNeedle = "<!-- HOOK: FOOTER -->";
@@ -133,8 +133,19 @@
 					echo "<code><pre>" . htmlentities( $row->html ) . "</pre></code>";
 					echo "</div>";
 
-					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
-					db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
+					if (formGet("save_needle") == "Run needles") {
+						//echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+
+						// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
+						db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
+					
+					} else {
+					
+						//echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+					
+					}
+					
+					
 				}
 
 			}
@@ -161,9 +172,9 @@
 
 			<?php outputFormFields(); ?>
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
+			<input type="submit" name="save_needle" value="Run needles" class="btn btn-primary" />
 
-			<button type="submit" class="btn">Test upgrade</button>
+			<input type="submit" name="save_needle" value="Test needles" class="btn" />
 
 		</div>
 	</div>
@@ -171,6 +182,13 @@
 </form>
 
 	<h2>Your main page html</h2>
+	<p>
+		Use this output of code extracted from the first page we crawled from your site. Identify
+		a div with a unique id, a block of tags, or a text, that's always (always!!!) present in your
+		html just before the actual content starts (or as close to it as possible). Do the same for
+		were your content ends. All html between these two strings will be kept and used in futher
+		steps.
+	</p>
 	<?php
 
 		$result = db_getHtmlFromFirstpage($site);
