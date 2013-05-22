@@ -26,6 +26,17 @@ Dependencies:
 
 This admin is based on: 
 
+### PHP
+* Version 4.5.x
+* Module Tidy activated
+* Module asp-tags activated
+* Module fopen activated
+* Module mysqli activated
+
+### MySQL
+* Version ?
+* InnoDB used as engine
+
 ### Bobby CMS
 * Version 0.9.2.1
 * By me
