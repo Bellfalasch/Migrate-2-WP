@@ -60,7 +60,6 @@
 
 $site_address = $PAGE_form[0]["content"]; // To settings
 $site = $site_address; // To settings
-$SITEID = 9; // To settings, and database
 
 $check_links = array();
 $check_links[$site] = 0;
@@ -82,7 +81,7 @@ mysql_set_charset("UTF-8");
 function savepage($site, $buffer)
 {
 	global $mysql;
-	global $SITEID;
+	global $PAGE_siteid;
 	global $cleaner_table;
 
 	if ( mb_detect_encoding($buffer, "utf-8, iso-8859-1") == "UTF-8" )
@@ -93,7 +92,7 @@ function savepage($site, $buffer)
 //	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
 //	exit;
 
-	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $SITEID . ")");
+	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
 	
 }
 

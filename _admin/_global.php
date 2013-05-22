@@ -34,6 +34,8 @@
 	$cleaner_dbuser = "root";
 	$cleaner_dbpass = "";
 
+	$PAGE_siteid = 1; // In future, set from Session or -1
+
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Set up system variables:

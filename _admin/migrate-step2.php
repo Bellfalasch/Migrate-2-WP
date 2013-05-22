@@ -47,11 +47,6 @@
 
 <?php
 		
-	// Settings
-	// ****************************************************************************	
-		$site = 9;
-
-
 	if (ISPOST)
 	{
 
@@ -72,7 +67,7 @@
 			$footerNeedleLength = mb_strlen($footerNeedle);
 			$headerStart = 0;
 
-			$result = db_getDataFromSite($site);
+			$result = db_getDataFromSite($PAGE_siteid);
 			if ( isset( $result ) )
 			{
 				while ( $row = $result->fetch_object() )
@@ -193,7 +188,7 @@
 	</p>
 	<?php
 
-		$result = db_getHtmlFromFirstpage($site);
+		$result = db_getHtmlFromFirstpage($PAGE_siteid);
 		if ( isset( $result ) )
 		{
 			$row = $result->fetch_object();
