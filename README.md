@@ -21,20 +21,28 @@ Step 1 and 2 are working, but not without problem. Also the basics are down for 
 Initial release. Just setting up the basic structure and idea of the project.
 
 
+Installation:
+----------------
+
+Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "DATABASE.sql". Now you can upload your files (or start localhost).
+
+Log in with "admin@example.com" and "password" in the folder "_admin" (might change in the future).
+
+
 Dependencies:
 ----------------
 
 This admin is based on: 
 
 ### PHP
-* Version 4.5.x
-* Module Tidy activated
-* Module asp-tags activated
-* Module fopen activated
-* Module mysqli activated
+* Version 4.3.10
+* Settings: short open tags = true
+* Settings: allow url fopen = true
+* Extensions: php_mysqli = ON
+* Extensions: php_tidy = ON
 
 ### MySQL
-* Version ?
+* Version 5.5.20
 * InnoDB used as engine
 
 ### Bobby CMS
