@@ -62,6 +62,16 @@
 			$headerNeedle = $PAGE_form[0]["content"];
 			$footerNeedle = $PAGE_form[1]["content"];
 
+			if ($headerNeedle == "")
+				$headerNeedle = "<!-- HOOK: HEADER -->";
+
+			if ($footerNeedle == "")
+				$footerNeedle = "<!-- HOOK: FOOTER -->";
+
+			$headerNeedleLength = mb_strlen($headerNeedle);
+			$footerNeedleLength = mb_strlen($footerNeedle);
+			$headerStart = 0;
+
 			$result = db_getDataFromSite($site);
 			if ( isset( $result ) )
 			{
@@ -72,24 +82,26 @@
 					
 					//$header = $header;
 					//$footer = $footer;		
-					$body = $row->data;
+					$body = $row->html;
 
 					//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
-					$headerNeedleLength = mb_strlen($headerNeedle);
-					$headerStart = 0;
+					// $headerNeedleLength = mb_strlen($headerNeedle);
+					// $headerStart = 0;
 					$headerEnd = mb_strpos($body, $headerNeedle, 0);
 
 					// Alla sidor har inte den bortkommenterade hr-taggen (den ær inlagd på varje sida, inte i mallfilerna)
+					/*
 					if ($headerEnd === FALSE) {
 						$headerNeedle = "<span STYLE=\"font-size:10pt; color:#656565\"><BR>";
 						$headerNeedleLength = mb_strlen($headerNeedle);
 						$headerEnd = mb_strpos($body, $headerNeedle, 0);
 					}
-
+					*/
+					
 					$headerEnd += $headerNeedleLength;
 					
 					//$footerNeedle = "<!-- HOOK: FOOTER -->";
-					$footerNeedleLength = mb_strlen($footerNeedle);
+					// $footerNeedleLength = mb_strlen($footerNeedle);
 					$footerStart = mb_strpos($body, $footerNeedle, 0);
 					$footerEnd = mb_strlen($body);
 
