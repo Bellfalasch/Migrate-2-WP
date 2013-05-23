@@ -129,20 +129,23 @@
 					//echo 'Footer lines: ' . $lines_foot . '<br />';
 					
 					$body = mb_substr( $body, mb_strlen($header), ( mb_strlen($body) - mb_strlen($footer) - mb_strlen($header) ) );
-					$body = trim( $body );
+					//$body = trim( $body );
 					
-					echo "<hr />";
 					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
-					echo "<pre style='color: red; font-size: 7pt;'><strong>Header:</strong>\n" . htmlentities( $header ) . "</pre>";
-					echo "<pre style='color:green; font-size: 7pt;'><strong>Content:</strong>\n" . htmlentities( $body ) . "</pre>";
-					echo "<pre style='color: red; font-size: 7pt;'><strong>Footer:</strong>\n" . htmlentities( $footer ) . "</pre>";
+					echo "<pre style='font-size: 7pt;'>";
+					echo "<span style='color: red;'>" . htmlentities( $header ) . "</span>";
+					echo "<span style='color:green;'>" . htmlentities( $body ) . "</span>";
+					echo "<span style='color: red;'>" . htmlentities( $footer ) . "</span>";
+					echo "</pre>";
 					echo "</div>";
-					echo "<div style='float: left; width: 49%; font-size: 7pt; overflow: hidden;'>";
-					echo "<pre style='font-size: 7pt;'><strong>Source:</strong>\n" . htmlentities( $row->html ) . "</pre>";
+					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
+					echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
 
 					if (formGet("save_needle") == "Run needles") {
 						
 						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+
+						$body = trim( $body );
 
 						// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
 						db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
@@ -154,6 +157,7 @@
 					}
 
 					echo "</div><br />";
+					echo "<hr style='clear:both;' /><br />";
 
 				}
 
