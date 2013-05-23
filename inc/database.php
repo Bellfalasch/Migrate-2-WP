@@ -32,6 +32,7 @@
 		$wp_table = "wp";
 	}
 
+	global $mysqWP;
 	$mysqWP = new mysqli( $wp_dburl, $wp_dbuser, $wp_dbpass, $wp_dbname );
 	$mysqWP->set_charset('utf8');
 
@@ -166,7 +167,7 @@
 		{
 			return $result;
 		} else {
-			printf("<div class='error'>There has been an error from MySQL: %s<br /><br />%s</div>", $mysqli->error, nl2br($sql));
+			printf("<div class='error'>There has been an error from MySQL: %s<br /><br />%s</div>", $mysqWP->error, nl2br($sql));
 			exit;
 		}
 	}

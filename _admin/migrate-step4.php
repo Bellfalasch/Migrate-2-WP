@@ -18,7 +18,7 @@
 		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>
 	</div>
 
-<form class="well form-inline" action="" method="post" enctype="multipart/form-data">
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
@@ -35,7 +35,6 @@
 
 // Settings
 // ****************************************************************************	
-	$site = 9;
 	$guide = "ff9";
 	$new_site = "http://guide.ffuniverse.nu/" . $guide . "/";
 
@@ -43,12 +42,12 @@
 // Do the moving
 // ****************************************************************************
 
-	if (isset($_GET['connect']) && isset($_GET['to'])) {
+	if ( qsGet("connect") != "" && qsGet("to") != "") {
 
-		$id = $_GET['connect'];
+		$id = qsGet("connect");
 
 		// Hämta data från WP
-		$result = db_getPostFromWP($wp_table, $_GET['to']);
+		$result = db_getPostFromWP($wp_table, qsGet("to"));
 
 		if ( isset( $result ) ) {
 
@@ -75,7 +74,7 @@
 	// Array for all the WP-pages we have listed (don't list again)
 	$arrWPidDone = array();
 
-	$result = db_getWPDataFromSite($site);
+	$result = db_getWPDataFromSite($PAGE_siteid);
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
@@ -83,18 +82,18 @@
 		while ( $row = $result->fetch_object() )
 		{
 			if ($row->wp_postid > 0) {
-				if ($row->id == $_GET['connect'])
+				if ($row->id == qsGet("connect") )
 					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
 				else
 					echo '<tr style="background-color:green; opacity:0.4;">';
 				$arrWPidDone[] = $row->wp_postid;
 			} else
-				if ($row->id == $_GET['connect'])
+				if ($row->id == qsGet("connect") )
 					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
 				else
 					echo '<tr>';
 			
-			if (isset($_GET['connect']))
+			if (qsGet("connect") != "")
 				echo "<td>-</td>";
 			else
 				echo "<td><a href=\"?connect=" . $row->id . "\">[Connect]</a></td>";
@@ -120,8 +119,8 @@
 			else
 				echo '<tr style="opacity:0.2;">';
 
-			if (isset($_GET['connect']))
-				echo "<td><a href=\"?connect=" . $_GET['connect'] . "&amp;to=" . $row->ID . "\">[Connect]</a></td>";
+			if ( qsGet("connect") != "" )
+				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\">[Connect]</a></td>";
 			else
 				echo "<td>-</td>";
 
