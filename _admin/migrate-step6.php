@@ -18,27 +18,12 @@
 		<div class="bar" style="width: <?php if (ISPOST) { ?>88<?php } else { ?>75<?php } ?>%;"></div>
 	</div>
 
-<form class="well form-inline" action="" method="post">
-
-	<div class="row">
-		<div class="span12">
-
 <?php
-
-/*
-	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
-	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
-	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
-	url/slug till sidan, och kan användas för att underlätta mappningen.
-
-*/
 
 // Settings
 // ****************************************************************************	
-	$site = 9;
-	$guide = "ff9";
-	$new_site = "http://guide.ffuniverse.nu/" . $guide . "/";
-	$wp_table = $wp_table;
+	$guide = "ff7";
+	$new_site = "http://games.ffuniverse.nu/" . $guide . "/";
 
 
 // The actual code
@@ -63,38 +48,50 @@
 
 	*/
 
+	if (ISPOST)
+	{
 
-	// Öppna alla sidor i ffucleaner som har kopplats till WP
-	$result = db_getDataFromSite($site);
+		// Öppna alla sidor i ffucleaner som har kopplats till WP
+		$result = db_getWPDataFromSite($PAGE_siteid);
 
-	if ( isset( $result ) ) {
+		if ( isset( $result ) ) {
 
-		while ( $row = $result->fetch_object() ) {
-			
-			$newlink = $row->wp_guid;
-			$oldlink = $row->page;
-
-			$mapparArr = explode('/', $oldlink);
-			$fil = $mapparArr[count($mapparArr) - 1];
-			$mapp = $mapparArr[count($mapparArr) - 2];
-
-			$newlink = str_replace('http://guide.ffuniverse.nu','',$newlink);
-
-			echo "Byt länkar från '" . $fil . "' till '" . $newlink . "' - ";
-
-
-			// Ta samtidigt bort fix-classen om den finns:
-			$fixWP = db_updateWPwithNewLinks($wp_table, '<a class="fix" href="' . $fil, '<a href="' . $newlink);
-			
-			// Alla har kanske inte fixklassen, uppdatera dem med:
-			$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
-
-			//$fixWP = 0;
-			//$fixWP2 = 0;
-
-			if ($fixWP >= 0 OR $fixWP2 >= 0) {
+			while ( $row = $result->fetch_object() ) {
 				
-				echo "$fixWP st ändrade (med class) och $fixWP2 utan!";
+				$newlink = $row->wp_guid;
+				$oldlink = $row->page;
+
+				if ($newlink != "" && !is_null($newlink))
+				{
+
+					$mapparArr = explode('/', $oldlink);
+					$fil = $mapparArr[count($mapparArr) - 1];
+					$mapp = $mapparArr[count($mapparArr) - 2];
+
+					$newlink = str_replace('http://guide.ffuniverse.nu','',$newlink);
+
+					echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . str_replace( $new_site, "/", $newlink ) . "\" - ";
+
+
+					// Ta samtidigt bort fix-classen om den finns:
+					$fixWP = db_updateWPwithNewLinks($wp_table, '<a class="fix" href="' . $fil, '<a href="' . $newlink);
+					
+					// Alla har kanske inte fixklassen, uppdatera dem med:
+					$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
+
+					//$fixWP = 0;
+					//$fixWP2 = 0;
+
+					if ($fixWP >= 0 OR $fixWP2 >= 0) {
+						
+						//echo "$fixWP st ändrade (med class) och $fixWP2 utan!";
+						echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
+					}
+
+					echo "<br />";
+
+				}
+
 			}
 
 			echo "<br />";
@@ -107,6 +104,18 @@
 // ****************************************************************************
 
 ?>
+
+<form class="well form-inline" action="" method="post">
+
+	<div class="row">
+		<div class="span12">
+
+			<p>
+				This step will access the Wordpress database directly and replace all moved pages old links with new ones.
+				It will not touch your other pages.
+			</p>
+
+			<input type="submit" name="save_wash" value="Update old links" class="btn btn-primary" />
 
 		</div>
 	</div>

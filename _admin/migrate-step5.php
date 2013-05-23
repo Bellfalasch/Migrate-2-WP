@@ -20,14 +20,6 @@
 
 <?php
 
-/*
-	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
-	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
-	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
-	url/slug till sidan, och kan användas för att underlätta mappningen.
-
-*/
-
 // Settings
 // ****************************************************************************	
 	$guide = "ff7";
