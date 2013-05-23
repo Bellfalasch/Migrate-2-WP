@@ -172,7 +172,7 @@
 				setcookie( "cleaner_dbpass", $cleaner_dbpass, $expire );
 				*/
 
-				// $_COOKIES['wp_dburl'] 
+				echo $_COOKIE['wp_table'];
 
 				// * Read this data into sessions, if exist (in header)
 				// * Then read data into constants (in header)

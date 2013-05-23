@@ -12,13 +12,18 @@
 	// Migration settings:
 	//////////////////////////////////////////////////////////////////////////////////
 	
-	if (isset($_COOKIES['wp_dburl'])) {
+	if (isset($_COOKIE['wp_dburl'])) {
 		
-		$wp_dburl = 		$_COOKIES['wp_dburl'];
-		$wp_dbname = 		$_COOKIES['wp_dbname'];
-		$wp_table  = 		$_COOKIES['wp_table'];
-		$wp_dbuser = 		$_COOKIES['wp_dbuser'];
-		$wp_dbpass = 		$_COOKIES['wp_dbpass'];
+		$wp_dburl = 		$_COOKIE['wp_dburl'];
+		$wp_dbname = 		$_COOKIE['wp_dbname'];
+		$wp_table  = 		$_COOKIE['wp_table'];
+		$wp_dbuser = 		$_COOKIE['wp_dbuser'];
+		
+		$wp_dbpass = "";
+		if (isset($_COOKIE['wp_dbpass'])) {
+			$wp_dbpass = $_COOKIE['wp_dbpass'];
+		}
+
 		/*
 		$cleaner_dburl  = 	$_COOKIES['cleaner_dburl'];
 		$cleaner_dbname = 	$_COOKIES['cleaner_dbname'];
