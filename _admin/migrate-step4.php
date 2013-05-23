@@ -20,10 +20,13 @@
 
 	<div class="row">
 		<div class="span8">
+			<h2>Important information</h2>
 			<p>
 				Here you see to the left all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
 				to reload this pages and see the same button on the right side. This side is all your Wordpress pages. Just click the
-				right "Connect"-link here to connect the two pages. <strong>No data is transfered to Wordpress yet!</strong>
+				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
+				other way around is not supported, yet).
+				<strong>No data is transfered to Wordpress yet!</strong>
 			</p>
 			<p>
 				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) to the right. Thanks
