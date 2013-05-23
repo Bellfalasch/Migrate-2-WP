@@ -98,7 +98,7 @@
 			FROM `migrate_content`
 			WHERE `site` = $site
 			AND wp_postid > 0
-			AND wp_postid <> 14
+			AND `wp_guid` IS NOT NULL
 			ORDER BY wp_postid ASC, `page` DESC
 		");
 	}
@@ -113,7 +113,7 @@
 	}
 
 	function db_updateWPwithText($wptable, $content, $postid) {
-		//global $mysqWP;
+		global $mysqWP;
 		return wp_MAIN("
 			UPDATE `" . $wptable . "_posts`
 			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
