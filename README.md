@@ -14,6 +14,9 @@ Until 1.0 is reached it's highly recommended to not use this code without proper
 Updates:
 ----------------
 
+### 0.5
+If you manually edit the code, you can get all the steps running and working fine =) Still a lot to go, and a bucket load of ideas coming. For instance moving the steps around a bit, merging a few, adding one last "checklist", and of course much better settings. Stay tuned!
+
 ### 0.2
 Step 1 and 2 are working, but not without problem. Also the basics are down for the rest of the steps, as well as for the settings. Still, this release is far from release ready!
 
