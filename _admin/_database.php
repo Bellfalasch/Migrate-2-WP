@@ -60,7 +60,7 @@
 	// List all Wordpress-pages
 	function db_getDataFromWordpress($wptable) {
 		return wp_MAIN("
-			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
 			FROM `" . $wptable . "_posts`
 			WHERE
 				(`post_type` = 'page'

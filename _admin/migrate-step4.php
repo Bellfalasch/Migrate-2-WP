@@ -18,7 +18,23 @@
 		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>
 	</div>
 
-<form class="well form-inline" action="" method="post">
+	<div class="row">
+		<div class="span8">
+			<p>
+				Here you see to the left all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
+				to reload this pages and see the same button on the right side. This side is all your Wordpress pages. Just click the
+				right "Connect"-link here to connect the two pages. <strong>No data is transfered to Wordpress yet!</strong>
+			</p>
+			<p>
+				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) to the right. Thanks
+				to this you get a good overview, but still can change earlier mistakes.
+			</p>
+			<p>
+				When done with all pages you wanna move, manually go to Step 5. Pages left unconnected in this step will never be
+				moved to Wordpress!
+			</p>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="span12">
@@ -35,8 +51,8 @@
 
 // Settings
 // ****************************************************************************	
-	$guide = "ff9";
-	$new_site = "http://guide.ffuniverse.nu/" . $guide . "/";
+	$guide = "ff7";
+	$new_site = "http://games.ffuniverse.nu/" . $guide . "/";
 
 
 // Do the moving
@@ -52,7 +68,7 @@
 		if ( isset( $result ) ) {
 
 			$row = $result->fetch_object();
-			$newData_id = $row->ID;
+			$newData_id = $row->id;
 			$newData_post_name = $row->post_name;
 			$newData_post_title = $row->post_title;
 			$newData_guid = $row->guid;
@@ -82,24 +98,29 @@
 		while ( $row = $result->fetch_object() )
 		{
 			if ($row->wp_postid > 0) {
-				if ($row->id == qsGet("connect") )
+				if ($row->id == qsGet("connect") ) {
 					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-				else
-					echo '<tr style="background-color:green; opacity:0.4;">';
-				$arrWPidDone[] = $row->wp_postid;
-			} else
-				if ($row->id == qsGet("connect") )
+				} else {
+					echo '<tr style="opacity:0.2;">';
+				}
+				array_push($arrWPidDone, $row->wp_postid);
+			} else {
+				if ($row->id == qsGet("connect") ) {
 					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-				else
+				} else {
 					echo '<tr>';
+				}
+			}
 			
 			if (qsGet("connect") != "")
 				echo "<td>-</td>";
 			else
 				echo "<td><a href=\"?connect=" . $row->id . "\">[Connect]</a></td>";
 
-			echo "<td><a href=\"" . $row->page . "\" target=\"_blank\">" . $row->page . "</a></td>";
-			echo "<td>&raquo; " . $row->wp_guid . "</td>";
+			$page = $row->page;
+
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( "http://www.ffuniverse.nu/shop/", "/", $page ) . "</a></td>";
+			echo "<td>&raquo; " . str_replace( $new_site, "/", $row->wp_guid . "" ) . "</td>";
 			echo '</tr>';
 		}
 
@@ -124,10 +145,10 @@
 			else
 				echo "<td>-</td>";
 
-			echo "<td>" . $row->ID . "</td>";
-			echo "<td>" . $row->post_name . "</td>";
+			//echo "<td>" . $row->ID . "</td>";
+			//echo "<td>" . $row->post_name . "</td>";
 			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-			echo "<td>" . $row->guid . "</td>";
+			echo "<td>" . str_replace( $new_site, "/", $row->guid ) . "</td>";
 			echo '</tr>';
 
 		}
@@ -142,8 +163,6 @@
 
 		</div>
 	</div>
-
-</form>
 
 
 <?php require('_footer.php'); ?>
