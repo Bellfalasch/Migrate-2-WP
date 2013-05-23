@@ -59,7 +59,7 @@
 		outputErrors($SYS_errors);
 	?>
 
-<form class="well form-inline" action="" method="post" enctype="multipart/form-data">
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
@@ -69,9 +69,9 @@
 				before Tidy if you'd prefer to hard code it).
 			</p>
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
+			<input type="submit" name="save_wash" value="Run cleaner" class="btn btn-primary" />
 
-			<button type="submit" class="btn">Test upgrade</button>
+			<input type="submit" name="save_wash" value="Test cleaner" class="btn" />
 
 		</div>
 	</div>
