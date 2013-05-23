@@ -38,16 +38,16 @@
 	 * @return id, page, data
 	 */
 	function db_getContentFromSite($site) {
-		$q = "SELECT `id`, `page`, `content`
-			  FROM `migrate_content`
-			  WHERE `site` = $site
-			  ORDER BY `page` DESC
-			  ";
-		return db_MAIN( $q );
+		return db_MAIN("
+			SELECT `id`, `page`, `content`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY `id` DESC
+		");
 	}
 
 	// Step 4
-		// List all ffueater data (from current/old site)
+	// List all ffueater data (from current/old site)
 	function db_getWPDataFromSite($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`

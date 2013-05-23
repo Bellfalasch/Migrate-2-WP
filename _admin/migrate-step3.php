@@ -31,6 +31,9 @@
 		hr {
 			clear: both;
 		}
+		pre {
+			font-size: 7pt;
+		}
 	</style>
 
 
@@ -39,15 +42,7 @@
 	if (ISPOST)
 	{
 		
-		// Settings
-		// ****************************************************************************	
-			$site = 9;
-
-
-		// Code
-		// ****************************************************************************	
-
-		$result = db_getContentFromSite($site);
+		$result = db_getContentFromSite($PAGE_siteid);
 		if ( isset( $result ) )
 		{
 			while ( $row = $result->fetch_object() )
@@ -58,20 +53,6 @@
 				$clean = $content;
 				
 				// Start replacing old bad markup
-				// Men prova denna istællet - mycket bættre: http://infohound.net/tidy/
-				/*
-				$clean = str_replace('<BR>', '<br />', $clean);
-				$clean = str_replace('<br>', '<br />', $clean);
-
-				$clean = str_replace('<B>', '<strong>', $clean);
-				$clean = str_replace('</B>', '</strong>', $clean);
-				$clean = str_replace('<b>', '<strong>', $clean);
-				$clean = str_replace('</b>', '</strong>', $clean);
-				$clean = str_replace('<I>', '<em>', $clean);
-				$clean = str_replace('</I>', '</em>', $clean);
-				$clean = str_replace('<i>', '<em>', $clean);
-				$clean = str_replace('</i>', '</em>', $clean);
-				*/
 
 				// Dessa taggar ær før summons olika levels, men tidy førstør dem pga att avslutande font-taggen tas bort av mig innan tidy får bita i koden
 				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>', '<span class="stars"><span class="lit">*</span>****</span>', $clean);
@@ -142,7 +123,7 @@
 	//					"show-body-only" => true,
 	//					"drop-font-tags" => true,
 						"drop-empty-paras" => true,
-						"hide-comments" => true,
+						"hide-comments" => false,
 						"join-styles" => true,
 	//					"join-classes" => true,
 						"word-2000" => true,
@@ -357,19 +338,31 @@
 
 				$clean = trim($tidy);
 
-				$clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
+				// This tag should be moved out of this step
+				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
 
-				echo "<code><pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<div class=\"spalt\">";
-				echo "<code><pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
+				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+
+				if (formGet("save_needle") == "Run wash") {
+
+					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+
+					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
+					db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+				} else {
+					
+					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+				
+				}
+
 				echo "</div>";
 
-				echo "<hr />";
-
-				// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
-				db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+				echo "<hr /><br />";
 			
 			}
 		
@@ -394,9 +387,9 @@
 				content.
 			</p>
 
-			<button type="submit" id="spara" name="spara" class="btn btn-primary">Run upgrade</button>
+			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
 
-			<button type="submit" class="btn">Test upgrade</button>
+			<input type="submit" name="save_wash" value="Test wash" class="btn" />
 
 		</div>
 	</div>
