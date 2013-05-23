@@ -173,6 +173,7 @@ function getsite($site, $site_address)
 		return false;
 	}
 	echo "</p>";
+	flush();
 
 	//$handle = stream_get_contents($handle);
 
@@ -302,6 +303,7 @@ function getsite($site, $site_address)
 							}
 						}
 						echo "<br />";
+						//flush();
 					}
 				}
 			}
@@ -311,6 +313,7 @@ function getsite($site, $site_address)
 
 	//print_r($check_links);
 	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
+	flush();
 
 	// Don't save on test
 	if (formGet("save_crawl") == "Run crawl") {
