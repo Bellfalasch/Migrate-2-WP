@@ -77,6 +77,26 @@ mysql_set_charset("UTF-8");
 //mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
 
+function validStatus($href) {
+	$valid = true;
+	/*
+	$url = $href;
+	$valid = false;
+	$resultat = get_headers($url, 1);
+
+	if (is_array($resultat)) {
+		if (substr($resultat[0],0,4) == "HTTP") {
+			if (substr($resultat[0],-2) == "OK") {
+				$valid = true;
+ 			}
+ 		}
+ 	}
+	*/
+	//print_r(get_headers($url, 1));
+
+	return $valid;
+}
+
 // Simple insert into the database, no check if data already is there.
 function savepage($site, $buffer)
 {
@@ -92,7 +112,12 @@ function savepage($site, $buffer)
 //	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
 //	exit;
 
-	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
+	if (validStatus($site)) {
+		mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
+		echo "SAVED";
+	} else {
+		echo "NOT SAVED, WRONG HTTP STATUS";
+	}
 	
 }
 
