@@ -113,13 +113,13 @@ function checklink($link)
 
 	// List of page file endings to crawl for
 	$endings = array('htm', 'html', 'asp', 'aspx');
-	$asd = explode(".", $link);
-	$asd = $asd[sizeof($asd)-1];
-	$asd = explode("?", $asd);
-	$asd = $asd[0];
+	$filetype = explode(".", $link);
+	$filetype = $filetype[sizeof($filetype)-1];
+	$filetype = explode("?", $filetype);
+	$filetype = $filetype[0];
 
 
-	if(in_array($asd, $endings))
+	if(in_array($filetype, $endings))
 	{
 		$checked_link = $link;
 		//echo  "\n" . $checked_link . " ---<br />\n";
