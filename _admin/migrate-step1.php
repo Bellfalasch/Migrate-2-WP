@@ -187,46 +187,70 @@ function getsite($site, $site_address)
 	global $check_links;
 	global $checked_link;
 
-	echo "<p><strong>Requesting:</strong> " . $site . "";
-	if ($handle = fopen($site, "r"))
-	{
-		echo " <span class=\"label label-success\">OK</span>";
-	}
-	else
-	{
-		$check_links[$site] = 2;
-		return false;
-	}
-	echo "</p>";
-	flush();
-
-	//$handle = stream_get_contents($handle);
-
 	// Different kind of link formats for this site.
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array ('/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
 		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i');
 
+	echo "<p><strong>Requesting:</strong> " . $site . "";
+
+	$handle = fopen($site, "r");
+
+	if ($handle)
+	{
+		if (is_array($http_response_header)) {
+			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) ) {
+				echo " <span class=\"label label-success\">OK</span>";
+			} else {
+				echo " <span class=\"label label-important\">HTTP ERROR</span>";
+				$check_links[$site] = 2;
+				$search = "";
+				//return false;
+			}
+		} else {
+			echo " <span class=\"label label-important\">HTTP ERROR</span>";
+			$check_links[$site] = 2;
+			$search = "";
+			//return false;
+		}
+		//print_r($http_response_header);
+		//exit;
+	}
+	else
+	{
+		echo " <span class=\"label label-important\">HTTP ERROR</span>";
+		$check_links[$site] = 2;
+		$search = "";
+		//return false;
+	}
+	echo "</p>";
+
+	flush();
+
+	//$handle = stream_get_contents($handle);
+
 	for ($i=0; $i<=count($search); $i++)
 		$links[$i] = array();
 
 	$pagebuffer = "";
-	while(($buffer = fgets($handle)) !== false)
-	{
-		$pagebuffer .= $buffer;
-		if (preg_match($search[0], $buffer, $result[0]))
+	if ($search != "") {
+		while(($buffer = fgets($handle)) !== false)
 		{
-	#		print_r($result[0]);
-			array_push($links[0], $result[0]);
+			$pagebuffer .= $buffer;
+			if (preg_match($search[0], $buffer, $result[0]))
+			{
+		#		print_r($result[0]);
+				array_push($links[0], $result[0]);
+			}
+			if (preg_match($search[1], $buffer, $result[1]))
+			{
+		#		print_r($result[1]);
+				array_push($links[1], $result[1]);
+			}
 		}
-		if (preg_match($search[1], $buffer, $result[1]))
-		{
-	#		print_r($result[1]);
-			array_push($links[1], $result[1]);
-		}
+		#	print_r($links[0]);
+		#	print_r($links[1]);
 	}
-	#	print_r($links[0]);
-	#	print_r($links[1]);
 
 	$search_links = array('/^\.\.(.*?)/i',
 		'/^http\:\/\/(.*)/i');
@@ -326,6 +350,8 @@ function getsite($site, $site_address)
 							} else {
 								echo " <span class=\"label\">Skipped</span>";
 							}
+						} else {
+							echo " <span class=\"label\">Not a page</span>";
 						}
 						echo "<br />";
 						//flush();
@@ -382,10 +408,16 @@ mysql_close($mysql);
 
 		<div class="span4 offset1">
 
-			<h4>Legend:</h4>
+			<h3>Legend</h3>
+			<h4>Requesting a page:</h4>
 			<p>
-				<span class="label label-success">OK</span> - A link has been successfully crawled.
+				<span class="label label-success">OK</span> - A link to a valid page has been successfully crawled.
 			</p>
+			<p>
+				<span class="label label-important">HTTP ERROR</span> - The URL to be crawled didn't give a valid response,
+				so it has been skipped. You'd better check this issue up manually.
+			</p>
+			<h4>Found links:</h4>
 			<p>
 				<span class="label label-info">Added</span> - Found a new link, it's added to the list of
 				pages/links we will collect.
@@ -394,6 +426,11 @@ mysql_close($mysql);
 				<span class="label">Skipped</span> - This link is already crawled, it will not be
 				crawled again.
 			</p>
+			<p>
+				<span class="label">Not a page</span> - This link is not a page with content (images or something similar), it will not be
+				crawled.
+			</p>
+			<h4>Storing HTML:</h4>
 			<p>
 				<span class="label label-success">Saved</span> - All the found links have been crawled
 				and the html saved to your database.
