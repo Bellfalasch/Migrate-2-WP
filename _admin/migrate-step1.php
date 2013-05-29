@@ -67,12 +67,6 @@ $check_links[$site] = 0;
 $checked_link = "";
 
 
-$mysql = mysql_connect( $cleaner_dburl, $cleaner_dbuser, $cleaner_dbpass);
-if (!$mysql)
-	die('Could not connect: ' . mysql_error());
-mysql_select_db( $cleaner_dbname, $mysql);
-mysql_set_charset("UTF-8");
-
 // At the moment only way to delete data in the table and start anew:
 //mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
@@ -80,7 +74,7 @@ mysql_set_charset("UTF-8");
 // Simple insert into the database, no check if data already is there.
 function savepage($site, $buffer)
 {
-	global $mysql;
+	global $mysqli;
 	global $PAGE_siteid;
 	global $cleaner_table;
 
@@ -93,7 +87,8 @@ function savepage($site, $buffer)
 //	exit;
 
 	if ($buffer != "")
-		mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
+		db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '" . $mysqli->real_escape_string($buffer) . "', " . $PAGE_siteid . ")");
+
 	
 }
 
@@ -377,9 +372,6 @@ forsites($check_links);
 	} else {
 		echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 	}
-
-mysql_close($mysql);
-
 
 		}
 
