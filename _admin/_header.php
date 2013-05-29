@@ -79,7 +79,6 @@
 			<?php } else if (isActiveOn("migrate")) { ?>
 
 				<?php if ($SYS_adminlvl > 0) { ?>
-					<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate.php">Introduction</a></li>
 					<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
 					<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">Step 1</a></li>
 					<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">Step 2</a></li>
