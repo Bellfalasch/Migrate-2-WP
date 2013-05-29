@@ -39,8 +39,6 @@
 	$cleaner_dbuser = "root";
 	$cleaner_dbpass = "";
 
-	$PAGE_siteid = 1; // In future, set from Session or -1
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Set up system variables:
@@ -112,6 +110,17 @@
 
 	header('Content-type: text/html; charset=utf-8');
 	header('X-UA-Compatible: IE=edge,chrome=1');
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	if (qsGet("project") != "")
+		$_SESSION["site"] = qsGet("project");
+
+	if (isset($_SESSION["site"]))
+		$PAGE_siteid = $_SESSION["site"];
+	else
+		$PAGE_siteid = 0;
 
 	
 	//////////////////////////////////////////////////////////////////////////////////

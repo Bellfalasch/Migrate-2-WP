@@ -80,14 +80,68 @@
 
 				<?php if ($SYS_adminlvl > 0) { ?>
 					<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-project.php">Project</a></li>
-					<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
-					<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">Step 1</a></li>
-					<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">Step 2</a></li>
-					<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">Step 3</a></li>
-					<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">Step 4</a></li>
-					<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">Step 5</a></li>
-					<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">Step 6</a></li>
-					<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">Step 7</a></li>
+
+					<li>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#project_list").change(function() {
+
+			location.href = location.href + "?project=" + $("#project_list option:selected").val();
+
+		});
+	});
+</script>
+
+						<select name="project" style="margin-top:4px;" id="project_list">
+							<option value="">Choose Project:</option>
+			<?php
+				$result = db_getSites();
+
+				if (!is_null($result))
+				{
+					while ( $row = $result->fetch_object() )
+					{
+						if ($row->id == $PAGE_siteid)
+							$selected = " selected=\"selected\"";
+						else
+							$selected = "";
+
+						echo "<option value=\"" . $row->id . "\"" . $selected . ">" . $row->name . "</option>";
+					}
+				}
+				else
+				{
+					echo "<option value=\"\">No projects found!</option>";
+				}
+			?>
+						</select>
+					</li>
+
+					<?php if ($PAGE_siteid > 0) { ?>
+
+						<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
+						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">Step 1</a></li>
+						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">Step 2</a></li>
+						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">Step 3</a></li>
+						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">Step 4</a></li>
+						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">Step 5</a></li>
+						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">Step 6</a></li>
+						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">Step 7</a></li>
+
+					<?php } else { ?>
+
+						<li><a href="#" disabled="true">Settings</a></li>
+						<li>Step 1</li>
+						<li>Step 2</li>
+						<li>Step 3</li>
+						<li>Step 4</li>
+						<li>Step 5</li>
+						<li>Step 6</li>
+						<li>Step 7</li>
+
+					<?php } ?>
+
 				<?php } ?>
 
 			<?php } ?>
