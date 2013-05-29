@@ -108,7 +108,20 @@ function checklink($link)
 	$link = preg_replace($square_search, $square_replace, $link);
 
 	// List of page file endings to crawl for
-	$endings = array('htm', 'html', 'asp', 'aspx');
+	//$endings = array('htm', 'html', 'asp', 'aspx');
+
+	if (isset($_POST['filetype'])) {
+		$optionArray = $_POST['filetype'];
+		//for ($i=0; $i<count($optionArray); $i++) {
+		//	echo $optionArray[$i]."<br />";
+		//}
+	}
+
+	//$endings = explode(", ", formGet("filetype"));
+	$endings = $optionArray;
+
+	//var_dump( $endings );
+	
 	$filetype = explode(".", $link);
 	$filetype = $filetype[sizeof($filetype)-1];
 	$filetype = explode("?", $filetype);
@@ -172,7 +185,7 @@ function getsite($site, $site_address)
 	if ($handle)
 	{
 		if (is_array($http_response_header)) {
-			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) && substr($http_response_header[4],10,12) != "/_error.aspx" ) {
+			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) && substr($http_response_header[4],10,12) != "/_error.aspx" || formGet("header") == "" ) {
 				echo " <span class=\"label label-success\">OK</span>";
 			} else {
 				echo " <span class=\"label label-important\">HTTP ERROR</span>";
@@ -427,7 +440,46 @@ forsites($check_links);
 	<div class="row">
 		<div class="span12">
 
+			<?php
+
+				$result = db_getSite( array('id' => $PAGE_siteid) );
+
+				// If anything was found, put it into pur PAGE_form
+				if (!is_null($result))
+				{
+					$row = $result->fetch_object();
+
+					$PAGE_form[0]["content"] = $row->url;
+
+				}
+
+			?>
+
 			<?php outputFormFields(); ?>
+
+			<div class="row">
+				<div class="span5">
+					<strong>Fetch these filetypes:</strong><br />
+<?php
+	$optionArray = array("aspx","asp","htm","html");
+	if (isset($_POST['filetype'])) {
+		$optionArray = $_POST['filetype'];
+		//for ($i=0; $i<count($optionArray); $i++) {
+		//	echo $optionArray[$i]."<br />";
+		//}
+	}
+?>
+					<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label><br />
+					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label><br />
+					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label><br />
+					<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label><br /><br />
+				</div>
+
+				<div class="span5 offset1">
+					<strong>Perform HTTP-status check:</strong><br />
+					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes!</label> (skip all pages giving errors)<br />
+				</div>
+			</div>
 
 			<p>
 				Crawling of a website can take very long time, depending on how many pages and links it has.
