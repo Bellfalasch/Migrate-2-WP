@@ -92,7 +92,8 @@ function savepage($site, $buffer)
 //	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
 //	exit;
 
-	mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
+	if ($buffer != "")
+		mysql_query("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '".addslashes($buffer)."', " . $PAGE_siteid . ")");
 	
 }
 
