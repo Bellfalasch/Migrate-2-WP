@@ -171,10 +171,12 @@ function getsite($site, $site_address)
 
 	$handle = fopen($site, "r");
 
+	//print_r($http_response_header);
+
 	if ($handle)
 	{
 		if (is_array($http_response_header)) {
-			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) ) {
+			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) && substr($http_response_header[4],10,12) != "/_error.aspx" ) {
 				echo " <span class=\"label label-success\">OK</span>";
 			} else {
 				echo " <span class=\"label label-important\">HTTP ERROR</span>";
@@ -261,7 +263,15 @@ function getsite($site, $site_address)
 					//if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
 					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) ) && count($res_links[0] >= strlen($site_address) ) )
 					{
-						if ( (($res_links[0][strlen($site_address)] != ".") ) )
+						/*
+						echo strlen($res_links[0]) . "<br />";
+						echo strlen($site_address) . "<br />";
+						echo strlen($res_links[0]) . "<br />";
+						echo strlen($site_address) . "<br />";
+						echo $res_links[0][strlen($site_address)-1] . "<br />";
+						*/
+
+						if ( (($res_links[0][strlen($site_address)-1] != ".") ) )
 						{
 							for ($k=0; $k<strlen($site_address); $k++)
 							{
