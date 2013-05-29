@@ -144,6 +144,50 @@
 	}
 
 
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	function db_getSites() {
+		return db_MAIN("
+			SELECT `id`, `name`, `url`, `step`
+			FROM `migrate_sites`
+			ORDER BY `id` DESC
+		");
+	}
+	function db_getSite($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `name`, `url`, `step`
+			FROM `migrate_sites`
+			WHERE id = {$in['id']}
+		");
+	}
+	function db_setSite($in) { cleanup($in);
+		return db_MAIN("
+			INSERT INTO `migrate_sites`
+				(`name`,`url`)
+			VALUES(
+				{$in['name']},
+				{$in['url']}
+			)
+		");
+	}
+	function db_setUpdateSite($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_sites`
+			SET
+				`name` = {$in['name']},
+				`url` = {$in['url']}
+			WHERE `id` = {$in['id']}
+		");
+	}
+	function db_delSite($in) { cleanup($in);
+		return db_MAIN("
+			DELETE FROM `migrate_sites`
+			WHERE `id` = {$in['id']}
+		");
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// USERS
 	//////////////////////////////////////////////////////////////////////////////////

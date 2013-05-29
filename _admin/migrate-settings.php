@@ -9,12 +9,6 @@
 
 	// See README.md in root for more information about how to set up and use the form-generator!
 
-	/*
-	 Spara detta i en cookie så att man slipper fylla i dem om och om.
-	 Så klart inte så säkert live sen, men då kan funktionen tas bort. 
-	 T.ex. kanske låta den sniffa localhost och bara aktiveras då.
-	 */
-
 	// WP-data
 
 	addField( array(
