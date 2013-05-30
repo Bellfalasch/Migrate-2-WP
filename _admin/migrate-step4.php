@@ -90,6 +90,17 @@
 // The actual code
 // ****************************************************************************	
 
+	$result = db_getSite( array('id' => $PAGE_siteid) );
+
+	// If anything was found, put it into pur PAGE_form
+	if (!is_null($result))
+	{
+		$row = $result->fetch_object();
+
+		$oldsite = $row->url;
+
+	}
+
 	// Array for all the WP-pages we have listed (don't list again)
 	$arrWPidDone = array();
 
@@ -122,7 +133,7 @@
 
 			$page = $row->page;
 
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( "http://www.ffuniverse.nu/shop/", "/", $page ) . "</a></td>";
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $oldsite, "/", $page ) . "</a></td>";
 			echo "<td>&raquo; " . str_replace( $new_site, "/", $row->wp_guid . "" ) . "</td>";
 			echo '</tr>';
 		}
