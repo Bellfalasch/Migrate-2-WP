@@ -39,7 +39,7 @@
 	 */
 	function db_getContentFromSite($site) {
 		return db_MAIN("
-			SELECT `id`, `page`, `content`
+			SELECT `id`, `page`, `content`, `clean`
 			FROM `migrate_content`
 			WHERE `site` = $site
 			ORDER BY `id` DESC
