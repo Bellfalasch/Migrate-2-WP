@@ -24,6 +24,7 @@
 // ****************************************************************************	
 	$guide = "ff7";
 	$new_site = "http://games.ffuniverse.nu/" . $guide . "/";
+	$domain = "http://guide.ffuniverse.nu";
 
 
 // The actual code
@@ -32,7 +33,19 @@
 	if (ISPOST)
 	{
 
-		// Öppna alla sidor i ffucleaner som har kopplats till WP
+		// First fetch the crawled URL (from step 1)
+		$result = db_getSite( array('id' => $PAGE_siteid) );
+
+		// If anything was found, put it into pur PAGE_form
+		if (!is_null($result))
+		{
+			$row = $result->fetch_object();
+
+			$oldurl = $row->url;
+
+		}
+
+		// Get all pages that has been connected to a Wordpress page, these will get transfered now
 		$result = db_getWPDataFromSite2($PAGE_siteid);
 		if ( isset( $result ) )
 		{
@@ -46,24 +59,62 @@
 				$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
 				if (!is_null($getWP)) {
+
+
+					// Update all links
+					$newlink = $row->wp_guid;
+					$oldlink = $row->page;
+
+					if ($newlink != "" && !is_null($newlink))
+					{
+
+						$mapparArr = explode('/', $oldlink);
+						$fil = $mapparArr[count($mapparArr) - 1];
+						$mapp = $mapparArr[count($mapparArr) - 2];
+
+						$newlink = str_replace( $domain,'',$newlink);
+
+						echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . str_replace( $new_site, "/", $newlink ) . "\" - ";
+
+
+						// Ta samtidigt bort fix-classen om den finns:
+						$fixWP = db_updateWPwithNewLinks($wp_table, '<a class="fix" href="' . $fil, '<a href="' . $newlink);
+						
+						// Alla har kanske inte fixklassen, uppdatera dem med:
+						$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
+
+						//$fixWP = 0;
+						//$fixWP2 = 0;
+
+						if ($fixWP >= 0 OR $fixWP2 >= 0) {
+							
+							//echo "$fixWP st ändrade (med class) och $fixWP2 utan!";
+							echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
+						}
+
+						echo "<br />";
+
+					}
+					// End link updater
+
 					
 					$WProw = $getWP->fetch_object();
-
-					// Finns data redan i WP så skilj med hr-taggar
-					if ($WProw->post_content != '') {
 /*
+					// Separate content in WP if there already is something there
+					if ($WProw->post_content != '') {
+
 						$content = $WProw->post_content . "
 
 	<hr /><hr /><hr />
 
 	" . $content;
-*/
-					}
 
+					}
+*/
 					db_updateWPwithText($wp_table, $content, $row->wp_postid);
 
 					echo "<p>";
-					echo "<strong>Move old page:</strong> \"" . str_replace( "http://www.ffuniverse.nu/shop/", "/", $row->page ) . "\"";
+					echo "<strong>Move old page:</strong> \"" . str_replace( $oldurl, "/", $row->page ) . "\"";
 					echo " <strong>to Wordpress page:</strong> \"" . str_replace( $new_site, "/", $WProw->guid ) . "\"";
 					echo " <span class=\"label label-success\">OK</span>";
 					echo "</p>";
@@ -92,8 +143,8 @@
 				straight into your Wordpress pages (given the connections made in previous step).
 			</p>
 			<p>
-				This step doesn't do anything more then that. The next steps also need to be run
-				to get correct links and a bit more improved html, etc.
+				This step also updates all your old links so it fits nicely inside your new
+				Wordpress installation.
 			</p>
 
 			<input type="submit" name="save_wash" value="Move 'em all!" class="btn btn-primary" />
