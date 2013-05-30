@@ -14,6 +14,11 @@ Until 1.0 is reached it's highly recommended to not use this code without proper
 Updates:
 ----------------
 
+### 0.8
+Getting there! Major rearrangement of all the steps after doing some heavy (well, light) thinking. Dropped the last two steps, moved the link-updater from Step 6 into Step 5 ("Move"), and splitting the Step 3 ("Clean") into three steps of it's on (needed for easier handling of the code).
+
+Also the crawling in Step 1 has major improvements, with bugfixes, http header status checks, settings, etc. I'm also introducing the Projects page where you create and manage your project, as well as a drop down in the nav-bar to select project to run the migration on.
+
 ### 0.5
 If you manually edit the code, you can get all the steps running and working fine =) Still a lot to go, and a bucket load of ideas coming. For instance moving the steps around a bit, merging a few, adding one last "checklist", and of course much better settings. Stay tuned!
 
