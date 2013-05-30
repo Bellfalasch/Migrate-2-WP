@@ -174,7 +174,8 @@ function getsite($site, $site_address)
 	// Different kind of link formats for this site.
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array ('/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
-		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i');
+		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
+		'/window\.open\("(.*?)"(.*?)/i');
 
 	echo "<p><strong>Requesting:</strong> " . $site . "";
 
@@ -233,6 +234,11 @@ function getsite($site, $site_address)
 		#		print_r($result[1]);
 				array_push($links[1], $result[1]);
 			}
+			if (preg_match($search[2], $buffer, $result[2]))
+			{
+				array_push($links[2], $result[2]);
+			}
+
 		}
 		#	print_r($links[0]);
 		#	print_r($links[1]);
