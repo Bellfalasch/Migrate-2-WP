@@ -175,7 +175,7 @@ function getsite($site, $site_address)
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array ('/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
 		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
-		'/window\.open\("(.*?)"(.*?)/i');
+		'/window\.open\("(.*?)"/i');
 
 	echo "<p><strong>Requesting:</strong> " . $site . "";
 
@@ -224,21 +224,14 @@ function getsite($site, $site_address)
 		while(($buffer = fgets($handle)) !== false)
 		{
 			$pagebuffer .= $buffer;
-			if (preg_match($search[0], $buffer, $result[0]))
+			for ($i=0; $i<count($search); $i++)
 			{
-		#		print_r($result[0]);
-				array_push($links[0], $result[0]);
+				if (preg_match($search[$i], $buffer, $result[$i]))
+				{
+			#		print_r($result[0]);
+					array_push($links[$i], $result[$i]);
+				}
 			}
-			if (preg_match($search[1], $buffer, $result[1]))
-			{
-		#		print_r($result[1]);
-				array_push($links[1], $result[1]);
-			}
-			if (preg_match($search[2], $buffer, $result[2]))
-			{
-				array_push($links[2], $result[2]);
-			}
-
 		}
 		#	print_r($links[0]);
 		#	print_r($links[1]);
