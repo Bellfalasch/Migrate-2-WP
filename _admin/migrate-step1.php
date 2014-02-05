@@ -398,6 +398,16 @@ forsites($check_links);
 
 		<div class="span4 offset1">
 
+			<h3>Crawling / scraping</h3>
+			<p>
+				What we'll do here is go to your start page (the one entered on the Project page) and find any
+				link we can identify. We add all these links to a list of items to crawl. After the first page
+				is crawled we go to the first link in the list we created. Here we do the same thing as before,
+				we find all valid links on that page too but we only add it to the list if it's not already there.
+				This way we never crawl a page twice! After all the links in the list have been crawled we're
+				done here.
+			</p>
+
 			<h3>Legend</h3>
 			<h4>Requesting a page:</h4>
 			<p>
@@ -410,7 +420,7 @@ forsites($check_links);
 			<h4>Found links:</h4>
 			<p>
 				<span class="label label-info">Added</span> - Found a new link, it's added to the list of
-				pages/links we will collect.
+				pages/links we will collect later.
 			</p>
 			<p>
 				<span class="label">Skipped</span> - This link is already crawled, it will not be
