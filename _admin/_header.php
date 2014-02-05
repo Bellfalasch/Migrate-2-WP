@@ -112,7 +112,7 @@
 				}
 				else
 				{
-					echo "<option value=\"\">No projects found!</option>";
+					echo "<option value=\"\">No projects found (create one!)</option>";
 				}
 			?>
 						</select>
@@ -131,14 +131,14 @@
 
 					<?php } else { ?>
 
-						<li><a href="#" disabled="true">Settings</a></li>
-						<li>Step 1</li>
-						<li>Step 2</li>
-						<li>Step 3</li>
-						<li>Step 4</li>
-						<li>Step 5</li>
-						<li>Step 6</li>
-						<li>Step 7</li>
+						<li class="disabled"><a href="#0">Settings</a></li>
+						<li class="disabled"><a href="#0">Step 1</a></li>
+						<li class="disabled"><a href="#0">Step 2</a></li>
+						<li class="disabled"><a href="#0">Step 3</a></li>
+						<li class="disabled"><a href="#0">Step 4</a></li>
+						<li class="disabled"><a href="#0">Step 5</a></li>
+						<li class="disabled"><a href="#0">Step 6</a></li>
+						<li class="disabled"><a href="#0">Step 7</a></li>
 
 					<?php } ?>
 
