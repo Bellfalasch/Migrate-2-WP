@@ -71,12 +71,13 @@
 			<p>
 				<strong>Important!</strong> All html marked in red will be removed when saving these pages back to
 				the database. The originally crawled content will be kept in the column 'html' in the table
-				'migrate_content', if you need it for reference. The green html will be saved into the column
-				'content'.
+				'migrate_content', if you need it for reference. This also adds support for you to redo this step
+				as many time as you'd like in case you wanna change your needles). The green html will be saved
+				into the column 'content'.
 			</p>
 			<p>
 				Please do make extra sure that all code is intact, that is that the ONLY allowed difference between the
-				left and the right side are the colors. Look for bad cuts ending the header or starting the footer!
+				left and the right side are the colors. Look for bad cuts shopping of the header or the start of the footer!
 			</p>";
 
 			$result = db_getDataFromSite($PAGE_siteid);
@@ -93,7 +94,9 @@
 
 					//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
 					// $headerNeedleLength = mb_strlen($headerNeedle);
-					// $headerStart = 0;
+					
+					$headerStart = 0;
+					
 					$headerEnd = mb_strpos($body, $headerNeedle, 0);
 
 					// Alla sidor har inte den bortkommenterade hr-taggen (den ær inlagd på varje sida, inte i mallfilerna)
@@ -128,7 +131,7 @@
 					//$lines_foot = count( $line_array_foot ); 
 					//echo 'Footer lines: ' . $lines_foot . '<br />';
 					
-					$body = mb_substr( $body, mb_strlen($header), ( mb_strlen($body) - mb_strlen($footer) - mb_strlen($header) ) );
+					$body = mb_substr( $body, mb_strlen($header)+1, ( mb_strlen($body) + mb_strlen($header) ) );
 					//$body = trim( $body );
 					
 					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
