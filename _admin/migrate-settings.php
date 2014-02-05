@@ -15,7 +15,7 @@
 		"label" => "WP &gt; DB url:",
 		"id" => "wp_dburl",
 		"type" => "text(3)",
-		"description" => "xxx",
+		"description" => "URL to database (localhost or http://xxx)",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -44,7 +44,7 @@
 		"label" => "WP &gt; DB username:",
 		"id" => "wp_dbuser",
 		"type" => "text(3)",
-		"description" => "xxx",
+		"description" => "Database username",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -58,63 +58,6 @@
 		"description" => "Database password"
 	) );
 
-	// CLEANER-data
-/*
-	addField( array(
-		"label" => "Cleaner &gt; DB url:",
-		"id" => "cleaner_dburl",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; DB name:",
-		"id" => "cleaner_dbname",
-		"type" => "text(3)",
-		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; Table name:",
-		"id" => "cleaner_tablename",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; DB user:",
-		"id" => "cleaner_dbuser",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "Cleaner &gt; DB password:",
-		"id" => "cleaner_dbpass",
-		"type" => "text(3)",
-		"description" => "xxx",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-*/
 ?>
 <?php require('_header.php'); ?>
 
@@ -139,13 +82,6 @@
 				$wp_table  = $PAGE_form[2]["content"];
 				$wp_dbuser = $PAGE_form[3]["content"];
 				$wp_dbpass = $PAGE_form[4]["content"];
-/*
-				$cleaner_dburl  = $PAGE_form[5]["content"];
-				$cleaner_dbname = $PAGE_form[6]["content"];
-				$cleaner_table  = $PAGE_form[7]["content"];
-				$cleaner_dbuser = $PAGE_form[8]["content"];
-				$cleaner_dbpass = $PAGE_form[9]["content"];
-*/
 
 				// Do some simple cleaning of data
 				// Todo, if not washed when validated - answer: not washed
@@ -158,15 +94,9 @@
 				setcookie( "wp_table",       $wp_table,       $expire );
 				setcookie( "wp_dbuser",      $wp_dbuser,      $expire );
 				setcookie( "wp_dbpass",      $wp_dbpass,      $expire );
-				/*
-				setcookie( "cleaner_dburl",  $cleaner_dburl,  $expire );
-				setcookie( "cleaner_dbname", $cleaner_dbname, $expire );
-				setcookie( "cleaner_table",  $cleaner_table,  $expire );
-				setcookie( "cleaner_dbuser", $cleaner_dbuser, $expire );
-				setcookie( "cleaner_dbpass", $cleaner_dbpass, $expire );
-				*/
 
-				echo $_COOKIE['wp_table'];
+				// TODO: Printing this will crash the page, apparently cookie can't be read straight away after creating it.
+				//echo $_COOKIE['wp_table'];
 
 				// * Read this data into sessions, if exist (in header)
 				// * Then read data into constants (in header)
@@ -182,13 +112,6 @@
 			$PAGE_form[2]["content"] = $wp_table;
 			$PAGE_form[3]["content"] = $wp_dbuser;
 			$PAGE_form[4]["content"] = $wp_dbpass;
-/*
-			$PAGE_form[5]["content"] = $cleaner_dburl;
-			$PAGE_form[6]["content"] = $cleaner_dbname;
-			$PAGE_form[7]["content"] = $cleaner_table;
-			$PAGE_form[8]["content"] = $cleaner_dbuser;
-			$PAGE_form[9]["content"] = $cleaner_dbpass;
-*/
 		}
 
 	?>
@@ -231,8 +154,10 @@
 			<h4>Help</h4>
 			<p>
 				<strong>Help info</strong> just some random gibberish about this admin page that could be useful for somebody.
+			</p>
+			<p>
 				I sometimes use screenshots here to connect these back-end fields to the front-end (clients love this because
-				after your first show-and-tell of this amdin with them they WILL forget it, mainly because most clients log in
+				after your first show-and-tell of this admin with them they WILL forget it, mainly because most clients log in
 				maybe 4 times a year, and those times are right after getting the product).
 			</p>
 

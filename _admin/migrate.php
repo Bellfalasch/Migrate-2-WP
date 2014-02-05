@@ -28,7 +28,8 @@
 
 		<div class="span4 offset1">
 
-			Help column
+			<h4>Help column</h4>
+			<p>Put awesome help here =)</p>
 
 		</div>
 	</div>
