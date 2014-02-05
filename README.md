@@ -4,7 +4,7 @@ Migrate 2 WP
 Migrate your static files to Wordpress
 ------------------
 
-This repo is based on Bobby CMS, which is in development.
+This repo is based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development.
 
 The basic function of this code is to first crawl/scrape an old site (perhapds with static html), then clean up / tidy the html, connect old pages to new pages in Wordpress, and end it all by pushing the clean code straight into Wordpress.
 
@@ -79,4 +79,4 @@ This admin is based on:
 Basic structure:
 ----------------
 
-Check readme at https://github.com/Bellfalasch/Bobby-CMS for more information on basic functions, structure, etc. All forms are created using functions in Bobby CMS.
+Check readme at [Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS) for more information on basic functions, structure, etc. All forms are created using functions in Bobby CMS.
