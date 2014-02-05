@@ -1,4 +1,7 @@
 <?php
+	// This page will take a looong time to finish, so remove any timeout on the server
+	set_time_limit(0);
+
 	/* Set up template variables */
 	$PAGE_name  = 'Step 1';
 	$PAGE_title = 'Admin/' . $PAGE_name;
