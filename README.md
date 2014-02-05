@@ -32,9 +32,9 @@ Initial release. Just setting up the basic structure and idea of the project.
 Installation:
 ----------------
 
-Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "DATABASE.sql". Now you can upload your files (or start localhost).
+Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "/DATABASE.sql". Now you can upload your files (or start localhost).
 
-Log in with "admin@example.com" and "password" in the folder "_admin" (might change in the future).
+Log in with "admin@example.com" and "password" in the folder "_admin" (might change in the future). Going to the projects root-folder will automatically take you there too.
 
 
 Dependencies:
@@ -79,4 +79,4 @@ This admin is based on:
 Basic structure:
 ----------------
 
-Check readme at [Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS) for more information on basic functions, structure, etc. All forms are created using functions in Bobby CMS.
+Check out the readme for [Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS) if you need more information on basic functions, structure, etc that this project uses. All forms are built using that project.
