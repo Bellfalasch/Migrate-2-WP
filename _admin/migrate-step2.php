@@ -36,7 +36,7 @@
 	<div class="page-header">
 		<h1>
 			Step 2
-			<small>locate content and strip redundant html ("ffucleaner")</small>
+			<small>locate content and strip repeating html ("ffucleaner")</small>
 		</h1>
 	</div>
 

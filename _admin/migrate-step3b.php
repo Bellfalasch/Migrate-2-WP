@@ -10,12 +10,12 @@
 	<div class="page-header">
 		<h1>
 			Step 3b
-			<small>clean up old html, manually and with tidy ("ffucleaner2")</small>
+			<small>fix old html with PHP tidy-component ("ffucleaner2 - B")</small>
 		</h1>
 	</div>
 
 	<div class="progress progress-striped">
-		<div class="bar" style="width: <?php if (ISPOST) { ?>43<?php } else { ?>30<?php } ?>%;"></div>
+		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>
 	</div>
 
 	<style>
@@ -133,7 +133,7 @@
 				echo "<div class=\"spalt\">";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
-				if (formGet("save_wash") == "Run wash") {
+				if (formGet("save_tidy") == "Run Tidy") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
@@ -168,17 +168,23 @@
 		<div class="span12">
 
 			<p>
-				This step mainly configures and run the Tidy plugin in PHP. It brings old html 3 and 4
-				into the modern ages of xhtml.
+				This step mainly configures and run the Tidy plugin in PHP. It brings old html version 3 and 4
+				into the modern ages of xhtml (it doesn't transform for html5 semantics, but with the right doctype
+				this code will also work for html5 pages, most of the time).
 			</p>
 			<p>
-				After this step you will get the oppertunity to clean out what Tidy might have messed
-				up, and any other last changes before everything goes up in Wordpress.
+				After this step you will get the oppertunity to clean up what Tidy might have messed
+				up, and any other last changes before everything goes straight into Wordpress.
+			</p>
+			<p>
+				<strong>Warning!</strong> This step will overwrite the things done in other Step 3 (Wash and Clean).
+				So if you want to start over and re-work your stripped html you must re-start from "Step 3: Wash" and do
+				the rest of the Step 3 in order.
 			</p>
 
-			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
+			<input type="submit" name="save_tidy" value="Run Tidy" class="btn btn-primary" />
 
-			<input type="submit" name="save_wash" value="Test wash" class="btn" />
+			<input type="submit" name="save_tidy" value="Test Tidy" class="btn" />
 
 		</div>
 	</div>

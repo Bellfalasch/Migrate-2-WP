@@ -10,12 +10,12 @@
 	<div class="page-header">
 		<h1>
 			Step 3c
-			<small>clean up old html, manually and with tidy ("ffucleaner2")</small>
+			<small>clean up left over html you don't want ("ffucleaner2 - C")</small>
 		</h1>
 	</div>
 
 	<div class="progress progress-striped">
-		<div class="bar" style="width: <?php if (ISPOST) { ?>43<?php } else { ?>30<?php } ?>%;"></div>
+		<div class="bar" style="width: <?php if (ISPOST) { ?>73<?php } else { ?>60<?php } ?>%;"></div>
 	</div>
 
 	<style>
@@ -217,13 +217,14 @@
 				// This tag should be moved out of this step
 				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
 
+				echo "<div class=\"spalt\">";
 				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<div class=\"spalt\">";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
-				if (formGet("save_wash") == "Run wash") {
+				if (formGet("save_clean") == "Run clean") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
@@ -259,13 +260,18 @@
 
 			<p>
 				A bunch of manual lines of replacement code will be run on the code Tidy has
-				cleaned. Smart things to replace here is things like replacing old use of images
-				with span with a class, or things like that.
+				cleaned. Smart things to replace here is things like replacing old use of icons as images
+				with a span and put a class on it, or things like that.
+			</p>
+			<p>
+				<strong>Warning!</strong> This step will overwrite the things done in other Step 3 (Wash and Tidy).
+				So if you want to start over and re-work your stripped html you must re-start from "Step 3: Wash" and do
+				the rest of the Step 3 in order.
 			</p>
 
-			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
+			<input type="submit" name="save_clean" value="Run clean" class="btn btn-primary" />
 
-			<input type="submit" name="save_wash" value="Test wash" class="btn" />
+			<input type="submit" name="save_clean" value="Test clean" class="btn" />
 
 		</div>
 	</div>

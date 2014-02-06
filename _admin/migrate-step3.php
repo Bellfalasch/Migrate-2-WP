@@ -10,7 +10,7 @@
 	<div class="page-header">
 		<h1>
 			Step 3
-			<small>clean up old html, manually and with tidy ("ffucleaner2")</small>
+			<small>wash old html ("ffucleaner2 - A")</small>
 		</h1>
 	</div>
 
@@ -52,7 +52,7 @@
 				$content = $row->content;
 				$clean = $content;
 				
-				// Start replacing old bad markup
+				// Start replacing old bad markup ... at the moment very manual work =/
 
 				// Dessa taggar ær før summons olika levels, men tidy førstør dem pga att avslutande font-taggen tas bort av mig innan tidy får bita i koden
 				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>', '<span class="stars"><span class="lit">*</span>****</span>', $clean);
@@ -88,20 +88,36 @@
 				// span.stars span.lit ærver text-storleken men har tænda stjærnor som bakgrund istællet
 				// Bægge døljer texten så bara bilderna syns
 
-				$clean = str_replace('<FONT COLOR=red>', '<span class="color-red">', $clean);
-				$clean = str_replace('<FONT COLOR=yellow>', '<span class="color-yellow">', $clean);
+				// Old footer copyright notice from FF8-site
+				$clean = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $clean);
+				// $clean = str_replace('Site graphics, layout, text and parts of this site is ©opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $clean);
+				$clean = str_replace('Site graphics, layout, text and parts of this site is &copy;opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $clean);
+				$clean = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $clean);
+				$clean = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $clean);
+
+				// Problem med att sedan ersätta avslutande font-tagg eftersom Tidy får problem då
+				// $clean = str_replace('<FONT COLOR=red>', '<span class="color-red">', $clean);
+				// $clean = str_replace('<FONT COLOR=yellow>', '<span class="color-yellow">', $clean);
 				$clean = str_replace('<FONT SIZE=2>', '', $clean); // Tror denna enbart anvænds inom PRE-taggarna, och då kan vi istællet stila det via den sen
-				$clean = str_replace('</FONT>', '</span>', $clean);
-				$clean = str_replace('<U>', '', $clean);
-				$clean = str_replace('</U>', '', $clean);
+				$clean = str_replace('<FONT COLOR=white SIZE=2>', '', $clean);
+				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
+				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
+				// Ersätter vi avslutande font så får inte Tidy gjort sitt jobb riktigt
+				//$clean = str_replace('</FONT>', '</span>', $clean);
+				//$clean = str_replace('<U>', '', $clean);
+				//$clean = str_replace('</U>', '', $clean);
 
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
 				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
+				$clean = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $clean);
 				$clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
+				$clean = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>"', '"', $clean);
 
 				// Center anvænds nog ingenstans meningsfullt, den bara skræpar ner så ta bort helt
 				$clean = str_replace('<CENTER>', '', $clean);
 				$clean = str_replace('</CENTER>', '', $clean);
+				$clean = str_replace('<SMALL>', '', $clean);
+				$clean = str_replace('</SMALL>', '', $clean);
 
 				// Gamla e-postadressen ligger fortfarande och skræpar hær och dær
 				$clean = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $clean);
@@ -157,10 +173,15 @@
 			<p>
 				A bunch of manual lines of replacement code will be run. These lines are run
 				before we let Tidy try and clean up the code mess. Sometimes this is easier
-				than running replacement code after Tidy (but you'll get that option aswell).
+				than running replacement code after Tidy (but you'll get that option as well).
 			</p>
 			<p>
-				This step can be run multiple times until you feel it's been perfected.
+				This step can be run multiple times until you feel it's been perfected. Just tune
+				the replacements and removals directly in the source code (TODO: use forms or something)
+			</p>
+			<p>
+				To the left you will see green code, this code have just been washed. The one to the
+				right is the un-washed code we got from Step 2.
 			</p>
 
 			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />

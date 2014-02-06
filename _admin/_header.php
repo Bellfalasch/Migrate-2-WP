@@ -123,9 +123,9 @@
 						<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
 						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">1: Eat</a></li>
 						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">2: Strip</a></li>
-						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Clean 1st</a></li>
+						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Wash</a></li>
 						<li<?php flagAsActiveOn("step3b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3b.php">3b: Tidy</a></li>
-						<li<?php flagAsActiveOn("step3c") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3c.php">3c: Clean 2nd</a></li>
+						<li<?php flagAsActiveOn("step3c") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3c.php">3c: Clean</a></li>
 						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Connect</a></li>
 						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Move</a></li>
 
