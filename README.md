@@ -6,7 +6,7 @@ Migrate your static files to Wordpress
 
 This repo is based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development.
 
-The basic function of this code is to first crawl/scrape an old site (perhapds with static html), then clean up / tidy the html, connect old pages to new pages in Wordpress, and end it all by pushing the clean code straight into Wordpress.
+The basic function of this code is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html, connect old pages to new pages in Wordpress, and end it all by pushing the clean code straight into Wordpress.
 
 Until version 1.0 is reached it's highly recommended to use proper backups of your database before using this code.
 
