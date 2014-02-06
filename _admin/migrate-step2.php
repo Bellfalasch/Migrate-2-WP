@@ -63,9 +63,16 @@
 			if ($footerNeedle == "")
 				$footerNeedle = "<!-- HOOK: FOOTER -->";
 
+			//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
+
 			$headerNeedleLength = mb_strlen($headerNeedle);
 			$footerNeedleLength = mb_strlen($footerNeedle);
-			$headerStart = 0;
+
+			// Save MY settings, so we can test other values in case of fail
+			$PAGE_headerNeedle = $headerNeedle;
+			$PAGE_footerNeedle = $footerNeedle;
+			$PAGE_headerNeedleLength = $headerNeedleLength;
+			$PAGE_footerNeedleLength = $footerNeedleLength;
 
 			echo "
 			<p>
@@ -78,7 +85,14 @@
 			<p>
 				Please do make extra sure that all code is intact, that is that the ONLY allowed difference between the
 				left and the right side are the colors. Look for bad cuts shopping of the header or the start of the footer!
-			</p>";
+				If so, just tweak your needles and re-run this step until it gets perfect (found at bottom of the page).
+			</p>
+			<p>
+				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will try and find everything sourrounded by
+				the body-tag. If not even the body-tag is found it will try and use the html-tag. If that also is missing
+				we'll save the entire content to the database.
+			</p>
+			";
 
 			$result = db_getDataFromSite($PAGE_siteid);
 			if ( isset( $result ) )
@@ -88,61 +102,118 @@
 
 					echo "<strong>" . $row->page . "</strong><br />";
 					
-					//$header = $header;
-					//$footer = $footer;		
-					$body = $row->html;
-
-					//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
-					// $headerNeedleLength = mb_strlen($headerNeedle);
-					
 					$headerStart = 0;
-					
-					$headerEnd = mb_strpos($body, $headerNeedle, 0);
 
-					// Alla sidor har inte den bortkommenterade hr-taggen (den ær inlagd på varje sida, inte i mallfilerna)
-					/*
-					if ($headerEnd === FALSE) {
-						$headerNeedle = "<span STYLE=\"font-size:10pt; color:#656565\"><BR>";
-						$headerNeedleLength = mb_strlen($headerNeedle);
-						$headerEnd = mb_strpos($body, $headerNeedle, 0);
+					$body = $row->html;
+					$UC_body = mb_strtoupper($body);
+
+					if ( mb_strlen($body) == 0 OR is_null($body) ) {
+
+						echo "<p>Empty body!</p>";
+
+					} else {
+
+						// Reset these, in case they've changed.
+						$headerNeedle = $PAGE_headerNeedle;
+						$footerNeedle = $PAGE_footerNeedle;
+						$headerNeedleLength = $PAGE_headerNeedleLength;
+						$footerNeedleLength = $PAGE_footerNeedleLength;
+					
+						$headerEnd = mb_strpos($body, $headerNeedle);
+
+						// If we can't find a needle we need to try other things that usually exists in the html
+						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
+						if ($headerEnd === FALSE) {
+							$headerNeedle = "<BODY";
+							$headerNeedleLength = mb_strlen($headerNeedle);
+							$headerEnd = mb_strpos($UC_body, $headerNeedle);
+							
+							// Find placement of body closing tag
+							$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
+
+							if ($headerEnd === FALSE) {
+								$headerNeedle = "<HTML";
+								$headerNeedleLength = mb_strlen($headerNeedle);
+								$headerEnd = mb_strpos($UC_body, $headerNeedle);
+								
+								// Find placement of html closing tag
+								$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
+
+								if ($headerEnd === FALSE) {
+									$headerNeedle = "";
+									$headerNeedleLength = 0;
+									$headerEnd = 0;
+								}
+							}
+						}
+
+						$headerEnd += $headerNeedleLength;
+						
+						$footerEnd = mb_strlen($body);
+
+						$footerStart = mb_strpos($body, $footerNeedle);
+
+						// If we can't find a needle we need to try other things that usually exists in the html
+						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
+						if ($footerStart === FALSE) {
+							$footerNeedle = "</BODY>";
+							// TODO: No need for footer needle length!
+							// $footerNeedleLength = mb_strlen($footerNeedle);
+							$footerStart = mb_strpos($UC_body, $footerNeedle);
+
+							if ($footerStart === FALSE) {
+								$footerNeedle = "</HTML>";
+								// $footerNeedleLength = mb_strlen($footerNeedle);
+								$footerStart = mb_strpos($UC_body, $footerNeedle);
+
+								if ($footerStart === FALSE) {
+									$footerNeedle = "";
+									// $footerNeedleLength = 0;
+									$footerStart = mb_strlen($body);
+								}
+							}
+						}
+
+						if ($headerEnd > 0) {
+							$header = mb_substr( $body, $headerStart, $headerEnd );
+						} else {
+							$header = "";
+						}
+						
+						// TODO: Footer should have a different kind of "> X" than 0 no?
+						if ($footerStart < mb_strlen($body) ) {
+							$footer = mb_substr( $body, $footerStart, $footerEnd-$footerStart );
+						} else {
+							$footer = "";
+						}
+					
+						//string substr ( string $string , int $start [, int $length ] )
+						//$body = str_replace( $footer, '', $body );
+						
+						//$line_array_head = preg_split( '/\n/', $header );
+						//$lines_head = count( $line_array_head ); 
+						//echo 'Header lines: ' . $lines_head . '<br />';
+						
+						//$line_array_foot = preg_split( '/\n/', $footer );
+						//$lines_foot = count( $line_array_foot ); 
+						//echo 'Footer lines: ' . $lines_foot . '<br />';
+
+						
+						// Start to cut from where the header ends, until the header and body total length is reached (where the footer starts)
+						$body = mb_substr( $body, $headerEnd, ( mb_strlen($body) - mb_strlen($header) - mb_strlen($footer) ) );
+						
+						// Ugly little presentation of how the needles work on each page.
+						echo "<div style='float: left; width: 49%; overflow: hidden;'>";
+						echo "<pre style='font-size: 7pt;'>";
+						echo "<span style='color: red;'>" . htmlentities( $header ) . "</span>";
+						echo "<span style='color:green;'>" . htmlentities( $body ) . "</span>";
+						echo "<span style='color: red;'>" . htmlentities( $footer ) . "</span>";
+						echo "</pre>";
+						echo "</div>";
+						echo "<div style='float: left; width: 49%; overflow: hidden;'>";
+						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
+
 					}
-					*/
-
-					$headerEnd += $headerNeedleLength;
-					
-					//$footerNeedle = "<!-- HOOK: FOOTER -->";
-					// $footerNeedleLength = mb_strlen($footerNeedle);
-					$footerStart = mb_strpos($body, $footerNeedle, 0);
-					$footerEnd = mb_strlen($body);
-
-					$header = mb_substr( $body, $headerStart, $headerEnd );
-					$footer = mb_substr( $body, $footerStart, $footerEnd-$footerStart );
-					
-					//$body = str_replace( $header, 'BÄRS!', $body );
-					
-					//string substr ( string $string , int $start [, int $length ] )
-					//$body = str_replace( $footer, '', $body );
-					
-					//$line_array_head = preg_split( '/\n/', $header );
-					//$lines_head = count( $line_array_head ); 
-					//echo 'Header lines: ' . $lines_head . '<br />';
-					
-					//$line_array_foot = preg_split( '/\n/', $footer );
-					//$lines_foot = count( $line_array_foot ); 
-					//echo 'Footer lines: ' . $lines_foot . '<br />';
-					
-					$body = mb_substr( $body, mb_strlen($header)+1, ( mb_strlen($body) + mb_strlen($header) ) );
-					//$body = trim( $body );
-					
-					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
-					echo "<pre style='font-size: 7pt;'>";
-					echo "<span style='color: red;'>" . htmlentities( $header ) . "</span>";
-					echo "<span style='color:green;'>" . htmlentities( $body ) . "</span>";
-					echo "<span style='color: red;'>" . htmlentities( $footer ) . "</span>";
-					echo "</pre>";
-					echo "</div>";
-					echo "<div style='float: left; width: 49%; overflow: hidden;'>";
-					echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
 
 					if (formGet("save_needle") == "Run needles") {
 						
