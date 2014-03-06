@@ -219,6 +219,10 @@
 
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "</div>";
+
+				echo "<div class=\"spalt\"><strong>Clean:</strong>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				if (formGet("save_clean") == "Run clean") {
 
@@ -232,11 +236,6 @@
 					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 				
 				}
-
-				echo "</div>";
-
-				echo "<div class=\"spalt\"><strong>Clean:</strong>";
-				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<hr /><br />";

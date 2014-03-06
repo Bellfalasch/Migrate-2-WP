@@ -203,15 +203,15 @@
 						$body = mb_substr( $body, $headerEnd, ( mb_strlen($body) - mb_strlen($header) - mb_strlen($footer) ) );
 						
 						// Ugly little presentation of how the needles work on each page.
-						echo "<div style='float: left; width: 49%; overflow: hidden;'>";
+						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
+						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
+						echo "</div>";
+						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Stripped:</strong>";
 						echo "<pre style='font-size: 7pt;'>";
 						echo "<span style='color: red;'>" . htmlentities( $header ) . "</span>";
 						echo "<span style='color:green;'>" . htmlentities( $body ) . "</span>";
 						echo "<span style='color: red;'>" . htmlentities( $footer ) . "</span>";
 						echo "</pre>";
-						echo "</div>";
-						echo "<div style='float: left; width: 49%; overflow: hidden;'>";
-						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
 
 					}
 
