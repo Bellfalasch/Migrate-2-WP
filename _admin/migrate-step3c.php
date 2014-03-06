@@ -186,17 +186,18 @@
 				$tidy = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $tidy);
 				$tidy = str_replace("<p></p>\n", "", $tidy);
 
-				// Busenkel indentation på vissa taggar
+				// Do some simple indentation
 				$tidy = str_replace('<td', "\t<td", $tidy);
 
-				// Tagga upp all data som ska "lysa" i admin så man lättare kan korrigera
-				//$tidy = str_replace('<img ', '<img class="imgfix" ', $tidy);
-				$tidy = str_replace(' class="alignleft"', ' class="alignleft imgfix"', $tidy);
-				$tidy = str_replace(' class="alignright"', ' class="alignright imgfix"', $tidy);
+				// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
+				$tidy = str_replace('<img ', '<img class="imgfix" ', $tidy);
+				// $tidy = str_replace(' class="alignleft"', ' class="alignleft imgfix"', $tidy);
+				// $tidy = str_replace(' class="alignright"', ' class="alignright imgfix"', $tidy);
 				$tidy = str_replace('<a href="', '<a class="fix" href="', $tidy);
 
-				// Uppdatera gammal url till bilder/ikoner att passa nytt upplägg.
+				// Old images should all be moved to the assets-folder
 				$tidy = str_replace(' src="b/', ' src="assets/', $tidy);
+				$tidy = str_replace(' src="i/', ' src="assets/', $tidy);
 
 				// In med nya PSX-ikoner som är mycket bättre, och gör om till span med bakgrundsbild
 				$tidy = str_replace('<img src="assets/O.jpg" class="psx_button" />', '<span class="psx_button circle">O</span>', $tidy);
