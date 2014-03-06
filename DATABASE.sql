@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
   `html` longtext NOT NULL,
   `site` int(11) NOT NULL,
   `content` longtext DEFAULT NULL,
-  `strip` longtext DEFAULT NULL,
   `wash` longtext DEFAULT NULL,
   `tidy` longtext DEFAULT NULL,
   `clean` longtext DEFAULT NULL,
