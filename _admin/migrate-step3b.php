@@ -49,7 +49,7 @@
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
 				
-				$content = $row->clean;
+				$content = $row->wash;
 				$clean = $content;
 				
 				// Start replacing old bad markup
@@ -138,7 +138,7 @@
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
 					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
-					db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+					db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
 
 				} else {
 					

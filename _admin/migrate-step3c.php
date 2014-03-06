@@ -49,7 +49,7 @@
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
 				
-				$content = $row->clean;
+				$content = $row->tidy;
 				$clean = $content;
 
 				$tidy = $clean;
