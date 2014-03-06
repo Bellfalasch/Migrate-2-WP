@@ -132,13 +132,13 @@
 					<?php } else { ?>
 
 						<li class="disabled"><a href="#0">Settings</a></li>
-						<li class="disabled"><a href="#0">Step 1</a></li>
-						<li class="disabled"><a href="#0">Step 2</a></li>
-						<li class="disabled"><a href="#0">Step 3</a></li>
-						<li class="disabled"><a href="#0">Step 4</a></li>
-						<li class="disabled"><a href="#0">Step 5</a></li>
-						<li class="disabled"><a href="#0">Step 6</a></li>
-						<li class="disabled"><a href="#0">Step 7</a></li>
+						<li class="disabled"><a href="#0">1: Eat</a></li>
+						<li class="disabled"><a href="#0">2: Strip</a></li>
+						<li class="disabled"><a href="#0">3: Wash</a></li>
+						<li class="disabled"><a href="#0">3b: Tidy</a></li>
+						<li class="disabled"><a href="#0">3c: Clean</a></li>
+						<li class="disabled"><a href="#0">4: Connect</a></li>
+						<li class="disabled"><a href="#0">5: Move</a></li>
 
 					<?php } ?>
 
