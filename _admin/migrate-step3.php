@@ -124,16 +124,10 @@
 				$clean = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $clean);
 				$clean = str_replace('Bobby Vestberg', 'Bobby Westberg', $clean);
 
-				echo "<div class=\"spalt\">";
-
-
 				// This tag should be moved out of this step
 				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
 
-				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
-				echo "</div>";
-
-				echo "<div class=\"spalt\">";
+				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				if (formGet("save_wash") == "Run wash") {
@@ -149,6 +143,10 @@
 				
 				}
 
+				echo "</div>";
+
+				echo "<div class=\"spalt\"><strong>Wash:</strong>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<hr /><br />";

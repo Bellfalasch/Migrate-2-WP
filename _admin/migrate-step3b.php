@@ -53,8 +53,6 @@
 				$clean = $content;
 				
 				// Start replacing old bad markup
-
-				echo "<div class=\"spalt\">";
 				//echo "<code><pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
 				/*
 				$tidy = new tidy();
@@ -127,10 +125,8 @@
 				// This tag should be moved out of this step
 				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
 
-				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
-				echo "</div>";
 
-				echo "<div class=\"spalt\">";
+				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				if (formGet("save_tidy") == "Run Tidy") {
@@ -146,6 +142,10 @@
 				
 				}
 
+				echo "</div>";
+
+				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<hr /><br />";
