@@ -191,6 +191,8 @@ function getsite($site, $site_address)
 	'/\<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU',
 */
 	// Need help? Check this awesome guide: http://www.the-art-of-web.com/php/parse-links/
+	// http://nadeausoftware.com/articles/2007/09/php_tip_how_strip_html_tags_web_page
+	// http://www.catswhocode.com/blog/15-php-regular-expressions-for-web-developers
 
 	echo "<p><strong>Requesting:</strong> " . $site . "";
 
