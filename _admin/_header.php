@@ -87,7 +87,7 @@
 	$(document).ready(function() {
 		$("#project_list").change(function() {
 
-			location.href = location.href + "?project=" + $("#project_list option:selected").val();
+			location.href = window.location.href.split('?')[0] + "?project=" + $("#project_list option:selected").val();
 
 		});
 	});

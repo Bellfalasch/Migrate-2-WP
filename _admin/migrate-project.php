@@ -73,7 +73,7 @@
 			// If no errors:
 			if (empty($SYS_errors)) {
 				
-				echo "<div class='alert alert-block alert-success'><h4>Success</h4><p><strong>Your posted data validated!</strong></p></div>";
+				//echo "<div class='alert alert-block alert-success'><h4>Success</h4><p>Your posted data validated!</p></div>";
 
 				// UPDATE
 				if ( $PAGE_dbid > 0 )
