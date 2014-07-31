@@ -24,6 +24,12 @@
 	$mysqli->set_charset('utf8');
 
 	global $mysqWP;
+	global $wp_dburl;
+	global $wp_dbname;
+	global $wp_table;
+	global $wp_dbuser;
+	global $wp_dbpass;
+
 	if (!isset($wp_dburl)) {
 		$wp_dburl = DB_HOST;
 		$wp_dbuser = DB_USER;

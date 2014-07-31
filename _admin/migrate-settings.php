@@ -153,12 +153,7 @@
 
 			<h4>Help</h4>
 			<p>
-				<strong>Help info</strong> just some random gibberish about this admin page that could be useful for somebody.
-			</p>
-			<p>
-				I sometimes use screenshots here to connect these back-end fields to the front-end (clients love this because
-				after your first show-and-tell of this admin with them they WILL forget it, mainly because most clients log in
-				maybe 4 times a year, and those times are right after getting the product).
+				None to get so far ...
 			</p>
 
 		</div>
