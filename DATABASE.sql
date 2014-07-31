@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `migrate_sites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `step` tinyint NOT NULL DEFAULT '0',
   `url` varchar(75) NOT NULL,
+  `new_url` varchar(75) NOT NULL,
   `name` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;

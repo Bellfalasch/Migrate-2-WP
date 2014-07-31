@@ -129,7 +129,7 @@
 			if (qsGet("connect") != "")
 				echo "<td>-</td>";
 			else
-				echo "<td><a href=\"?connect=" . $row->id . "\">[Connect]</a></td>";
+				echo "<td><a href=\"?connect=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
 
 			$page = $row->page;
 
@@ -155,7 +155,7 @@
 				echo '<tr style="opacity:0.2;">';
 
 			if ( qsGet("connect") != "" )
-				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\">[Connect]</a></td>";
+				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
 			else
 				echo "<td>-</td>";
 

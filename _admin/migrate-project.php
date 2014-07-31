@@ -31,6 +31,17 @@
 					)
 	) );
 
+	addField( array(
+		"label" => "Intended new URL:",
+		"id" => "new_url",
+		"type" => "text(5)",
+		"description" => "The complete URL of the intended destination of your pages.",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
 ?>
 <?php require('_header.php'); ?>
 
@@ -68,6 +79,7 @@
 			// Stupid way of getting all the form data into variables for use to save the data.
 			$formName     = $PAGE_form[0]["content"];
 			$formURL      = $PAGE_form[1]["content"];
+			$formNewURL   = $PAGE_form[2]["content"];
 			
 
 			// If no errors:
@@ -82,6 +94,7 @@
 					$result = db_setUpdateSite( array(
 								'name' => $formName,
 								'url' => $formURL,
+								'new_url' => $formNewURL,
 								'id' => $PAGE_dbid
 							) );
 
@@ -99,7 +112,8 @@
 					// Call insert-function from our database-file for admin.
 					$result = db_setSite( array(
 								'name' => $formName,
-								'url' => $formURL
+								'url' => $formURL,
+								'new_url' => $formNewURL
 							) );
 
 					// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
@@ -113,6 +127,7 @@
 						// Stupid way of reseting the PAGE_form
 						$PAGE_form[0]["content"] = '';
 						$PAGE_form[1]["content"] = '';
+						$PAGE_form[2]["content"] = '';
 
 					} else {
 						pushError("Data could not be saved, do retry.");
@@ -138,6 +153,7 @@
 				// Stupid way of doing it ... no function yet to bind database table to the form, sorry =P
 				$PAGE_form[0]["content"] = $row->name;
 				$PAGE_form[1]["content"] = $row->url;
+				$PAGE_form[2]["content"] = $row->new_url;
 
 			} else {
 				pushError("Couldn't find the requested data");
