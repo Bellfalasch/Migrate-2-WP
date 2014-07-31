@@ -15,6 +15,12 @@ Updates:
 ----------------
 
 ### 0.8
+
+A lot of changes. Rewrote a lot of the code, changed around all the steps, etc. Step 3 turned into three different steps now. Loads of tweaks to all the code on all the steps and pages.
+
+Still not useful without hacking the code manually. It won't connect to the destination database for instance. Other than that it almost works all the way, with supervision and code edits on the fly. And, it's still only aimed at aiding my move of old code on my homepage and not universal ... yet.
+
+### 0.7
 Getting there! Major rearrangement of all the steps after doing some heavy (well, light ;P) thinking. Dropped the last two steps, moved the link-updater from Step 6 into Step 5 ("Move"), and splitting the Step 3 ("Clean") into three steps of it's own (needed for easier handling of the code). All steps now have code - or will soon have - for testing the step before actually running it.
 
 And the crawling in Step 1 had major improvements, with bugfixes, http header status checks, settings, etc. I'm also introducing the brand new Projects page where you create and manage your project, as well as a drop down in the nav-bar so you can select which of your projects to run the migration on.
