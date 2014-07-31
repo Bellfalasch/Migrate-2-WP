@@ -102,6 +102,8 @@
 				$clean = str_replace('<FONT COLOR=white SIZE=2>', '', $clean);
 				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
 				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
+				$clean = str_replace(' VALIGN="top"', '', $clean);
+				$clean = str_replace(' ALIGN="right"', '', $clean);
 				// Ersätter vi avslutande font så får inte Tidy gjort sitt jobb riktigt
 				//$clean = str_replace('</FONT>', '</span>', $clean);
 				//$clean = str_replace('<U>', '', $clean);
@@ -110,8 +112,11 @@
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
 				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
 				$clean = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $clean);
+				$clean = str_replace('<CENTER><FONT STYLE="font-size:10pt">', '', $clean);
 				$clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
-				$clean = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>"', '"', $clean);
+				$clean = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $clean);
+				$clean = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $clean);
+				$clean = str_replace('<BR><BR></TD></TR></TABLE>', '', $clean);
 
 				// Center anvænds nog ingenstans meningsfullt, den bara skræpar ner så ta bort helt
 				$clean = str_replace('<CENTER>', '', $clean);

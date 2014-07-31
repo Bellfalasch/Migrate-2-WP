@@ -104,21 +104,16 @@
 				$tidy = str_replace('</body>', '', $tidy);
 				$tidy = str_replace('</html>', '', $tidy);
 
-				// Tidy skapar stilar på gamla element, så som CENTER, ta bort koden før detta ...
-				$tidy = str_replace("<style type=\"text/css\">\n", '', $tidy);
-				$tidy = str_replace("/*<![CDATA[*/\n", '', $tidy);
-				$tidy = str_replace("/*]]>*/\n", '', $tidy);
-				$tidy = str_replace("</style>\n", '', $tidy);
+				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
+				$tidy = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $tidy );
 
-				$tidy = str_replace('p.c1 {text-align: center}', '<!-- p.c1 {text-align: center} -->', $tidy);
-				$tidy = str_replace('div.c1 {text-align: center}', '<!-- div.c1 {text-align: center} -->', $tidy);
-				$tidy = str_replace('p.c2 {text-align: center}', '<!-- p.c2 {text-align: center} -->', $tidy);
-				$tidy = str_replace('div.c1 {margin-left: 2em}', '<!-- div.c1 {margin-left: 2em} -->', $tidy);
-				$tidy = str_replace('p.c1 {text-align: left}', '<!-- p.c1 {text-align: left} -->', $tidy);
-				
-				// Helt onødig formatering
-				$tidy = str_replace('pre.c1 {font-size:10pt}', '', $tidy);
-				$tidy = str_replace('<pre class="c1">', '<pre>', $tidy);
+				// Some more garbage code from tidy (remove all classes it creates on styled items)
+				$tidy = str_replace(' class="c1"', '', $tidy);
+				$tidy = str_replace(' class="c2"', '', $tidy);
+				$tidy = str_replace(' class="c3"', '', $tidy);
+				$tidy = str_replace(' class="c4"', '', $tidy);
+				$tidy = str_replace(' class="c5"', '', $tidy);
+
 
 				$clean = trim($tidy);
 

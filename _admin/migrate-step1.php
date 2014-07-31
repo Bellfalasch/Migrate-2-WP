@@ -176,18 +176,32 @@ function getsite($site, $site_address)
 
 	// Different kind of link formats for this site.
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
-	$search = array ('/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
+	$search = array (
+		'/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
 		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
-		'/window\.open\("(.*?)"/i');
+		'/href="([^\s"]+)"/iU',
+		'/src="([^\s"]+)"/iU',
+		'/window\.open\("(.*?)"/i'
+	);
+/*
+	'/\<frame src="(.*?)"(.*?)/i',
+	'/\<a(.*)href="(.*?)"(.*?)>(.*?)<\/a>/i',
+	'/\<A HREF="(.*?)"(.*?)>(.|\n)+(.*?)(.|\n)+<\/A>/i',
+	'/<a\s[^>]*href=([\"\']??)([^\\1 >]*?)\\1[^>]*>(.*)<\/a>/siU',
+	'/\<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU',
+*/
+	// Need help? Check this awesome guide: http://www.the-art-of-web.com/php/parse-links/
 
 	echo "<p><strong>Requesting:</strong> " . $site . "";
 
+	// Get a URL's code
 	$handle = fopen($site, "r");
 
 	//print_r($http_response_header);
 
 	if ($handle)
 	{
+		// Check that it says status 200 OK in the header
 		if (is_array($http_response_header)) {
 			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) && substr($http_response_header[4],10,12) != "/_error.aspx" || formGet("header") == "" ) {
 				echo " <span class=\"label label-success\">OK</span>";
@@ -219,6 +233,7 @@ function getsite($site, $site_address)
 
 	//$handle = stream_get_contents($handle);
 
+	// Collect a list of links and check for duplicates
 	for ($i=0; $i<=count($search); $i++)
 		$links[$i] = array();
 
@@ -240,10 +255,14 @@ function getsite($site, $site_address)
 		#	print_r($links[1]);
 	}
 
-	$search_links = array('/^\.\.(.*?)/i',
-		'/^http\:\/\/(.*)/i');
+	// Regexp-format on the URL's we'll primarly look for.
+	$search_links = array(
+		'/^\.\.(.*?)/i',
+		'/^http\:\/\/(.*)/i'
+	);
 
 	for ($i=0; $i<=count($search); $i++)
+	{
 		for ($j=0; $j<=count($links[$i]); $j++)
 		{
 			if (!empty($links[$i][$j][1]))
@@ -327,14 +346,17 @@ function getsite($site, $site_address)
 				}
 				else
 				{
-#					echo "\n2: " . $links[$i][$j][1] . "\n";
+				// Match link without regexp
+
+#					echo "\n2: " . $links[$i][$j][1] . "<br />\n";
 #					print_r($res_links);
 
 					// Don't collect garbage links (only # in the href, or mailto-links)
 					if ($links[$i][$j][1][0] != "#" && substr( $links[$i][$j][1], 0, 7 ) != "mailto:")
 					{
 						$links[$i][$j][1] = $site_address . $links[$i][$j][1];
-						echo "2: " . $links[$i][$j][1] . "\n";
+						echo "* " . $links[$i][$j][1] . "\n";
+						//echo "2: " . $links[$i][$j][1] . "\n";
 #						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
 						if (checklink($links[$i][$j][1]))
 						{
@@ -355,6 +377,7 @@ function getsite($site, $site_address)
 				}
 			}
 		}
+	}
 
 	$check_links[$site] = 1;
 
@@ -365,9 +388,6 @@ function getsite($site, $site_address)
 	// Don't save on test
 	if (formGet("save_crawl") == "Run crawl") {
 		savepage($site, trim($pagebuffer) );
-		//echo " <span class=\"label label-success\">Saved</span>";
-	} else {
-		//echo " <span class=\"label label-warning\">Not saved</span>";
 	}
 
 	echo "<br /><br />";

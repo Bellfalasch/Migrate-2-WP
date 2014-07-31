@@ -56,7 +56,39 @@
 				
 				// Start replacing old bad markup
 
-				// Klasser istællet før hårdkådade attribut
+
+				// Right side menus on FFIV-site
+				$tidy = str_replace('<table>
+<tr>
+<td width="142">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td><a href="default.asp"><img src="top/ffiv_logo.jpg" width="142" height="57" alt="Final Fantasy IV (återvänd till startsidan)" border="0" /></a><br />
+<img src="trans.gif" width="1" height="1" vspace="2" hspace="1" /><br /></td>
+</tr>
+<tr>
+<td>
+<table width="100%" cellpadding="1" cellspacing="0">
+<tr>
+<td colspan="3"><img src="trans.gif" width="1" height="1" /></td>
+</tr>
+<tr>
+<td rowspan="2"><img src="trans.gif" width="1" height="1" /></td>
+<td>', '<div class="sidebar"><p>', $tidy);
+				$tidy = str_replace('</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>', '</p></div>', $tidy);
+				$tidy = str_replace('<a class="fix" href="../rss.aspx"><img class="imgfix" src="../_main/icons/rss.gif" alt="RSS-kanaler" title="RSS-kanaler" class="alignleft" width="36" height="14" /></a> Få alla FFUs (inklusive denna sektors) uppdateringar och nyheter direkt på datorn! Läs mer om <a class="fix" href="../rss.aspx" class="help">FFUs RSS-kanaler</a>.<br />
+<br />
+<br />', '', $tidy);
+
+				// Convert old school attributes to classes instead
 				$tidy = str_replace(' width="15" height="15"', ' class="psx_button"', $tidy);
 				$tidy = str_replace(' width="30" height="15"', ' class="psx_button wide"', $tidy);
 				$tidy = str_replace(' width="10" height="10"', ' class="materia"', $tidy);
@@ -103,7 +135,7 @@
 
 				$tidy = str_replace('<strong>***</strong>', '<span class="stars"><span class="lit">***</span></span>', $tidy);
 
-				// Hårdkodade attribut som jag kan skriva allmæn CSS før istællet
+				// Old school attributes that should be remove (because of universal style now handling them)
 				$tidy = str_replace(' border="0"', '', $tidy);
 				$tidy = str_replace(' cellspacing="0"', '', $tidy);
 				$tidy = str_replace(' cellspacing="2"', '', $tidy);
@@ -127,13 +159,10 @@
 				$tidy = str_replace(' hspace="3"', '', $tidy);
 				$tidy = str_replace(' vspace="3"', '', $tidy);
 				$tidy = str_replace(' align="c"', ' align="center"', $tidy);
-				
-				 // Troligen behøvs aldrig dessa nær vi kan køra med CSS istællet
 				$tidy = str_replace(' align="center"', '', $tidy);
 				$tidy = str_replace(' valign="top"', '', $tidy);
 
-				// Se øver tabeller och deras bakgrundsfærger etc, det borde ju faktiskt egentligen tas bort helt, rakt av liksom. Kolla lite tabeller, så som items-listorna
-				// DONE: Vi provar att bara ta bort dem så får vi se =P Bara få sidor anvænder dem och oftast bara før att tabellerna ær så grøtiga och kompakta (dålig grund-css)
+				// Remove old color styles
 				$tidy = str_replace(' bgcolor="#151515"', '', $tidy);
 				$tidy = str_replace(' bgcolor="#303030"', '', $tidy);
 				$tidy = str_replace(' bgcolor="#606060"', '', $tidy);
@@ -157,7 +186,7 @@
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
 				$tidy = str_replace("<br /><br />\n", "<br /><br />\n\n", $tidy); // Dubbel radbrott efter flera br bara før att ge lite læsbarhets-luft i koden
 
-				// Styr om html-koden lite nær den inte ser ut som jag gillar efter tidy och mina egna kodjusteringar
+				// Some last manual adjustments of the code
 				$tidy = str_replace("</tr>\n<tr>", '</tr><tr>', $tidy);
 				$tidy = str_replace("<table>\n<tr>", '<table><tr>', $tidy);
 				$tidy = str_replace("</tr>\n</table>", '</tr></table>', $tidy);
@@ -176,8 +205,10 @@
 				$tidy = str_replace("<td>\n<hr />\n", "<td>", $tidy);
 				$tidy = str_replace("<h3><span class=\"color-red\"><strong>", "<h3>", $tidy);
 				$tidy = str_replace("</strong></span></h3>", "</h3>", $tidy);
+				$tidy = str_replace("<td><span class=\"td_rubrik\">", "<th>", $tidy);
+				$tidy = str_replace("</span></td>", "</th>", $tidy);
 
-				// Helt radera "tomma" taggar
+				// Delete empty tags
 				$tidy = str_replace("<p><br /></p>\n", "", $tidy);
 				$tidy = str_replace("<p><br /><br /></p>\n", "", $tidy);
 				$tidy = str_replace("<pre>\n</pre>\n", "", $tidy);
@@ -186,13 +217,11 @@
 				$tidy = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $tidy);
 				$tidy = str_replace("<p></p>\n", "", $tidy);
 
-				// Do some simple indentation
-				$tidy = str_replace('<td', "\t<td", $tidy);
+				// Do some simple indentation - NO, ruins later replaces
+				//$tidy = str_replace('<td', "\t<td", $tidy);
 
 				// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
 				$tidy = str_replace('<img ', '<img class="imgfix" ', $tidy);
-				// $tidy = str_replace(' class="alignleft"', ' class="alignleft imgfix"', $tidy);
-				// $tidy = str_replace(' class="alignright"', ' class="alignright imgfix"', $tidy);
 				$tidy = str_replace('<a href="', '<a class="fix" href="', $tidy);
 
 				// Old images should all be moved to the assets-folder
