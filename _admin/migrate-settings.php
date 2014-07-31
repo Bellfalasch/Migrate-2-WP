@@ -74,7 +74,7 @@
 			// If no errors:
 			if (empty($SYS_errors)) {
 				
-				echo "<div class='alert alert-block alert-success'><h4>Success</h4><p><strong>Your posted data validated!</strong></p></div>";
+				echo "<div class='alert alert-block alert-success'><h4>Save successful</h4><p>Data updated</p></div>";
 
 				// Stupid way of getting all the form data into variables for use to save the data.
 				$wp_dburl  = $PAGE_form[0]["content"];
