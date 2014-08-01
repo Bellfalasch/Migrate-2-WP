@@ -24,7 +24,7 @@
 // ****************************************************************************	
 
 	$new_site = "";
-	$oldsite = "";
+	$oldurl = "";
 	
 	$result = db_getSite(array('id' => $PAGE_siteid));
 	if ( isset( $result ) ) {
