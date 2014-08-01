@@ -97,8 +97,8 @@
 
 	}
 
-	echo "<p>" . $new_site . "</p>";
-	echo "<p>" . $oldsite . "</p>";
+//	echo "<p>" . $new_site . "</p>";
+//	echo "<p>" . $oldsite . "</p>";
 
 
 // The actual code

@@ -22,9 +22,16 @@
 
 // Settings
 // ****************************************************************************	
-	$guide = "ff7";
-	$new_site = "http://games.ffuniverse.nu/" . $guide . "/";
-	$domain = "http://guide.ffuniverse.nu";
+
+	$new_site = "";
+	$oldsite = "";
+	
+	$result = db_getSite(array('id' => $PAGE_siteid));
+	if ( isset( $result ) ) {
+		$row = $result->fetch_object();
+		$new_site = $row->new_url;
+		$oldurl = $row->url;
+	}
 
 
 // The actual code
@@ -32,18 +39,6 @@
 
 	if (ISPOST)
 	{
-
-		// First fetch the crawled URL (from step 1)
-		$result = db_getSite( array('id' => $PAGE_siteid) );
-
-		// If anything was found, put it into pur PAGE_form
-		if (!is_null($result))
-		{
-			$row = $result->fetch_object();
-
-			$oldurl = $row->url;
-
-		}
 
 		// Get all pages that has been connected to a Wordpress page, these will get transfered now
 		$result = db_getWPDataFromSite2($PAGE_siteid);
