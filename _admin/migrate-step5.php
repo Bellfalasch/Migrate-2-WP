@@ -113,10 +113,7 @@
 						// Flag empty pages at the top for manual review
 						if ($WProw->post_content == '') {
 
-							$content = "<div class=\"infobox warning\">
-<p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p>
-</div>
-" . $content;
+							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
 
 						}
 					}
@@ -127,11 +124,7 @@
 						// Separate content in WP if there already is something there
 						if ($WProw->post_content != '') {
 
-							$content = $WProw->post_content . "
-
-<hr /><hr /><hr />
-
-" . $content;
+							$content = $WProw->post_content . "<hr /><hr /><hr />" . $content;
 
 						}
 					}
