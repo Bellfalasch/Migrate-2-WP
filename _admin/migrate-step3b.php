@@ -93,7 +93,7 @@
 				//$tidy = tidy_parse_string($row->content, $options);
 				tidy_clean_repair($tidy);
 				
-				// Tidy læmnar kod jag inte tycker om - ta bort:
+				// Tidy leaves some code that we do not want inside WP, so let's remove it
 				$tidy = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $tidy);
 				$tidy = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $tidy);
 				$tidy = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '', $tidy);
