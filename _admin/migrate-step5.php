@@ -80,6 +80,7 @@
 
 						// Replace all the old href URLs with the new one in the current text
 						$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content );
+						// TODO: Counter - http://php.net/manual/en/function.str-replace.php
 						
 						// This will turn out bad on WP folder navigation, we need full root linking!
 						//$newlink = str_replace( $new_site,'',$newlink);
