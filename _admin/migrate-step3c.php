@@ -222,6 +222,7 @@
 
 				// Old images should all be moved to the assets-folder
 				$tidy = str_replace(' src="b/', ' src="assets/_old/', $tidy);
+				$tidy = str_replace(' src="pic/', ' src="assets/_old/', $tidy);
 				$tidy = str_replace(' src="i/', ' src="assets/_old/', $tidy);
 
 				// In med nya PSX-ikoner som är mycket bättre, och gör om till span med bakgrundsbild
