@@ -185,11 +185,7 @@
 			</label><br />
 			<label>
 				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
-				When pages get smashed together in one WP-page, add a separator?
-			</label><br />
-			<label disabled="disabled">
-				<input type="checkbox" name="clean" value="yes"<?php if (isset($_POST['clean'])) { ?> checked="checked"<?php } ?> disabled="disabled" />
-				Make sure every WordPress-page is empty before adding new text to it?
+				When pages get smashed together in one WP-page, add a separator? (without this, old content will be removed!)
 			</label><br />
 			<label>
 				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
