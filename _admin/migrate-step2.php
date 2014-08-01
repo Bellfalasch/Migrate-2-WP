@@ -247,11 +247,30 @@
 		outputErrors($SYS_errors);
 	?>
 
+
+
 <form class="well form-inline" action="" method="post" enctype="multipart/form-data">
 
 	<div class="row">
 		<div class="span12">
 
+
+	<?php
+
+		// Check and see if we can find some stored away html from step 1
+
+		$html = "";
+
+		$result = db_getHtmlFromFirstpage($PAGE_siteid);
+		if ( isset( $result ) )
+		{
+			$row = $result->fetch_object();
+			$html = $row->html;
+		}
+
+		if ($html != '') {
+
+	?>
 			<p>
 				By defining "needles" for finding the start and end of all the content, we can
 				strip away all the redundent html we picked up from the crawl in step 1.
@@ -263,12 +282,23 @@
 
 			<input type="submit" name="save_needle" value="Test needles" class="btn" />
 
+	<?php 
+		} else {
+	?>
+
+			<p>
+				Not so fast mister. You haven't even crawled your site yet in <a href="migrate-step1.php">Step 1</a>!
+				Do that first, then come back here.
+			</p>
+
+	<?php } ?>
+
 		</div>
 	</div>
 
 </form>
 
-<?php if (!ISPOST) { ?>
+<?php if (!ISPOST && $html != "") { ?>
 
 	<h2>Your main page html</h2>
 	<p>
@@ -278,16 +308,6 @@
 		were your content ends. All html between these two strings will be kept and used in futher
 		steps.
 	</p>
-	<?php
-
-		$result = db_getHtmlFromFirstpage($PAGE_siteid);
-		if ( isset( $result ) )
-		{
-			$row = $result->fetch_object();
-			$html = $row->html;
-		}
-
-	?>
 	<pre><?= htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) ?></pre>
 
 <?php } ?>
