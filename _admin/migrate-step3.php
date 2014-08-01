@@ -55,38 +55,30 @@
 				// Start replacing old bad markup ... at the moment very manual work =/
 
 				// Dessa taggar ær før summons olika levels, men tidy førstør dem pga att avslutande font-taggen tas bort av mig innan tidy får bita i koden
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>', '<span class="stars"><span class="lit">*</span>****</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>', '<span class="stars"><span class="lit">*</span>****</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>', '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***', '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>', '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>', '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>', '<span class="stars"><span class="lit">***</span>**</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>', '<span class="stars"><span class="lit">****</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>', '<span class="stars"><span class="lit">*****</span></span>', $clean);
-
-				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT></B>', '<span class="stars"><span class="lit">****</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>', '<span class="stars"><span class="lit">***</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*', '<span class="stars"><span class="lit">***</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>', '<span class="stars"><span class="lit">**</span>**</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>',  '<span class="stars"><span class="lit">*</span>****</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>',         '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***',             '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>',  '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>',      '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>',         '<span class="stars"><span class="lit">***</span>**</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>',         '<span class="stars"><span class="lit">****</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>',         '<span class="stars"><span class="lit">*****</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT></B>',        '<span class="stars"><span class="lit">****</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>',        '<span class="stars"><span class="lit">***</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*',            '<span class="stars"><span class="lit">***</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>',        '<span class="stars"><span class="lit">**</span>**</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>',        '<span class="stars"><span class="lit">*</span>***</span>', $clean);
 				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $clean);
-
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>', '<span class="stars"><span class="lit">**</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*', '<span class="stars"><span class="lit">**</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>', '<span class="stars"><span class="lit">*</span>**</span>', $clean);
-
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT></B>',      '<span class="stars"><span class="lit">***</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>',      '<span class="stars"><span class="lit">**</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*',          '<span class="stars"><span class="lit">**</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>',      '<span class="stars"><span class="lit">*</span>**</span>', $clean);
 				$clean = str_replace('<B><font size="2" COLOR="Orange">**</font><font size="2">*</font></B>', '<span class="stars"><span class="lit">**</span>*</span>', $clean);
 				$clean = str_replace('<B><FONT COLOR="Orange" size="2">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $clean);
 				$clean = str_replace('<B><font size="2" COLOR="Orange">*</font><font size="2">**</font></B>', '<span class="stars"><span class="lit">*</span>**</span>', $clean);
-
 				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B>', '<span class="stars"><span class="lit">**</span></span>', $clean);
 				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>*</B>', '<span class="stars"><span class="lit">*</span>*</span>', $clean);
-
-				// span.stars gør all text så att varje bokstav (stjærna) blir exakt X pixlar, och har sen gråa stjærnor som bakgrund (loop-x)
-				// span.stars span.lit ærver text-storleken men har tænda stjærnor som bakgrund istællet
-				// Bægge døljer texten så bara bilderna syns
 
 				// Old footer copyright notice from FF8-site
 				$clean = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $clean);
@@ -95,16 +87,15 @@
 				$clean = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $clean);
 				$clean = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $clean);
 
-				// Problem med att sedan ersätta avslutande font-tagg eftersom Tidy får problem då
 				// $clean = str_replace('<FONT COLOR=red>', '<span class="color-red">', $clean);
 				// $clean = str_replace('<FONT COLOR=yellow>', '<span class="color-yellow">', $clean);
-				$clean = str_replace('<FONT SIZE=2>', '', $clean); // Tror denna enbart anvænds inom PRE-taggarna, och då kan vi istællet stila det via den sen
+				$clean = str_replace('<FONT SIZE=2>', '', $clean);
 				$clean = str_replace('<FONT COLOR=white SIZE=2>', '', $clean);
 				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
 				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
 				$clean = str_replace(' VALIGN="top"', '', $clean);
 				$clean = str_replace(' ALIGN="right"', '', $clean);
-				// Ersätter vi avslutande font så får inte Tidy gjort sitt jobb riktigt
+				// Can't remove trailing font-tag or Tidy in next step will go nuts
 				//$clean = str_replace('</FONT>', '</span>', $clean);
 				//$clean = str_replace('<U>', '', $clean);
 				//$clean = str_replace('</U>', '', $clean);
