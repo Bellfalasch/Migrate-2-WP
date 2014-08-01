@@ -10,7 +10,7 @@
 	<div class="page-header">
 		<h1>
 			Step 4
-			<small>connect crawled pages with Wordpress ("ffu_locator")</small>
+			<small>connect crawled pages with WordPress ("ffu_locator")</small>
 		</h1>
 	</div>
 
@@ -32,10 +32,14 @@
 				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) to the right. Thanks
 				to this you get a good overview, but still can change earlier mistakes.
 			</p>
-			<p>
-				When done with all pages you wanna move, manually go to Step 5. Pages left unconnected in this step will never be
-				moved to Wordpress!
-			</p>
+
+			<div class="alert alert-block alert-success">
+				<h4>No Save-button!?</h4>
+				<p>
+					When you're ready with all pages you wanna move, manually <a href="migrate_step5.php">go to Step 5</a>.
+					Pages left unconnected on the left side in this step will not be moved to Wordpress!
+				</p>
+			</div>
 		</div>
 	</div>
 
