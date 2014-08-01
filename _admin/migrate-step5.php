@@ -85,7 +85,7 @@
 						//$newlink = str_replace( $new_site,'',$newlink);
 						//str_replace( $new_site, "/", $newlink )
 
-						echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\"<br />";
+						echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
 
 /*
 						// Update all the Links on ALL the pages in WP!!!
@@ -100,7 +100,8 @@
 							echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
 						}
 */
-						//echo "<br />";
+						echo "<span class=\"badge badge-success\">?</span>";
+						echo "<br />";
 
 					}
 					// End link updater
