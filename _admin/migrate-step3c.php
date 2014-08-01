@@ -105,6 +105,9 @@
 //]]>
 </script> <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script></div>', '', $tidy);
+				$tidy = str_replace('<div class="area_body">
+<p><a href="../rss.aspx"><img src="../_main/icons/rss.gif" alt="RSS-kanaler" title="RSS-kanaler" /></a> Få meddelande om alla FFUs (inklusive denna sidan) uppdateringar, nyheter och kommentarer direkt de inträffar (<a href="../rss.aspx">läs mer</a>)!</p>
+</div>', '', $tidy);
 
 				// Convert old school attributes to classes instead
 				$tidy = str_replace(' width="15" height="15"', ' class="psx_button"', $tidy);
@@ -230,6 +233,7 @@
 				$tidy = str_replace("</span></td>", "</th>", $tidy);
 
 				// Delete empty tags
+				$tidy = str_replace("<p>\n</p>", '', $tidy);
 				$tidy = str_replace("<p><br /></p>\n", "", $tidy);
 				$tidy = str_replace("<p><br /><br /></p>\n", "", $tidy);
 				$tidy = str_replace("<pre>\n</pre>\n", "", $tidy);
@@ -237,6 +241,7 @@
 				$tidy = str_replace("<pre>\n<br />\n\n</pre>\n", "", $tidy);
 				$tidy = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $tidy);
 				$tidy = str_replace("<p></p>\n", "", $tidy);
+				$tidy = str_replace("<div></div>", "", $tidy);
 
 				// Do some simple indentation - NO, ruins later replaces
 				//$tidy = str_replace('<td', "\t<td", $tidy);
