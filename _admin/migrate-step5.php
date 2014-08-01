@@ -51,6 +51,13 @@
 				//$content = utf8_encode($row->clean);
 				$content = $row->clean;
 
+				// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
+				if (isset($_POST['fix'])) {
+					$content = str_replace('<img ', '<img class="imgfix" ', $content);
+					$content = str_replace('<a href="', '<a class="fix" href="', $content);
+				}
+
+
 				$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
 				if (!is_null($getWP)) {
@@ -67,7 +74,9 @@
 						$mapp = $mapparArr[count($mapparArr) - 2];
 
 						// Content with links that has the class="fix" added should get that removed now
-						$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
+						if (isset($_POST['fix'])) {
+							$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
+						}
 
 						// Replace all the old href URLs with the new one in the current text
 						$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content );
@@ -177,6 +186,11 @@
 
 			<strong>Settings:</strong><br />
 			<label>
+				<input type="checkbox" name="fix" value="yes"<?php if (isset($_POST['fix'])) { ?> checked="checked"<?php } ?> />
+				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
+				This class is automatically removed on all links we can manage to update through the code.
+			</label><br />
+			<label>
 				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
 				When pages get smashed together in one WP-page, add a separator?
 			</label><br />
@@ -187,7 +201,8 @@
 			<label>
 				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
 				Add a "Text not manually checked" on top of every moved page in WordPress?
-			</label><br /><br />
+			</label><br />
+			<br />
 
 			<input type="submit" name="save_move" value="Move 'em all!" class="btn btn-primary" />
 

@@ -220,13 +220,9 @@
 				// Do some simple indentation - NO, ruins later replaces
 				//$tidy = str_replace('<td', "\t<td", $tidy);
 
-				// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
-				$tidy = str_replace('<img ', '<img class="imgfix" ', $tidy);
-				$tidy = str_replace('<a href="', '<a class="fix" href="', $tidy);
-
 				// Old images should all be moved to the assets-folder
-				$tidy = str_replace(' src="b/', ' src="assets/', $tidy);
-				$tidy = str_replace(' src="i/', ' src="assets/', $tidy);
+				$tidy = str_replace(' src="b/', ' src="assets/_old/', $tidy);
+				$tidy = str_replace(' src="i/', ' src="assets/_old/', $tidy);
 
 				// In med nya PSX-ikoner som är mycket bättre, och gör om till span med bakgrundsbild
 				$tidy = str_replace('<img src="assets/O.jpg" class="psx_button" />', '<span class="psx_button circle">O</span>', $tidy);
