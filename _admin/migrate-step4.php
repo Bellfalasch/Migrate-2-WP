@@ -49,17 +49,24 @@
 <?php
 
 /*
+	Swedish comment:
 	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
 	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
 	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
 	url/slug till sidan, och kan användas för att underlätta mappningen.
-
 */
 
 // Settings
 // ****************************************************************************	
-	$guide = "ff7";
-	$new_site = "http://games.ffuniverse.nu/" . $guide . "/";
+	$new_site = "";
+	$oldsite = "";
+	
+	$result = db_getSite(array('id' => $PAGE_siteid));
+	if ( isset( $result ) ) {
+		$row = $result->fetch_object();
+		$new_site = $row->new_url;
+		$oldsite = $row->url;
+	}
 
 
 // Do the moving
@@ -68,9 +75,10 @@
 	if ( qsGet("connect") != "" && qsGet("to") != "") {
 
 		$id = qsGet("connect");
+		$to = qsGet("to");
 
-		// Hämta data från WP
-		$result = db_getPostFromWP($wp_table, qsGet("to"));
+		// Fetch data from WordPress
+		$result = db_getPostFromWP($wp_table, $to);
 
 		if ( isset( $result ) ) {
 
@@ -82,28 +90,19 @@
 
 		}
 
-		// Spara datan till FFU
+		// Save the selection to the database
 		$result = db_updateCleanerWithWP($id, $newData_post_title, $newData_post_name, $newData_id, $newData_guid);
 
 		header('Location: migrate-step4.php');
 
 	}
 
+	echo "<p>" . $new_site . "</p>";
+	echo "<p>" . $oldsite . "</p>";
 
 
 // The actual code
 // ****************************************************************************	
-
-	$result = db_getSite( array('id' => $PAGE_siteid) );
-
-	// If anything was found, put it into pur PAGE_form
-	if (!is_null($result))
-	{
-		$row = $result->fetch_object();
-
-		$oldsite = $row->url;
-
-	}
 
 	// Array for all the WP-pages we have listed (don't list again)
 	$arrWPidDone = array();
