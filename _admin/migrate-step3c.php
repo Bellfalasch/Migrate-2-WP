@@ -158,6 +158,8 @@
 				$tidy = str_replace(' hspace="9"', '', $tidy);
 				$tidy = str_replace(' hspace="3"', '', $tidy);
 				$tidy = str_replace(' vspace="3"', '', $tidy);
+				$tidy = str_replace(' hspace="2"', '', $tidy);
+				$tidy = str_replace(' vspace="2"', '', $tidy);
 				$tidy = str_replace(' align="c"', ' align="center"', $tidy);
 				$tidy = str_replace(' align="center"', '', $tidy);
 				$tidy = str_replace(' valign="top"', '', $tidy);
