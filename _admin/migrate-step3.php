@@ -89,16 +89,17 @@
 
 				// $clean = str_replace('<FONT COLOR=red>', '<span class="color-red">', $clean);
 				// $clean = str_replace('<FONT COLOR=yellow>', '<span class="color-yellow">', $clean);
-				$clean = str_replace('<FONT SIZE=2>', '', $clean);
-				$clean = str_replace('<FONT COLOR=white SIZE=2>', '', $clean);
-				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
-				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
+//				$clean = str_replace('<FONT SIZE=2>', '', $clean);
+//				$clean = str_replace('<FONT COLOR=white SIZE=2>', '', $clean);
+//				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
+//				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
 				$clean = str_replace(' VALIGN="top"', '', $clean);
 				$clean = str_replace(' ALIGN="right"', '', $clean);
 				// Can't remove trailing font-tag or Tidy in next step will go nuts
 				//$clean = str_replace('</FONT>', '</span>', $clean);
-				//$clean = str_replace('<U>', '', $clean);
-				//$clean = str_replace('</U>', '', $clean);
+
+				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
+				$clean = preg_replace( array('@<FONT[^>]*?>@siu'), array(''), $clean );
 
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
 				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
@@ -109,19 +110,18 @@
 				$clean = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $clean);
 				$clean = str_replace('<BR><BR></TD></TR></TABLE>', '', $clean);
 
-				// Center anvænds nog ingenstans meningsfullt, den bara skræpar ner så ta bort helt
+				// Donät think any of these are actually needed, so remove them all
 				$clean = str_replace('<CENTER>', '', $clean);
 				$clean = str_replace('</CENTER>', '', $clean);
 				$clean = str_replace('<SMALL>', '', $clean);
 				$clean = str_replace('</SMALL>', '', $clean);
+				$clean = str_replace('<U>', '', $clean);
+				$clean = str_replace('</U>', '', $clean);
 
-				// Gamla e-postadressen ligger fortfarande och skræpar hær och dær
+				// Old e-mails and names we wanna clean up
 				$clean = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $clean);
 				$clean = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $clean);
 				$clean = str_replace('Bobby Vestberg', 'Bobby Westberg', $clean);
-
-				// This tag should be moved out of this step
-				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
 
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
