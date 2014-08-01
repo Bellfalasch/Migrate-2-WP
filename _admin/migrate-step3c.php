@@ -125,7 +125,6 @@
 				$tidy = str_replace('<span class="color-yellow">***</span>**', '<span class="stars"><span class="lit">***</span>**</span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">****</span>*', '<span class="stars"><span class="lit">****</span>*</span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">*****</span>', '<span class="stars"><span class="lit">*****</span></span>', $tidy);
-
 				$tidy = str_replace('<span class="color-yellow">****</span>', '<span class="stars"><span class="lit">****</span></span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">***</span>*', '<span class="stars"><span class="lit">***</span>*</span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">**</span>**', '<span class="stars"><span class="lit">**</span>**</span>', $tidy);
@@ -153,6 +152,8 @@
 				$tidy = str_replace(' width="10"', '', $tidy);
 				$tidy = str_replace(' width="20"', '', $tidy);
 				$tidy = str_replace(' width="30"', '', $tidy);
+				$tidy = str_replace(' width="60"', '', $tidy);
+				$tidy = str_replace(' width="485"', '', $tidy);
 				$tidy = str_replace(' border="1"', '', $tidy);
 				$tidy = str_replace(' align="texttop"', '', $tidy);
 				$tidy = str_replace(' hspace="9"', '', $tidy);

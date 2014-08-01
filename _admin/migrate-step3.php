@@ -94,12 +94,26 @@
 //				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2" FACE="Arial">', '', $clean);
 //				$clean = str_replace('<FONT COLOR="#A0B1D2" SIZE="2">', '', $clean);
 				$clean = str_replace(' VALIGN="top"', '', $clean);
+				$clean = str_replace(' ALIGN="left"', '', $clean);
 				$clean = str_replace(' ALIGN="right"', '', $clean);
+				$clean = str_replace(' ALIGN="center"', '', $clean);
 				// Can't remove trailing font-tag or Tidy in next step will go nuts
 				//$clean = str_replace('</FONT>', '</span>', $clean);
 
 				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
 				$clean = preg_replace( array('@<FONT[^>]*?>@siu'), array(''), $clean );
+
+				// Old chunk of code. Easier to remove now than in 3c
+				// However ... can't make it work before Tidy without some regex =/
+/*
+				$clean = str_replace('<TD NAME="helpmenu" WIDTH=142>
+  <TABLE CELLPADDING=0 CELLSPACING=0><TR><TD>
+	<A HREF="default.asp"><IMG SRC="top/ffiv_logo.jpg" WIDTH=142 HEIGHT=57 ALT="Final Fantasy IV (återvänd till startsidan)" BORDER="0"></A><BR><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1 VSPACE=2 HSPACE=1><BR>
+  </TD></TR><TR><TD>
+	<TABLE WIDTH="100%" CELLPADDING=1 CELLSPACING=0 STYLE="cursor:help"><TR>
+	<TD COLSPAN=3 BGCOLOR="#C2D2EA"><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1></TD>
+	</TR><TR><TD BGCOLOR="#C2D2EA" ROWSPAN=2><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1></TD><TD BGCOLOR="#91AACA">', '<div class="sidebar"><h4>Sidebar</h4><p>', $clean );
+*/
 
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
 				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
