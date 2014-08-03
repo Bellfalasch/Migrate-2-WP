@@ -8,27 +8,12 @@
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
-
-<?php
-
-	addField( array(
-			"label" => "Crawl this URL:",
-			"id" => "crawl_url",
-			"type" => "text(5)",
-			"description" => "Type in the complete URL to crawl. The crawler will only visit links to that folder, and subfolders.",
-			"min" => "2",
-			"errors" => array(
-							"min" => "Please keep number of character's on at least [MIN].",
-						)
-		) );
-
-?>
 <?php include('_header.php'); ?>
 
 
 	<div class="page-header">
 		<h1>
-			Step 1
+			<?= $PAGE_name ?>
 			<small>crawl selected site ("ffueater")</small>
 		</h1>
 	</div>
@@ -48,32 +33,36 @@
 
 <?php
 
-	if (ISPOST)
-	{
-		
+// Settings
+// ****************************************************************************
+
+		$result = db_getSite( array('id' => $PAGE_siteid) );
+
+		// If anything was found, put it into our PAGE_form
+		if (!is_null($result))
+		{
+			$row = $result->fetch_object();
+
+			$site_address = $row->url;
+			$site = $site_address;
+		}
+
+// Crawler startup
+// ****************************************************************************
+
 		// Code made by epaaj at ninjaloot.se!
 		// Modifications by Bellfalasch
 
-		validateForm();
+		$check_links = array();
+		$check_links[$site] = 0;
+		$checked_link = "";
 
-		if (empty($SYS_errors)) {
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
-$site_address = $PAGE_form[0]["content"]; // To settings
-$site = $site_address; // To settings
-
-$check_links = array();
-$check_links[$site] = 0;
-
-$checked_link = "";
+		// At the moment only way to delete data in the table and start anew:
+		//mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
 
-// At the moment only way to delete data in the table and start anew:
-//mysql_query("TRUNCATE `" . $cleaner_table . "`");
-
+// Crawler functions
+// ****************************************************************************
 
 // Simple insert into the database, no check if data already is there.
 function savepage($site, $buffer)
@@ -90,10 +79,9 @@ function savepage($site, $buffer)
 //	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
 //	exit;
 
-	if ($buffer != "")
+	if ($buffer != "") {
 		db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '" . $mysqli->real_escape_string($buffer) . "', " . $PAGE_siteid . ")");
-
-	
+	}
 }
 
 function checklink($link)
@@ -143,7 +131,6 @@ function checklink($link)
 
 }
 
-// 
 function forsites($check_links)
 {
 	global $site_address;
@@ -196,27 +183,29 @@ function getsite($site, $site_address)
 	// http://nadeausoftware.com/articles/2007/09/php_tip_how_strip_html_tags_web_page
 	// http://www.catswhocode.com/blog/15-php-regular-expressions-for-web-developers
 
-	echo "<p><strong>Requesting:</strong> " . $site . "";
+	echo "<p>";
+	echo "<strong>Fetching URL:</strong> " . $site . " ";
 
 	// Get a URL's code
 	$handle = fopen($site, "r");
 
 	//print_r($http_response_header);
 
+	// Check HTTP status message, only get OK pages (if setting says so)
 	if ($handle)
 	{
 		// Check that it says status 200 OK in the header
 		if (is_array($http_response_header)) {
 			if ( in_array( substr($http_response_header[0],9,1), array("2","3") ) && substr($http_response_header[4],10,12) != "/_error.aspx" || formGet("header") == "" ) {
-				echo " <span class=\"label label-success\">OK</span>";
+				echo "<span class=\"label label-success\">OK</span>";
 			} else {
-				echo " <span class=\"label label-important\">HTTP ERROR</span>";
+				echo "<span class=\"label label-important\">HTTP ERROR</span>";
 				$check_links[$site] = 2;
 				$search = "";
 				//return false;
 			}
 		} else {
-			echo " <span class=\"label label-important\">HTTP ERROR</span>";
+			echo "<span class=\"label label-important\">HTTP ERROR</span>";
 			$check_links[$site] = 2;
 			$search = "";
 			//return false;
@@ -226,20 +215,22 @@ function getsite($site, $site_address)
 	}
 	else
 	{
-		echo " <span class=\"label label-important\">HTTP ERROR</span>";
+		echo "<span class=\"label label-important\">HTTP ERROR</span>";
 		$check_links[$site] = 2;
 		$search = "";
 		//return false;
 	}
-	echo "</p>";
 
-	flush();
+//	echo "<br />";
+//	echo "The crawler found these links:";
+	echo "</p>";
 
 	//$handle = stream_get_contents($handle);
 
 	// Create array to store all the links we find
-	for ($i=0; $i<=count($search); $i++)
+	for ($i=0; $i<=count($search); $i++) {
 		$links[$i] = array();
+	}
 
 	// Collect a list of links from our pages and check for duplicates
 	$pagebuffer = "";
@@ -249,6 +240,7 @@ function getsite($site, $site_address)
 			$pagebuffer .= $buffer;
 			for ($i=0; $i<count($search); $i++)
 			{
+				// Find all matching links in the fetched URL
 				if (preg_match_all($search[$i], $buffer, $result[$i]))
 				{
 			#		print_r($result[0]);
@@ -258,10 +250,10 @@ function getsite($site, $site_address)
 				}
 			}
 		}
-			//var_dump($links[0]);
-			var_dump($links[1]);
-			//var_dump($links[2]);
-			//var_dump($links[3]);
+		//var_dump($links[0]);
+		//var_dump($links[1]);
+		//var_dump($links[2]);
+		//var_dump($links[3]);
 	}
 
 	// Regexp-format on the URL's we'll primarily look for.
@@ -270,12 +262,18 @@ function getsite($site, $site_address)
 		'/^http\:\/\/(.*)/i'
 	);
 
-	for ($i=0; $i<=count($search); $i++)
+
+	echo "<ol>";
+
+	$search_length = count($search);
+
+	for ($i=0; $i<=$search_length; $i++)
 	{
-		//for ($j=0; $j<=count($links[$i]); $j++)
-		for ($j=0; $j<=count($links[$i]); $j++)
+		$links_length = count($links[$i]);
+
+		for ($j=0; $j<=$links_length; $j++)
 		{
-			if (!empty($links[$i][$j]))
+			if (!empty($links[$i][$j]) )
 			{
 	#			print_r(count($links[$i]));
 	#			print_r(gettype($links[0]));
@@ -361,48 +359,64 @@ function getsite($site, $site_address)
 #					echo "\n2: " . $links[$i][$j][1] . "<br />\n";
 #					print_r($res_links);
 
-//echo count($links[$i][$j]);
+//					echo "count:" . count($links[$i][$j]);
+/*
+					$del_val = "#";
+					$key = array_search($del_val, $links[$i][$j]);
 
-					// TODO: With this activated the page turns completely blank
-					for ($y=0; $y<=count($links[$i][$j]); $y++)
-					{
-					//$y = 0;
-
-						// Don't collect garbage links (only # in the href, or mailto-links)
-						if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
-						{
-							$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
-							echo "* " . $links[$i][$j][$y] . "\n";
-							//echo "2: " . $links[$i][$j][1] . "\n";
-	#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
-							if (checklink($links[$i][$j][$y]))
-							{
-								//echo "\n" . $checked_link . " ---\n";
-								if (!array_key_exists($checked_link, $check_links))
-								{
-									echo " <span class=\"label label-info\">Added</span>";
-									$check_links[$checked_link] = 0;
-								} else {
-									echo " <span class=\"label\">Skipped</span>";
-								}
-							} else {
-								echo " <span class=\"label\">Not a page</span>";
-							}
-							echo "<br />";
-							//flush();
-						}
+					if ( $key !== false ) {
+						unset($links[$i][$j][$key]);
 					}
+*/
+					$links2_length = count($links[$i][$j]);
+					
+					for ($y=0; $y<=$links2_length; $y++)
+					{
+//					$y = 0;
+
+						if (!empty($links[$i][$j][$y]) )
+						{
+
+							// Don't collect garbage links (only # in the href, or mailto-links)
+							if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
+							{
+								$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
+								echo "<li><a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
+								//echo "2: " . $links[$i][$j][1] . "\n";
+		#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
+								if (checklink($links[$i][$j][$y]))
+								{
+									//echo "\n" . $checked_link . " ---\n";
+									if (!array_key_exists($checked_link, $check_links))
+									{
+										echo " <span class=\"label label-info\">Added</span>";
+										$check_links[$checked_link] = 0;
+									} else {
+										echo " <span class=\"label\">Skipped</span>";
+									}
+								} else {
+									echo " <span class=\"label\">Not a page</span>";
+								}
+								echo "</li>";
+							}
+						}
+					
+					} // for $y
 
 				}
 			}
 		}
 	}
 
+	echo "</ol>";
+
 	$check_links[$site] = 1;
+
+	// Close file/URL
+	fclose($handle);
 
 	//print_r($check_links);
 	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
-	flush();
 
 	// Don't save on test
 	if (formGet("save_crawl") == "Run crawl") {
@@ -414,24 +428,24 @@ function getsite($site, $site_address)
 
 }
 
-forsites($check_links);
-#getsite($site, $site_address);
+// Crawler, caller
+// ****************************************************************************
 
-//print_r($check_links);
-//echo count($check_links);
+	if (ISPOST)
+	{
 
-	// Don't save on test
-	if (formGet("save_crawl") == "Run crawl") {
-		echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
-	} else {
-		echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-	}
+		forsites($check_links);
+		#getsite($site, $site_address);
 
+		//print_r($check_links);
+		//echo count($check_links);
+
+		// Don't save on test
+		if (formGet("save_crawl") == "Run crawl") {
+			echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+		} else {
+			echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 		}
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
 
 	}
 
@@ -491,35 +505,26 @@ forsites($check_links);
 	<div class="row">
 		<div class="span12">
 
-			<?php
-
-				$result = db_getSite( array('id' => $PAGE_siteid) );
-
-				// If anything was found, put it into pur PAGE_form
-				if (!is_null($result))
-				{
-					$row = $result->fetch_object();
-
-					$PAGE_form[0]["content"] = $row->url;
-
-				}
-
-			?>
-
-			<?php outputFormFields(); ?>
+			<p>
+				The crawler will find any links on the URL you've set up on the settings page "Project" for this Project. Only valid links
+				that are located in the same folder/root as the URL you gave will be fetched. After the first page is crawled, the crawler will
+				continue to follow every link it can find.
+			</p>
+			<p>
+				We will crawl <strong><?= $site_address ?></strong> for you.
+			</p>
 
 			<div class="row">
 				<div class="span5">
 					<strong>Fetch these filetypes:</strong><br />
-<?php
-	$optionArray = array("aspx","asp","htm","html");
-	if (isset($_POST['filetype'])) {
-		$optionArray = $_POST['filetype'];
-		//for ($i=0; $i<count($optionArray); $i++) {
-		//	echo $optionArray[$i]."<br />";
-		//}
-	}
-?>
+					
+					<?php
+						// Valid file endings to crawl
+						$optionArray = array("aspx","asp","htm","html");
+						if (isset($_POST['filetype'])) {
+							$optionArray = $_POST['filetype'];
+						}
+					?>
 					<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label><br />
 					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label><br />
 					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label><br />
