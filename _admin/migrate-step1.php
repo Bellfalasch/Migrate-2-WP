@@ -249,13 +249,18 @@ function getsite($site, $site_address)
 				if (preg_match_all($search[$i], $buffer, $result[$i]))
 				{
 			#		print_r($result[0]);
-					if ( $i < count($result[$i]) ) {
+					//if ( $i < count($result[$i]) ) {
 						array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
 						
+						// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
+						// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
+
+						// TODO: Testa att inte sätta detta till 1. Jag tror den innehåller en flera dimensioner djup array, och vi därför måste bygga ut loopen nedan ett steg till!
+
 						//echo '$result[$i][1]';
 						//var_dump($result[$i][1]);
 						//var_dump($links[$i]);
-					}
+					//}
 				}
 			}
 		}

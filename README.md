@@ -14,6 +14,12 @@ Until version 1.0 is reached it's highly recommended to use proper backups of yo
 Updates:
 ----------------
 
+### 0.8.9
+
+Steps 3b and 3c renamed to 4 and 5 respectivly, thus pushing the previous step 4 to be step 6 and step 5 to be step 7. Makes it all much clearer. Redundant code removed, now using the database settings on all the pages instead of hardcoded values. And a vastly improved crawler for performance and accuracy. However it doesn't run more than one regex (out of four) so I'm gonna look more into that before 0.9 gets out.
+
+Basically it's now possible to do all the steps from beginning to end on a totally new site and get it all into WordPress. I'm just gonna work on some minor things from now on, no big new features coming before 1.0. Happy days!
+
 ### 0.8
 
 A lot of changes. Rewrote a lot of the code, changed around all the steps, etc. Step 3 turned into three different steps now. Loads of tweaks to all the code on all the steps and pages.
