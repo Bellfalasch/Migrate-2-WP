@@ -240,6 +240,9 @@ function getsite($site, $site_address)
 		{
 			$pagebuffer .= $buffer;
 			// Search for all the different regex
+
+			//echo "search_length: " . $search_length . "<br />";
+
 			for ($i=0; $i<$search_length; $i++)
 			{
 				// Find all matching links in the fetched URL
@@ -248,6 +251,8 @@ function getsite($site, $site_address)
 			#		print_r($result[0]);
 					if ( $i < count($result[$i]) ) {
 						array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
+						
+						//echo '$result[$i][1]';
 						//var_dump($result[$i][1]);
 						//var_dump($links[$i]);
 					}
@@ -277,19 +282,14 @@ function getsite($site, $site_address)
 		{
 			if (!empty($links[$i][$j]) )
 			{
-	#			print_r(count($links[$i]));
-	#			print_r(gettype($links[0]));
-	#			print_r(gettype($links[0][1]));
-#				echo "\nasd " . $i ." ". $j . "\n";
-#				echo $links[$i][$j][1];
-	#			echo $links[$i][$j][1][strlen($site_address)];
-				
+				// Honeypot, catching bad URLs:
 				if (preg_match($search_links[0], $links[$i][$j][0], $res_links))
 				{
 					#			print_r(".." . $res_links );
 	#				echo "\n0:\n". $res_links . "\n";
 	#				print_r($res_links);
 				}
+				// Honeypot, catching bad URLs:
 				else if (preg_match($search_links[1], $links[$i][$j][0], $res_links))
 				{
 					$break = false;
@@ -384,7 +384,7 @@ function getsite($site, $site_address)
 							if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
 							{
 								$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
-								echo "<li><a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
+								echo "<li>[" . $i . "]<a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
 								//echo "2: " . $links[$i][$j][1] . "\n";
 		#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
 								if (checklink($links[$i][$j][$y]))
