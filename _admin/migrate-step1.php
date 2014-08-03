@@ -168,6 +168,7 @@ function getsite($site, $site_address)
 		'/ src="(.*?)"/i',
 		'/window\.open\("(.*?)"/i'
 	);
+	$search_length = count($search);
 
 	// '/src="([^\s"]+)"/iU',
 	// '/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
@@ -227,8 +228,8 @@ function getsite($site, $site_address)
 
 	//$handle = stream_get_contents($handle);
 
-	// Create array to store all the links we find
-	for ($i=0; $i<=count($search); $i++) {
+	// Create array to store all the links we find, one for each regex-string
+	for ($i=0; $i<=$search_length; $i++) {
 		$links[$i] = array();
 	}
 
@@ -238,14 +239,17 @@ function getsite($site, $site_address)
 		while(($buffer = fgets($handle)) !== false)
 		{
 			$pagebuffer .= $buffer;
-			for ($i=0; $i<count($search); $i++)
+			// Search for all the different regex
+			for ($i=0; $i<$search_length; $i++)
 			{
 				// Find all matching links in the fetched URL
 				if (preg_match_all($search[$i], $buffer, $result[$i]))
 				{
 			#		print_r($result[0]);
-					if ( $i < count($result[1]) ) {
-						array_push($links[$i], $result[1][$i]);
+					if ( $i < count($result[$i]) ) {
+						array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
+						//var_dump($result[$i][1]);
+						//var_dump($links[$i]);
 					}
 				}
 			}
@@ -265,8 +269,6 @@ function getsite($site, $site_address)
 
 	echo "<ol>";
 
-	$search_length = count($search);
-
 	for ($i=0; $i<=$search_length; $i++)
 	{
 		$links_length = count($links[$i]);
@@ -281,6 +283,7 @@ function getsite($site, $site_address)
 #				echo "\nasd " . $i ." ". $j . "\n";
 #				echo $links[$i][$j][1];
 	#			echo $links[$i][$j][1][strlen($site_address)];
+				
 				if (preg_match($search_links[0], $links[$i][$j][0], $res_links))
 				{
 					#			print_r(".." . $res_links );
