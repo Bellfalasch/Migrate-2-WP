@@ -96,7 +96,8 @@
 
 	if (DEV_ENV) {
 		error_reporting(E_ALL);
-		ini_set('display_errors', '1');
+		ini_set('display_errors', TRUE);
+		ini_set('display_startup_errors', TRUE);
 	} else {
 		ini_set('session.gc_maxlifetime', '10800');
 	}

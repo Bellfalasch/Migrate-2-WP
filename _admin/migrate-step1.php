@@ -1,6 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeout on the server
 	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	/* Set up template variables */
 	$PAGE_name  = 'Step 1';
@@ -95,7 +96,6 @@ function savepage($site, $buffer)
 	
 }
 
-// 
 function checklink($link)
 {
 	global $checked_link;
@@ -106,12 +106,12 @@ function checklink($link)
 	$link = preg_replace($space_search, $space_replace, $link);
 
 	// Find all achors ( #-sign ) and replace them with '\2' (part two of url)
-	$square_search = array ('/(.*?)\#(.*?)/i');
+	$square_search = array('/(.*?)\#(.*?)/i');
 	$square_replace = array('\\2');
 	$link = preg_replace($square_search, $square_replace, $link);
 
-	// List of page file endings to crawl for
-	//$endings = array('htm', 'html', 'asp', 'aspx');
+	// List of file endings on pages to crawl for, fetch from setting
+	// Our formGet doesn't tackle post arrays, so need to read it directly
 
 	if (isset($_POST['filetype'])) {
 		$optionArray = $_POST['filetype'];
@@ -120,7 +120,6 @@ function checklink($link)
 		//}
 	}
 
-	//$endings = explode(", ", formGet("filetype"));
 	$endings = $optionArray;
 
 	//var_dump( $endings );
@@ -178,11 +177,14 @@ function getsite($site, $site_address)
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array (
 		'/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
-		'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
-		'/href="([^\s"]+)"/iU',
-		'/src="([^\s"]+)"/iU',
+		'/ href="(.*?)"/i',
+		'/ src="(.*?)"/i',
 		'/window\.open\("(.*?)"/i'
 	);
+
+	// '/src="([^\s"]+)"/iU',
+	// '/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
+
 /*
 	'/\<frame src="(.*?)"(.*?)/i',
 	'/\<a(.*)href="(.*?)"(.*?)>(.*?)<\/a>/i',
@@ -235,10 +237,11 @@ function getsite($site, $site_address)
 
 	//$handle = stream_get_contents($handle);
 
-	// Collect a list of links and check for duplicates
+	// Create array to store all the links we find
 	for ($i=0; $i<=count($search); $i++)
 		$links[$i] = array();
 
+	// Collect a list of links from our pages and check for duplicates
 	$pagebuffer = "";
 	if ($search != "") {
 		while(($buffer = fgets($handle)) !== false)
@@ -246,18 +249,22 @@ function getsite($site, $site_address)
 			$pagebuffer .= $buffer;
 			for ($i=0; $i<count($search); $i++)
 			{
-				if (preg_match($search[$i], $buffer, $result[$i]))
+				if (preg_match_all($search[$i], $buffer, $result[$i]))
 				{
 			#		print_r($result[0]);
-					array_push($links[$i], $result[$i]);
+					if ( $i < count($result[1]) ) {
+						array_push($links[$i], $result[1][$i]);
+					}
 				}
 			}
 		}
-		#	print_r($links[0]);
-		#	print_r($links[1]);
+			//var_dump($links[0]);
+			var_dump($links[1]);
+			//var_dump($links[2]);
+			//var_dump($links[3]);
 	}
 
-	// Regexp-format on the URL's we'll primarly look for.
+	// Regexp-format on the URL's we'll primarily look for.
 	$search_links = array(
 		'/^\.\.(.*?)/i',
 		'/^http\:\/\/(.*)/i'
@@ -265,9 +272,10 @@ function getsite($site, $site_address)
 
 	for ($i=0; $i<=count($search); $i++)
 	{
+		//for ($j=0; $j<=count($links[$i]); $j++)
 		for ($j=0; $j<=count($links[$i]); $j++)
 		{
-			if (!empty($links[$i][$j][1]))
+			if (!empty($links[$i][$j]))
 			{
 	#			print_r(count($links[$i]));
 	#			print_r(gettype($links[0]));
@@ -275,13 +283,13 @@ function getsite($site, $site_address)
 #				echo "\nasd " . $i ." ". $j . "\n";
 #				echo $links[$i][$j][1];
 	#			echo $links[$i][$j][1][strlen($site_address)];
-				if (preg_match($search_links[0], $links[$i][$j][1], $res_links))
+				if (preg_match($search_links[0], $links[$i][$j][0], $res_links))
 				{
 					#			print_r(".." . $res_links );
 	#				echo "\n0:\n". $res_links . "\n";
 	#				print_r($res_links);
 				}
-				else if (preg_match($search_links[1], $links[$i][$j][1], $res_links))
+				else if (preg_match($search_links[1], $links[$i][$j][0], $res_links))
 				{
 					$break = false;
 					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
@@ -353,29 +361,38 @@ function getsite($site, $site_address)
 #					echo "\n2: " . $links[$i][$j][1] . "<br />\n";
 #					print_r($res_links);
 
-					// Don't collect garbage links (only # in the href, or mailto-links)
-					if ($links[$i][$j][1][0] != "#" && substr( $links[$i][$j][1], 0, 7 ) != "mailto:")
+//echo count($links[$i][$j]);
+
+					// TODO: With this activated the page turns completely blank
+					for ($y=0; $y<=count($links[$i][$j]); $y++)
 					{
-						$links[$i][$j][1] = $site_address . $links[$i][$j][1];
-						echo "* " . $links[$i][$j][1] . "\n";
-						//echo "2: " . $links[$i][$j][1] . "\n";
-#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
-						if (checklink($links[$i][$j][1]))
+					//$y = 0;
+
+						// Don't collect garbage links (only # in the href, or mailto-links)
+						if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
 						{
-							//echo "\n" . $checked_link . " ---\n";
-							if (!array_key_exists($checked_link, $check_links))
+							$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
+							echo "* " . $links[$i][$j][$y] . "\n";
+							//echo "2: " . $links[$i][$j][1] . "\n";
+	#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
+							if (checklink($links[$i][$j][$y]))
 							{
-								echo " <span class=\"label label-info\">Added</span>";
-								$check_links[$checked_link] = 0;
+								//echo "\n" . $checked_link . " ---\n";
+								if (!array_key_exists($checked_link, $check_links))
+								{
+									echo " <span class=\"label label-info\">Added</span>";
+									$check_links[$checked_link] = 0;
+								} else {
+									echo " <span class=\"label\">Skipped</span>";
+								}
 							} else {
-								echo " <span class=\"label\">Skipped</span>";
+								echo " <span class=\"label\">Not a page</span>";
 							}
-						} else {
-							echo " <span class=\"label\">Not a page</span>";
+							echo "<br />";
+							//flush();
 						}
-						echo "<br />";
-						//flush();
 					}
+
 				}
 			}
 		}
