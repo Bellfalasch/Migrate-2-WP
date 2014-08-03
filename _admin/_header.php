@@ -124,10 +124,10 @@
 						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">1: Eat</a></li>
 						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">2: Strip</a></li>
 						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Wash</a></li>
-						<li<?php flagAsActiveOn("step3b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3b.php">3b: Tidy</a></li>
-						<li<?php flagAsActiveOn("step3c") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3c.php">3c: Clean</a></li>
-						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Connect</a></li>
-						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Move</a></li>
+						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Tidy</a></li>
+						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Clean</a></li>
+						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Connect</a></li>
+						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Move</a></li>
 
 					<?php } else { ?>
 
@@ -135,10 +135,10 @@
 						<li class="disabled"><a href="#0">1: Eat</a></li>
 						<li class="disabled"><a href="#0">2: Strip</a></li>
 						<li class="disabled"><a href="#0">3: Wash</a></li>
-						<li class="disabled"><a href="#0">3b: Tidy</a></li>
-						<li class="disabled"><a href="#0">3c: Clean</a></li>
-						<li class="disabled"><a href="#0">4: Connect</a></li>
-						<li class="disabled"><a href="#0">5: Move</a></li>
+						<li class="disabled"><a href="#0">4: Tidy</a></li>
+						<li class="disabled"><a href="#0">5: Clean</a></li>
+						<li class="disabled"><a href="#0">6: Connect</a></li>
+						<li class="disabled"><a href="#0">7: Move</a></li>
 
 					<?php } ?>
 

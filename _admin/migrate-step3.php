@@ -10,7 +10,7 @@
 	<div class="page-header">
 		<h1>
 			Step 3
-			<small>wash old html ("ffucleaner2 - A")</small>
+			<small>wash away old html ("ffucleaner2 - A")</small>
 		</h1>
 	</div>
 
@@ -187,8 +187,8 @@
 				the replacements and removals directly in the source code (TODO: use forms or something)
 			</p>
 			<p>
-				To the left you will see green code, this code have just been washed. The one to the
-				right is the un-washed code we got from Step 2.
+				<strong>Notice!</strong> Feel free to fine tune settings and code and run this step over and over
+				again until you're satisfied. It saves its data in a separate database column.
 			</p>
 
 			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />

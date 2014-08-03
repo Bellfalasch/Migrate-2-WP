@@ -10,176 +10,179 @@
 	<div class="page-header">
 		<h1>
 			Step 4
-			<small>connect crawled pages with WordPress ("ffu_locator")</small>
+			<small>fix old html with PHP tidy-component ("ffucleaner2 - B")</small>
 		</h1>
 	</div>
 
 	<div class="progress progress-striped">
-		<div class="bar" style="width: <?php if (ISPOST) { ?>95<?php } else { ?>75<?php } ?>%;"></div>
+		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>
 	</div>
 
-	<div class="row">
-		<div class="span8">
-			<h2>Important information</h2>
-			<p>
-				Here you see to the left all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
-				to reload this pages and see the same button on the right side. This side is all your Wordpress pages. Just click the
-				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
-				other way around is not supported, yet).
-				<strong>No data is transfered to Wordpress yet!</strong>
-			</p>
-			<p>
-				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) to the right. Thanks
-				to this you get a good overview, but still can change earlier mistakes.
-			</p>
+	<style>
+		.spalt {
+			float: left;
+			width: 49%;
+			font-size: 7pt;
+			overflow: hidden;
+		}
+		.clean {
+			color: green;
+		}
+		hr {
+			clear: both;
+		}
+		pre {
+			font-size: 7pt;
+		}
+	</style>
 
-			<div class="alert alert-block alert-success">
-				<h4>No Save-button!?</h4>
-				<p>
-					When you're ready with all pages you wanna move, manually <a href="migrate_step5.php">go to Step 5</a>.
-					Pages left unconnected on the left side in this step will not be moved to Wordpress!
-				</p>
-			</div>
-		</div>
-	</div>
+
+<?php
+
+	if (ISPOST)
+	{
+		
+		$result = db_getContentFromSite($PAGE_siteid);
+		if ( isset( $result ) )
+		{
+			while ( $row = $result->fetch_object() )
+			{
+				echo "<strong>" . $row->page . "</strong><br />";
+				
+				$content = $row->wash;
+				$clean = $content;
+				
+				// Start replacing old bad markup
+				//echo "<code><pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
+				/*
+				$tidy = new tidy();
+				$tidy->tidy_parse_string($row->content);
+				$tidy->cleanRepair();
+				$clean = (string)$tidy;
+				*/
+
+				// REF: http://tidy.sourceforge.net/docs/quickref.html
+				$options = array(
+						"output-xhtml" => true,
+						"clean" => true,
+						"css-prefix" => 'tidy_',
+	//					"indent-spaces" => 2,
+						"wrap" => 0,
+						"indent" => false,
+	//					"show-body-only" => true,
+	//					"drop-font-tags" => true,
+						"drop-empty-paras" => true,
+						"hide-comments" => false,
+						"join-styles" => true,
+	//					"join-classes" => true,
+						"word-2000" => true,
+						"drop-proprietary-attributes" => true,
+						"enclose-text" => true,
+						"fix-uri" => true,
+						"logical-emphasis" => true,
+						"lower-literals" => true,
+						"merge-divs" => true,
+						"quote-ampersand" => true,
+						"break-before-br" => false,
+						"sort-attributes" => 'alpha',
+	//					"tab-size" => 4,
+						"char-encoding" => 'utf8',
+						"doctype" => 'omit'
+					);
+				$tidy = tidy_parse_string($clean, $options,'UTF8');
+				//$tidy = tidy_parse_string($row->content, $options);
+				tidy_clean_repair($tidy);
+				
+				// Tidy leaves some code that we do not want inside WP, so let's remove it
+				$tidy = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $tidy);
+				$tidy = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $tidy);
+				$tidy = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '', $tidy);
+				$tidy = str_replace('<head>', '', $tidy);
+				$tidy = str_replace('<title></title>', '', $tidy);
+				$tidy = str_replace('</head>', '', $tidy);
+				$tidy = str_replace('<body>', '', $tidy);
+				$tidy = str_replace('</body>', '', $tidy);
+				$tidy = str_replace('</html>', '', $tidy);
+
+				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
+				$tidy = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $tidy );
+
+				// Some more garbage code from tidy (remove all classes it creates on styled items)
+				$tidy = str_replace(' class="c1"', '', $tidy);
+				$tidy = str_replace(' class="c2"', '', $tidy);
+				$tidy = str_replace(' class="c3"', '', $tidy);
+				$tidy = str_replace(' class="c4"', '', $tidy);
+				$tidy = str_replace(' class="c5"', '', $tidy);
+
+
+				$clean = trim($tidy);
+
+				// This tag should be moved out of this step
+				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
+
+
+				echo "<div class=\"spalt\"><strong>Original code:</strong>";
+				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "</div>";
+
+				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+
+				if (formGet("save_tidy") == "Run Tidy") {
+
+					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+
+					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
+					db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+				} else {
+					
+					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+				
+				}
+				echo "</div>";
+
+				echo "<hr /><br />";
+			
+			}
+		
+		}
+
+	}
+
+?>
+
+	<?php
+		outputErrors($SYS_errors);
+	?>
+
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
 
-<?php
+			<p>
+				This step configures and run the Tidy plugin in PHP. It brings old html version 3 and 4
+				into the modern ages of xhtml. It doesn't transform anything to html5 semantics (aside, article, etc),
+				but with the right doctype the code will also work for html5 pages.
+			</p>
+			<p>
+				After this step you will get the opportunity to clean up in the code Tidy left
+				and any other last changes before everything goes straight into Wordpress.
+			</p>
+			<p>
+				<strong>Notice!</strong> Feel free to fine tune settings and code and run this step over and over
+				again until you're satisfied. It saves its data in a separate database column.
+			</p>
 
-/*
-	Swedish comment:
-	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
-	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
-	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
-	url/slug till sidan, och kan användas för att underlätta mappningen.
-*/
+			<input type="submit" name="save_tidy" value="Run Tidy" class="btn btn-primary" />
 
-// Settings
-// ****************************************************************************	
-	$new_site = "";
-	$oldsite = "";
-	
-	$result = db_getSite(array('id' => $PAGE_siteid));
-	if ( isset( $result ) ) {
-		$row = $result->fetch_object();
-		$new_site = $row->new_url;
-		$oldsite = $row->url;
-	}
-
-
-// Do the moving
-// ****************************************************************************
-
-	if ( qsGet("connect") != "" && qsGet("to") != "") {
-
-		$id = qsGet("connect");
-		$to = qsGet("to");
-
-		// Fetch data from WordPress
-		$result = db_getPostFromWP($wp_table, $to);
-
-		if ( isset( $result ) ) {
-
-			$row = $result->fetch_object();
-			$newData_id = $row->id;
-			$newData_post_name = $row->post_name;
-			$newData_post_title = $row->post_title;
-			$newData_guid = $row->guid;
-
-		}
-
-		// Save the selection to the database
-		$result = db_updateCleanerWithWP($id, $newData_post_title, $newData_post_name, $newData_id, $newData_guid);
-
-		header('Location: migrate-step4.php');
-
-	}
-
-//	echo "<p>" . $new_site . "</p>";
-//	echo "<p>" . $oldsite . "</p>";
-
-
-// The actual code
-// ****************************************************************************	
-
-	// Array for all the WP-pages we have listed (don't list again)
-	$arrWPidDone = array();
-
-	$result = db_getWPDataFromSite($PAGE_siteid);
-	if ( isset( $result ) )
-	{
-		echo '<table style="width:50%; float:left;">';
-
-		while ( $row = $result->fetch_object() )
-		{
-			if ($row->wp_postid > 0) {
-				if ($row->id == qsGet("connect") ) {
-					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-				} else {
-					echo '<tr style="opacity:0.2;">';
-				}
-				array_push($arrWPidDone, $row->wp_postid);
-			} else {
-				if ($row->id == qsGet("connect") ) {
-					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-				} else {
-					echo '<tr>';
-				}
-			}
-			
-			if (qsGet("connect") != "")
-				echo "<td>-</td>";
-			else
-				echo "<td><a href=\"?connect=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
-
-			$page = $row->page;
-
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $oldsite, "/", $page ) . "</a></td>";
-			echo "<td>&raquo; " . str_replace( $new_site, "/", $row->wp_guid . "" ) . "</td>";
-			echo '</tr>';
-		}
-
-		echo '</table>';
-	}
-
-
-	$result = db_getDataFromWordpress($wp_table);
-	if ( isset( $result ) )
-	{
-		echo '<table style="width:50%; float:left;">';
-
-		while ( $row = $result->fetch_object() )
-		{
-			if (!in_array($row->ID, $arrWPidDone))
-				echo '<tr>';
-			else
-				echo '<tr style="opacity:0.2;">';
-
-			if ( qsGet("connect") != "" )
-				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
-			else
-				echo "<td>-</td>";
-
-			//echo "<td>" . $row->ID . "</td>";
-			//echo "<td>" . $row->post_name . "</td>";
-			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-			echo "<td>" . str_replace( $new_site, "/", $row->guid ) . "</td>";
-			echo '</tr>';
-
-		}
-
-		echo '</table>';
-	}
-
-// END FILE
-// ****************************************************************************
-
-?>
+			<input type="submit" name="save_tidy" value="Test Tidy" class="btn" />
 
 		</div>
 	</div>
+
+</form>
 
 
 <?php require('_footer.php'); ?>
