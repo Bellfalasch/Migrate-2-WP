@@ -1,7 +1,7 @@
 <?php
 	/* Set up template variables */
 	$PAGE_step  = 2;
-	$PAGE_name  = 'Step 2';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
@@ -36,7 +36,7 @@
 
 	<div class="page-header">
 		<h1>
-			Step 2
+			<?= $PAGE_name ?>
 			<small>locate content and strip repeating html ("ffucleaner")</small>
 		</h1>
 	</div>

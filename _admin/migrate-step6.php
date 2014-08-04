@@ -1,7 +1,7 @@
 <?php
 	/* Set up template variables */
 	$PAGE_step  = 6;
-	$PAGE_name  = 'Step 6';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
@@ -10,7 +10,7 @@
 
 	<div class="page-header">
 		<h1>
-			Step 4
+			<?= $PAGE_name ?>
 			<small>connect crawled pages with WordPress ("ffu_locator")</small>
 		</h1>
 	</div>

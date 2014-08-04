@@ -1,7 +1,7 @@
 <?php
 	/* Set up template variables */
 	$PAGE_step  = 7;
-	$PAGE_name  = 'Step 7';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
@@ -10,7 +10,7 @@
 
 	<div class="page-header">
 		<h1>
-			Step 7
+			<?= $PAGE_name ?>
 			<small>push content into Wordpress ("ffu_merger")</small>
 		</h1>
 	</div>

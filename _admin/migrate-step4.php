@@ -1,7 +1,7 @@
 <?php
 	/* Set up template variables */
 	$PAGE_step  = 4;
-	$PAGE_name  = 'Step 4';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
@@ -10,7 +10,7 @@
 
 	<div class="page-header">
 		<h1>
-			Step 4
+			<?= $PAGE_name ?>
 			<small>fix old html with PHP tidy-component ("ffucleaner2 - B")</small>
 		</h1>
 	</div>
@@ -18,24 +18,6 @@
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>
 	</div>
-
-	<style>
-		.spalt {
-			float: left;
-			width: 49%;
-			font-size: 7pt;
-			overflow: hidden;
-		}
-		.clean {
-			color: green;
-		}
-		hr {
-			clear: both;
-		}
-		pre {
-			font-size: 7pt;
-		}
-	</style>
 
 
 <?php

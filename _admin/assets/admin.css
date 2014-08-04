@@ -362,3 +362,20 @@ label strong {
 			font-family: monospace;
 			line-height: 110%;
 		}
+
+/* Design for some of the Steps */
+.spalt {
+	float: left;
+	width: 49%;
+	font-size: 7pt;
+	overflow: hidden;
+}
+.clean {
+	color: green;
+}
+hr {
+	clear: both;
+}
+pre {
+	font-size: 7pt;
+}
