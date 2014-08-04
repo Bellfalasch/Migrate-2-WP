@@ -87,9 +87,9 @@
 				If so, just tweak your needles and re-run this step until it gets perfect (found at bottom of the page).
 			</p>
 			<p>
-				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will try and find everything sourrounded by
-				the body-tag. If not even the body-tag is found it will try and use the html-tag. If that also is missing
-				we'll save the entire content to the database.
+				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will try and find everything surrounded by
+				the body-tag. If not even the body-tag is found, it will try and use the html-tag. If that also is missing,
+				we'll keep the entire content in the database for the following Steps.
 			</p>
 			";
 
