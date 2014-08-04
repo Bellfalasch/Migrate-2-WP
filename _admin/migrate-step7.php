@@ -118,35 +118,31 @@
 					}
 
 
-				echo "<p>";
-				echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
-				echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
-				echo " <span class=\"label label-success\">OK</span>";
-				echo "</p>";
+					echo "<p>";
+					echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
+					echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
+					echo " <span class=\"label label-success\">OK</span>";
+					echo "</p>";
 
-				if (formGet("save_move") != "Test move") {
+					if (formGet("save_move") != "Test move") {
 
-					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					// Do some saving right into WP
-					db_updateWPwithText($wp_table, $content, $row->wp_postid);
+						// Do some saving right into WP
+						db_updateWPwithText($wp_table, $content, $row->wp_postid);
 
-					db_updateStepValue( array(
-						'step' => $PAGE_step,
-						'id' => $PAGE_siteid
-					) );
+						db_updateStepValue( array(
+							'step' => $PAGE_step,
+							'id' => $PAGE_siteid
+						) );
 
-				} else {
+					} else {
+						
+						echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 					
-					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-				
-				}
-
-//					echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
-//					echo '<div style="background-color:#bbb;">PAGEBREAKER</div>';
+					}
 
 				}
-
 
 			}
 

@@ -97,13 +97,9 @@
 				$tidy = str_replace(' class="c4"', '', $tidy);
 				$tidy = str_replace(' class="c5"', '', $tidy);
 
-
 				$clean = trim($tidy);
 
-				// This tag should be moved out of this step
-				// $clean = '<div class="fixbox"><p>Innehåll ej genomgått!</p></div>' . "\n\n" . $clean;
-
-
+				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
