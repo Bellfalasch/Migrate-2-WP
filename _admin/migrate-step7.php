@@ -21,13 +21,6 @@
 
 <?php
 
-// Settings
-// ****************************************************************************	
-
-	$new_site = $PAGE_sitenewurl;
-	$oldsite = $PAGE_siteurl;
-
-
 // The actual code
 // ****************************************************************************	
 
@@ -50,7 +43,6 @@
 					$content = str_replace('<img ', '<img class="imgfix" ', $content);
 					$content = str_replace('<a href="', '<a class="fix" href="', $content);
 				}
-
 
 				$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
@@ -77,8 +69,8 @@
 						// TODO: Counter - http://php.net/manual/en/function.str-replace.php
 						
 						// This will turn out bad on WP folder navigation, we need full root linking!
-						//$newlink = str_replace( $new_site,'',$newlink);
-						//str_replace( $new_site, "/", $newlink )
+						//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
+						//str_replace( $PAGE_sitenewurl, "/", $newlink )
 
 						echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
 
@@ -127,8 +119,8 @@
 
 
 				echo "<p>";
-				echo "<strong>Move old page:</strong> \"" . str_replace( $oldurl, "/", $row->page ) . "\"";
-				echo " <strong>to Wordpress page:</strong> \"" . str_replace( $new_site, "/", $WProw->guid ) . "\"";
+				echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
+				echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
 				echo " <span class=\"label label-success\">OK</span>";
 				echo "</p>";
 

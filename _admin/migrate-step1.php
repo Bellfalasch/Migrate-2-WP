@@ -34,12 +34,6 @@
 
 <?php
 
-// Settings
-// ****************************************************************************
-
-	$site_address = $PAGE_siteurl;
-	$site = $site_address;
-
 // Crawler startup
 // ****************************************************************************
 
@@ -47,7 +41,7 @@
 	// Modifications by Bellfalasch
 
 	$check_links = array();
-	$check_links[$site] = 0;
+	$check_links[$PAGE_siteurl] = 0;
 	$checked_link = "";
 
 	// At the moment only way to delete data in the table and start anew:
@@ -126,7 +120,7 @@ function checklink($link)
 
 function forsites($check_links)
 {
-	global $site_address;
+	global $PAGE_siteurl;
 	global $check_links;
 	global $checked_link;
 
@@ -140,7 +134,7 @@ function forsites($check_links)
 		{
 			if ($v == 0)
 			{
-				getsite($k, $site_address);
+				getsite($k, $PAGE_siteurl);
 				$continue = true;
 			}
 		}
@@ -411,7 +405,7 @@ function getsite($site, $site_address)
 
 	echo "</ol>";
 
-	$check_links[$site] = 1;
+	$check_links[$PAGE_siteurl] = 1;
 
 	// Close file/URL
 	fclose($handle);
@@ -421,7 +415,7 @@ function getsite($site, $site_address)
 
 	// Only save when Run crawl is pressed (never on Test)
 	if (formGet("save_crawl") == "Run crawl") {
-		savepage($site, trim($pagebuffer) );
+		savepage($PAGE_siteurl, trim($pagebuffer) );
 
 		db_updateStepValue( array(
 			'step' => $PAGE_step,

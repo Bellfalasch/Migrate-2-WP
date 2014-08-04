@@ -58,18 +58,16 @@
 			$headerNeedle = $PAGE_form[0]["content"];
 			$footerNeedle = $PAGE_form[1]["content"];
 
-			if ($headerNeedle == "")
+			if ($headerNeedle === "")
 				$headerNeedle = "<!-- HOOK: HEADER -->";
 
-			if ($footerNeedle == "")
+			if ($footerNeedle === "")
 				$footerNeedle = "<!-- HOOK: FOOTER -->";
-
-			//$headerNeedle = "<!--<HR WIDTH=\"750\" COLOR=\"black\" NOSHADE><BR>-->";
 
 			$headerNeedleLength = mb_strlen($headerNeedle);
 			$footerNeedleLength = mb_strlen($footerNeedle);
 
-			// Save MY settings, so we can test other values in case of fail
+			// Save the settings, so we can test other values in case of fail
 			$PAGE_headerNeedle = $headerNeedle;
 			$PAGE_footerNeedle = $footerNeedle;
 			$PAGE_headerNeedleLength = $headerNeedleLength;

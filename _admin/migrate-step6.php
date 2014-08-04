@@ -63,12 +63,6 @@
 	url/slug till sidan, och kan användas för att underlätta mappningen.
 */
 
-// Settings
-// ****************************************************************************	
-
-	$new_site = $PAGE_sitenewurl;
-	$oldsite = $PAGE_siteurl;
-
 
 // Do the connecting
 // ****************************************************************************
@@ -106,9 +100,6 @@
 
 	}
 
-//	echo "<p>" . $new_site . "</p>";
-//	echo "<p>" . $oldsite . "</p>";
-
 
 // The actual code
 // ****************************************************************************	
@@ -145,8 +136,8 @@
 
 			$page = $row->page;
 
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $oldsite, "/", $page ) . "</a></td>";
-			echo "<td>&raquo; " . str_replace( $new_site, "/", $row->wp_guid . "" ) . "</td>";
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
+			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
 			echo '</tr>';
 		}
 
@@ -174,7 +165,7 @@
 			//echo "<td>" . $row->ID . "</td>";
 			//echo "<td>" . $row->post_name . "</td>";
 			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-			echo "<td>" . str_replace( $new_site, "/", $row->guid ) . "</td>";
+			echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
 			echo '</tr>';
 
 		}
