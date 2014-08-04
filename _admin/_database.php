@@ -2,6 +2,18 @@
 
 	// All these SQLs are for the different pages in this admin. Add yours here.
 
+	// Step - All
+	//////////////////////////////////////////////////////////////////////////////////
+
+	function db_updateStepValue($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_sites`
+			SET `step` = {$in['step']}
+			WHERE `id` = {$in['id']}
+			AND `step` < {$in['step']}
+		");
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function db_getHtmlFromFirstpage($site) {
@@ -142,7 +154,6 @@
 			WHERE `post_status` = 'publish'
 		");
 	}
-
 
 
 	//////////////////////////////////////////////////////////////////////////////////

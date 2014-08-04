@@ -1,5 +1,6 @@
 <?php
 	/* Set up template variables */
+	$PAGE_step  = 6;
 	$PAGE_name  = 'Step 6';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
@@ -35,10 +36,16 @@
 
 			<div class="alert alert-block alert-success">
 				<h4>No Save-button!?</h4>
+				<?php if ($PAGE_sitestep >= 6) { ?>
 				<p>
 					When you're ready with all pages you wanna move, manually <a href="migrate-step7.php">go to Step 7</a>.
 					Pages left unconnected on the left side in this step will not be moved to Wordpress!
 				</p>
+				<?php } else { ?>
+				<p>
+					Save is instant when you click the links. Go ahead, connect some pages!
+				</p>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -58,18 +65,12 @@
 
 // Settings
 // ****************************************************************************	
-	$new_site = "";
-	$oldsite = "";
-	
-	$result = db_getSite(array('id' => $PAGE_siteid));
-	if ( isset( $result ) ) {
-		$row = $result->fetch_object();
-		$new_site = $row->new_url;
-		$oldsite = $row->url;
-	}
+
+	$new_site = $PAGE_sitenewurl;
+	$oldsite = $PAGE_siteurl;
 
 
-// Do the moving
+// Do the connecting
 // ****************************************************************************
 
 	if ( qsGet("connect") != "" && qsGet("to") != "") {
@@ -93,7 +94,15 @@
 		// Save the selection to the database
 		$result = db_updateCleanerWithWP($id, $newData_post_title, $newData_post_name, $newData_id, $newData_guid);
 
-		header('Location: migrate-step4.php');
+		// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
+		if ($PAGE_sitestep >= 2) {
+			db_updateStepValue( array(
+				'step' => $PAGE_step,
+				'id' => $PAGE_siteid
+			) );
+		}
+
+		header('Location: migrate-step6.php');
 
 	}
 

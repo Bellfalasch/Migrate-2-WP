@@ -1,5 +1,6 @@
 <?php
 	/* Set up template variables */
+	$PAGE_step  = 4;
 	$PAGE_name  = 'Step 4';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
@@ -134,6 +135,11 @@
 
 					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
 					db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+					db_updateStepValue( array(
+						'step' => $PAGE_step,
+						'id' => $PAGE_siteid
+					) );
 
 				} else {
 					

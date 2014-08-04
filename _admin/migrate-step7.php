@@ -1,5 +1,6 @@
 <?php
 	/* Set up template variables */
+	$PAGE_step  = 7;
 	$PAGE_name  = 'Step 7';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
@@ -23,15 +24,8 @@
 // Settings
 // ****************************************************************************	
 
-	$new_site = "";
-	$oldurl = "";
-	
-	$result = db_getSite(array('id' => $PAGE_siteid));
-	if ( isset( $result ) ) {
-		$row = $result->fetch_object();
-		$new_site = $row->new_url;
-		$oldurl = $row->url;
-	}
+	$new_site = $PAGE_sitenewurl;
+	$oldsite = $PAGE_siteurl;
 
 
 // The actual code
@@ -144,6 +138,11 @@
 
 					// Do some saving right into WP
 					db_updateWPwithText($wp_table, $content, $row->wp_postid);
+
+					db_updateStepValue( array(
+						'step' => $PAGE_step,
+						'id' => $PAGE_siteid
+					) );
 
 				} else {
 					

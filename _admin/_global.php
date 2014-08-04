@@ -115,13 +115,31 @@
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	if (qsGet("project") != "")
+	if (qsGet("project") != "") {
 		$_SESSION["site"] = qsGet("project");
+	}
 
-	if (isset($_SESSION["site"]))
+	if (isset($_SESSION["site"])) {
 		$PAGE_siteid = $_SESSION["site"];
-	else
+	} else {
 		$PAGE_siteid = 0;
+	}
+
+	// Fetch current site - if any - and store data about it for all the Steps
+	if ($PAGE_siteid > 0) {
+	
+		$result = db_getSite( array('id' => $PAGE_siteid) );
+	
+		if (!is_null($result))
+		{
+			$row = $result->fetch_object();
+
+			$PAGE_siteurl = $row->url;
+			$PAGE_sitenewurl = $row->new_url;
+			$PAGE_sitestep = $row->step;
+			$PAGE_sitename = $row->name;
+		}
+	}
 
 	
 	//////////////////////////////////////////////////////////////////////////////////

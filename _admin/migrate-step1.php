@@ -4,6 +4,7 @@
 	ini_set('max_execution_time', 0);
 
 	/* Set up template variables */
+	$PAGE_step  = 1;
 	$PAGE_name  = 'Step 1';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
@@ -36,29 +37,21 @@
 // Settings
 // ****************************************************************************
 
-		$result = db_getSite( array('id' => $PAGE_siteid) );
-
-		// If anything was found, put it into our PAGE_form
-		if (!is_null($result))
-		{
-			$row = $result->fetch_object();
-
-			$site_address = $row->url;
-			$site = $site_address;
-		}
+	$site_address = $PAGE_siteurl;
+	$site = $site_address;
 
 // Crawler startup
 // ****************************************************************************
 
-		// Code made by epaaj at ninjaloot.se!
-		// Modifications by Bellfalasch
+	// Code made by epaaj at ninjaloot.se!
+	// Modifications by Bellfalasch
 
-		$check_links = array();
-		$check_links[$site] = 0;
-		$checked_link = "";
+	$check_links = array();
+	$check_links[$site] = 0;
+	$checked_link = "";
 
-		// At the moment only way to delete data in the table and start anew:
-		//mysql_query("TRUNCATE `" . $cleaner_table . "`");
+	// At the moment only way to delete data in the table and start anew:
+	//mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
 
 // Crawler functions
@@ -426,9 +419,14 @@ function getsite($site, $site_address)
 	//print_r($check_links);
 	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
 
-	// Don't save on test
+	// Only save when Run crawl is pressed (never on Test)
 	if (formGet("save_crawl") == "Run crawl") {
 		savepage($site, trim($pagebuffer) );
+
+		db_updateStepValue( array(
+			'step' => $PAGE_step,
+			'id' => $PAGE_siteid
+		) );
 	}
 
 	echo "<br /><br />";
