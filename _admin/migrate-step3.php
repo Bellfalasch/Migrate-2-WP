@@ -73,7 +73,7 @@
 				//$clean = str_replace('</FONT>', '</span>', $clean);
 
 				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-				$clean = preg_replace( array('@<FONT[^>]*?>@siu'), array(''), $clean );
+				$clean = preg_replace( '@<FONT[^>]*?>@siu', '', $clean );
 				
 				// Remove all HTML comments and their contents - if setting is activated
 				if (isset($_POST['comments'])) {
@@ -94,7 +94,9 @@
 				
 				// Some markup we can improve
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
-				$clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
+				
+				// This should be handled by Tidy ... let's try without
+				// $clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
 
 				// Some markup we potentially could improve, but they were more or less used for "design" and should be removed
 				$clean = str_replace('<CENTER>', '', $clean);
@@ -109,12 +111,14 @@
 				$clean = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $clean);
 				$clean = str_replace('Bobby Vestberg', 'Bobby Westberg', $clean);
 
+				$clean = trim($clean);
+
 				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
-				echo "<div class=\"spalt\"><strong>Wash:</strong>";
+				echo "<div class=\"spalt\"><strong>Washed code:</strong>";
 				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
