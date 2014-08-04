@@ -11,7 +11,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>fix old html with PHP tidy-component ("ffucleaner2 - B")</small>
+			<small>fix old html with PHP tidy-component</small>
 		</h1>
 	</div>
 

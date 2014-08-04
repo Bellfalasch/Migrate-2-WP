@@ -11,7 +11,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>connect crawled pages with WordPress ("ffu_locator")</small>
+			<small>connect crawled pages with WordPress</small>
 		</h1>
 	</div>
 

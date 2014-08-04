@@ -11,7 +11,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>clean up left over html and fix semantics ("ffucleaner2 - C")</small>
+			<small>clean up left over html and fix semantics</small>
 		</h1>
 	</div>
 

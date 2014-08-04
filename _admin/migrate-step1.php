@@ -15,7 +15,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>crawl selected site ("ffueater")</small>
+			<small>crawl an entire site's html</small>
 		</h1>
 	</div>
 

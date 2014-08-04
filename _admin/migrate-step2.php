@@ -37,7 +37,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>locate content and strip repeating html ("ffucleaner")</small>
+			<small>locate content and strip away repeating html</small>
 		</h1>
 	</div>
 

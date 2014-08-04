@@ -11,7 +11,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>wash away old html ("ffucleaner2 - A")</small>
+			<small>wash away or replace old html</small>
 		</h1>
 	</div>
 

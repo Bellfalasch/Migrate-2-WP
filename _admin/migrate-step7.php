@@ -11,7 +11,7 @@
 	<div class="page-header">
 		<h1>
 			<?= $PAGE_name ?>
-			<small>push content into Wordpress ("ffu_merger")</small>
+			<small>push content into Wordpress</small>
 		</h1>
 	</div>
 
