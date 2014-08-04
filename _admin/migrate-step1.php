@@ -511,7 +511,7 @@ function getsite($site, $site_address)
 				continue to follow every link it can find.
 			</p>
 			<p>
-				We will crawl <strong><?= $site_address ?></strong> for you.
+				We will crawl <strong><?= $PAGE_siteurl ?></strong> for you.
 			</p>
 
 			<div class="row">
