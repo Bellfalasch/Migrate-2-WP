@@ -85,18 +85,11 @@
 
 				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
 				$clean = preg_replace( array('@<FONT[^>]*?>@siu'), array(''), $clean );
-
-				// Old chunk of code. Easier to remove now than in 3c
-				// However ... can't make it work before Tidy without some regex =/
-/*
-				$clean = str_replace('<TD NAME="helpmenu" WIDTH=142>
-  <TABLE CELLPADDING=0 CELLSPACING=0><TR><TD>
-	<A HREF="default.asp"><IMG SRC="top/ffiv_logo.jpg" WIDTH=142 HEIGHT=57 ALT="Final Fantasy IV (återvänd till startsidan)" BORDER="0"></A><BR><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1 VSPACE=2 HSPACE=1><BR>
-  </TD></TR><TR><TD>
-	<TABLE WIDTH="100%" CELLPADDING=1 CELLSPACING=0 STYLE="cursor:help"><TR>
-	<TD COLSPAN=3 BGCOLOR="#C2D2EA"><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1></TD>
-	</TR><TR><TD BGCOLOR="#C2D2EA" ROWSPAN=2><IMG SRC="trans.gif" WIDTH=1 HEIGHT=1></TD><TD BGCOLOR="#91AACA">', '<div class="sidebar"><h4>Sidebar</h4><p>', $clean );
-*/
+				
+				// Remove all HTML comments and their contents - if setting is activated
+				if (isset($_POST['comments'])) {
+					$clean = preg_replace( '/<!--(.*)-->/Uis', '', $clean );
+				}
 
 				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
 				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
@@ -171,13 +164,15 @@
 				than running replacement code after Tidy (but you'll get that option as well).
 			</p>
 			<p>
-				This step can be run multiple times until you feel it's been perfected. Just tune
-				the replacements and removals directly in the source code (TODO: use forms or something)
+				<strong>Notice!</strong> Feel free to fine tune settings in the source code and run this step over and over
+				again until you're satisfied. It saves its washed data in a separate database column.
 			</p>
-			<p>
-				<strong>Notice!</strong> Feel free to fine tune settings and code and run this step over and over
-				again until you're satisfied. It saves its data in a separate database column.
-			</p>
+
+			<label>
+				<input type="checkbox" name="comments" value="yes"<?php if (isset($_POST['comments'])) { ?> checked="checked"<?php } ?> />
+				Remove all HTML-comments and their contents?
+			</label><br />
+			<br />
 
 			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
 
