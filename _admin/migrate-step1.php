@@ -1,5 +1,5 @@
 <?php
-	// This page will take a looong time to finish, so remove any timeout on the server
+	// This page will take a looong time to finish, so remove any timeouts on the server
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
@@ -34,7 +34,7 @@
 
 <?php
 
-// Crawler startup
+// Crawler setup
 // ****************************************************************************
 
 	// Code made by epaaj at ninjaloot.se!
@@ -52,22 +52,22 @@
 // ****************************************************************************
 
 // Simple insert into the database, no check if data already is there.
-function savepage($site, $buffer)
+function savepage($url, $html)
 {
 	global $mysqli;
 	global $PAGE_siteid;
 	global $cleaner_table;
 
-	if ( mb_detect_encoding($buffer, "utf-8, iso-8859-1") == "UTF-8" )
-		$buffer;
+	if ( mb_detect_encoding($html, "utf-8, iso-8859-1") == "UTF-8" )
+		$html;
 	else
-		$buffer = iconv("iso-8859-1", "utf-8", $buffer);
+		$html = iconv("iso-8859-1", "utf-8", $html);
 
-//	echo mb_detect_encoding($buffer, "utf-8, iso-8859-1");
+//	echo mb_detect_encoding($html, "utf-8, iso-8859-1");
 //	exit;
 
-	if ($buffer != "") {
-		db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('".$site."', '" . $mysqli->real_escape_string($buffer) . "', " . $PAGE_siteid . ")");
+	if ($html != "") {
+		db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('" . $url . "', '" . $mysqli->real_escape_string($html) . "', " . $PAGE_siteid . ")");
 	}
 }
 
