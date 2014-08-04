@@ -54,7 +54,7 @@
 			SELECT `id`, `page`, `content`, `wash`, `tidy`
 			FROM `migrate_content`
 			WHERE `site` = $site
-			ORDER BY `id` DESC
+			ORDER BY `page` ASC
 		");
 	}
 
