@@ -23,15 +23,21 @@
 		<div class="span8">
 			<h2>Important information</h2>
 			<p>
-				Here you see to the left all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
-				to reload this pages and see the same button on the right side. This side is all your Wordpress pages. Just click the
+				To the left under this text you'll see all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
+				to reload this pages and see the same button on the right side. This side contains all your Wordpress pages. Just click the
 				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
 				other way around is not supported, yet).
 				<strong>No data is transfered to WordPress yet!</strong>
 			</p>
 			<p>
-				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) to the right. Thanks
-				to this you get a good overview, but still can change earlier mistakes.
+				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) in the right table. Thanks
+				to this you get a good overview of what old pages remain. Feel free to change any connection by clicking the grayed out connect-button
+				again on any page.
+			</p>
+			<p>
+				Select a page once more (with the connect-button) and click the disconnect-button that took its place to remove a page's
+				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 7 that page will
+				be skipped).
 			</p>
 
 			<div class="alert alert-block alert-success">
@@ -100,6 +106,20 @@
 
 	}
 
+	// Disconnect a page
+	if ( qsGet("disconnect") != "" ) {
+
+		$page = qsGet("disconnect");
+
+		$result = db_updateDisconnectPage( array(
+						'id' => $page,
+						'site' => $PAGE_siteid
+					) );
+
+		header('Location: migrate-step6.php');
+
+	}
+
 
 // The actual code
 // ****************************************************************************	
@@ -118,7 +138,7 @@
 				if ($row->id == qsGet("connect") ) {
 					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
 				} else {
-					echo '<tr style="opacity:0.2;">';
+					echo '<tr style="opacity:0.3;">';
 				}
 				array_push($arrWPidDone, $row->wp_postid);
 			} else {
@@ -129,10 +149,15 @@
 				}
 			}
 			
-			if (qsGet("connect") != "")
-				echo "<td>-</td>";
-			else
+			if (qsGet("connect") != "") {
+				if ( $row->id == qsGet("connect") ) {
+					echo "<td><a href=\"?disconnect=" . $row->id . "\" class=\"btn btn-mini btn\">Disconnect</a></td>";
+				} else {
+					echo "<td>-</td>";
+				}
+			} else {
 				echo "<td><a href=\"?connect=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
+			}
 
 			$page = $row->page;
 
@@ -155,7 +180,7 @@
 			if (!in_array($row->ID, $arrWPidDone))
 				echo '<tr>';
 			else
-				echo '<tr style="opacity:0.2;">';
+				echo '<tr style="opacity:0.3;">';
 
 			if ( qsGet("connect") != "" )
 				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";

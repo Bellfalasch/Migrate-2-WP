@@ -155,6 +155,18 @@
 		");
 	}
 
+	// Disconnect an already connected page from it's WordPress counterpart
+	function db_updateDisconnectPage($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET
+				`wp_guid` = null,
+				`wp_postid` = 0
+			WHERE `site` = {$in['site']}
+			AND `id` = {$in['id']}
+		");
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////
 
