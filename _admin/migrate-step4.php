@@ -111,11 +111,11 @@
 				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
 				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
+				// Only save is the "Run"-button is pressed, skip if we're running a Test
 				if (formGet("save_tidy") == "Run Tidy") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
 					db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
 
 					db_updateStepValue( array(

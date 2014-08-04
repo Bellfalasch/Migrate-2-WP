@@ -39,8 +39,7 @@
 				
 				// Start replacing old bad markup
 
-
-				// Right side menus on FFIV-site
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$tidy = str_replace('<table>
 <tr>
 <td width="142">
@@ -105,11 +104,7 @@
 				$tidy = str_replace(' align="left"', ' class="alignleft"', $tidy);
 				$tidy = str_replace(' align="right"', ' class="alignright"', $tidy);
 
-				// Anvænd inte bilder med class før psx-knappar utan span-element med text inuti som vi sen døljer och har bg-bild på
-				// Samma gæller acc_icon och materia-ikonerna med før den delen. Tænk <i class="icon-xxx"> som bootstrap kør med
-
-				// Prøva att ersætta alla materia-slots gjorda i ASCII till bilder
-				// (bara dubbla kan tyværr gøras det enkelt på, men prøvar æven med singla førutsatt att en dubbel finns føre eller efter)
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$tidy = str_replace('0=0 0 0 ', '<img src="b/0=0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
 				$tidy = str_replace('0=0 0 ', '<img src="b/0=0.jpg" /><img src="b/0.jpg" />', $tidy);
 				$tidy = str_replace('0=0 ', '<img src="b/0=0.jpg" />', $tidy);
@@ -117,13 +112,10 @@
 				$tidy = str_replace('0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
 				$tidy = str_replace('0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
 				$tidy = str_replace('0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
-				//$tidy = str_replace('0 0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
-				//$tidy = str_replace('0 0 0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
-				//$tidy = str_replace('0 0 0 0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $tidy);
 				$tidy = str_replace('<img src="b/0=0.jpg" />', '<span class="materia-slots double">0=0</span>', $tidy);
 				$tidy = str_replace('<img src="b/0.jpg" />', '<span class="materia-slots">0</span>', $tidy);
 
-				// Prøva att få alla level-stjærnor på materia till bilder
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$tidy = str_replace('<span class="color-yellow">*</span>****', '<span class="stars"><span class="lit">*</span>****</span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">**</span>***', '<span class="stars"><span class="lit">**</span>***</span>', $tidy);
 				$tidy = str_replace('<span class="color-yellow">***</span>**', '<span class="stars"><span class="lit">***</span>**</span>', $tidy);
@@ -180,7 +172,7 @@
 				$tidy = str_replace(' bgcolor="#C0C0C0"', '', $tidy);
 				$tidy = str_replace(' bgcolor="#E0E0E0"', '', $tidy);
 
-				// Plocka ihop radbryten på en o samma rad før att slippa vertikal mardrøm (jættefult kodat ^_____^)
+				// Ugly code, but remove myriad of line breaks left behind in the code
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
@@ -191,7 +183,7 @@
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
 				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br /><br />\n", "<br /><br />\n\n", $tidy); // Dubbel radbrott efter flera br bara før att ge lite læsbarhets-luft i koden
+				$tidy = str_replace("<br /><br />\n", "<br /><br />\n\n", $tidy); // Do double line breaks after a stack of br-tags for readability
 
 				// Some last manual adjustments of the code
 				$tidy = str_replace("</tr>\n<tr>", '</tr><tr>', $tidy);
@@ -201,7 +193,7 @@
 				$tidy = str_replace("<br /></p>", '</p>', $tidy);
 				$tidy = str_replace("<br /></p>", '</p>', $tidy);
 				$tidy = str_replace("<p><br />", '<p>', $tidy);
-				$tidy = str_replace("<p><br />", '<p>', $tidy); // Ofta kommer dubbla br efter en start-p
+				$tidy = str_replace("<p><br />", '<p>', $tidy); // Starting breaking tag directly inside a p-tag is pretty common
 				$tidy = str_replace("<p>\n<br />", '<p>', $tidy);
 				$tidy = str_replace("<p>\n", '<p>', $tidy);
 				$tidy = str_replace("<p>\n", '<p>', $tidy);
@@ -230,11 +222,13 @@
 				//$tidy = str_replace('<td', "\t<td", $tidy);
 
 				// Old images should all be moved to the assets-folder
-				$tidy = str_replace(' src="b/', ' src="assets/_old/', $tidy);
-				$tidy = str_replace(' src="pic/', ' src="assets/_old/', $tidy);
-				$tidy = str_replace(' src="i/', ' src="assets/_old/', $tidy);
+				if (isset($_POST['images'])) {
+					$tidy = str_replace(' src="b/', ' src="assets/_old/', $tidy);
+					$tidy = str_replace(' src="pic/', ' src="assets/_old/', $tidy);
+					$tidy = str_replace(' src="i/', ' src="assets/_old/', $tidy);
+				}
 
-				// In med nya PSX-ikoner som är mycket bättre, och gör om till span med bakgrundsbild
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$tidy = str_replace('<img src="assets/O.jpg" class="psx_button" />', '<span class="psx_button circle">O</span>', $tidy);
 				$tidy = str_replace('<img src="assets/X.jpg" class="psx_button" />', '<span class="psx_button ex">X</span>', $tidy);
 				$tidy = str_replace('<img src="assets/F.jpg" class="psx_button" />', '<span class="psx_button square">[]</span>', $tidy);
@@ -257,14 +251,14 @@
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
-				echo "<div class=\"spalt\"><strong>Clean:</strong>";
+				echo "<div class=\"spalt\"><strong>Cleaned code:</strong>";
 				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
+				// Only save is the "Run"-button is pressed, skip if we're running a Test
 				if (formGet("save_clean") == "Run clean") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
 					db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
 
 					db_updateStepValue( array(
@@ -308,6 +302,12 @@
 				<strong>Notice!</strong> Feel free to fine tune settings and code and run this step over and over
 				again until you're satisfied. It saves its data in a separate database column.
 			</p>
+
+			<label>
+				<input type="checkbox" name="images" value="yes"<?php if (isset($_POST['images'])) { ?> checked="checked"<?php } ?> />
+				Update all images to use the assets-folder on the new site?
+			</label><br />
+			<br />
 
 			<input type="submit" name="save_clean" value="Run clean" class="btn btn-primary" />
 
