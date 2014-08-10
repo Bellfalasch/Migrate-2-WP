@@ -2,7 +2,7 @@
 
 	// All these SQLs are for the different pages in this admin. Add yours here.
 
-	// Step - All
+	// Universal admin code
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function db_updateStepValue($in) { cleanup($in);
@@ -11,6 +11,50 @@
 			SET `step` = {$in['step']}
 			WHERE `id` = {$in['id']}
 			AND `step` < {$in['step']}
+		");
+	}
+
+	// Step 2
+	//////////////////////////////////////////////////////////////////////////////////
+	function db_setContentCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `content` = {$in['content']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	// Step 3
+	//////////////////////////////////////////////////////////////////////////////////
+	function db_setWashCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `wash` = {$in['wash']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	// Step 4
+	//////////////////////////////////////////////////////////////////////////////////
+	function db_setTidyCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `tidy` = {$in['tidy']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	// Step 5
+	//////////////////////////////////////////////////////////////////////////////////
+	function db_setCleanCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `clean` = {$in['clean']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
 		");
 	}
 
@@ -35,7 +79,8 @@
 			ORDER BY `page` ASC
 		");
 	}
-	
+
+	// Also used in Step 1
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
@@ -49,7 +94,7 @@
 		");
 	}
 
-	// Mixed order ...
+	// Mixed order ... (even the comments lie, some functions not even used!)
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function db_getHtmlFromFirstpage($site) {

@@ -220,8 +220,13 @@
 
 						$body = trim( $body );
 
-						// Pusha strippad data tillbaks in i databasen så kan vi køra en cleaner v2 på den strippade koden =)
-						db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
+						// Push the stripped data back to the database for the next step to take care of
+						//db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+						db_setContentCode( array(
+							'content' => $mysqli->real_escape_string($body),
+							'id' => $row->id
+						) );
 
 						db_updateStepValue( array(
 							'step' => $PAGE_step,

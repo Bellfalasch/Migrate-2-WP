@@ -67,7 +67,14 @@ function savepage($url, $html)
 //	exit;
 
 	if ($html != "") {
-		db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('" . $url . "', '" . $mysqli->real_escape_string($html) . "', " . $PAGE_siteid . ")");
+		//db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('" . $url . "', '" . $mysqli->real_escape_string($html) . "', " . $PAGE_siteid . ")");
+
+		$result = db_setNewPage( array(
+						'site' => $PAGE_siteid,
+						'html' => $mysqli->real_escape_string($html),
+						'page' => $url
+					) );
+
 	}
 }
 

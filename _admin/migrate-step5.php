@@ -257,7 +257,12 @@
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+					//db_MAIN("UPDATE migrate_content SET clean = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+					db_setCleanCode( array(
+						'clean' => $mysqli->real_escape_string($clean),
+						'id' => $row->id
+					) );
 
 					db_updateStepValue( array(
 						'step' => $PAGE_step,

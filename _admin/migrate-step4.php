@@ -97,7 +97,7 @@
 				$tidy = str_replace(' class="c4"', '', $tidy);
 				$tidy = str_replace(' class="c5"', '', $tidy);
 
-				$clean = trim($tidy);
+				$tidy = trim($tidy);
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
@@ -105,14 +105,19 @@
 				echo "</div>";
 
 				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
-				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<pre class=\"clean\">" . htmlentities( $tidy, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
 				if (formGet("save_tidy") == "Run Tidy") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
+					//db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($tidy) . "' WHERE id = " . $row->id . " LIMIT 1");
+
+					db_setTidyCode( array(
+						'tidy' => $mysqli->real_escape_string($tidy),
+						'id' => $row->id
+					) );
 
 					db_updateStepValue( array(
 						'step' => $PAGE_step,
