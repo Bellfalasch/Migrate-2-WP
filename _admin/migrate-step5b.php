@@ -1,7 +1,7 @@
 <?php
 	/* Set up template variables */
 	$PAGE_step  = 6;
-	$PAGE_name  = 'Step ' . $PAGE_step;
+	$PAGE_name  = 'Step 5b';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 ?>
 <?php require('_global.php'); ?>
