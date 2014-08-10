@@ -157,7 +157,16 @@
 
 	<?php
 		outputErrors($SYS_errors);
+	
+		if (!ISPOST) {
 	?>
+
+		<div class="alert alert-success">
+			<h4>Optional step!</h4>
+			<p>Doing this step is highly recommended, but it's not mandatory =)</p>
+		</div>
+
+	<?php } ?>
 
 <form class="well form-inline" action="" method="post">
 
