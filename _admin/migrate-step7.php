@@ -95,10 +95,10 @@
 
 					$WProw = $getWP->fetch_object();
 
-					// Add the page separator?
+					// Add the review page flag
 					if (isset($_POST['flag'])) {
 						
-						// Flag empty pages at the top for manual review
+						// Flag every page at the top for manual review
 						if ($WProw->post_content == '') {
 
 							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;

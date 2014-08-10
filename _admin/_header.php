@@ -119,7 +119,7 @@
 					</li>
 
 					<?php if ($PAGE_siteid > 0) { ?>
-						<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Settings</a></li>
+						<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Setti.</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">Settings</a></li>
 					<?php } ?>
@@ -147,6 +147,7 @@
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 1) { ?>
+						<li<?php flagAsActiveOn("step5b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5b.php">Split</a></li>
 						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Connect</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">6: Connect</a></li>

@@ -14,6 +14,42 @@
 		");
 	}
 
+	// Step 5b (sub pages)
+	//////////////////////////////////////////////////////////////////////////////////
+	function db_getHtmlFromPage($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`
+			FROM `migrate_content`
+			WHERE `id` = {$in['id']}
+			AND `site` = {$in['site']}
+			ORDER BY `id` ASC
+			LIMIT 1
+		");
+	}
+
+	function db_getPagesFromSite($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `page`
+			FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			ORDER BY `page` ASC
+		");
+	}
+	
+	function db_setNewPage($in) { cleanup($in);
+		return db_MAIN("
+			INSERT INTO `migrate_content`
+				(`site`,`html`,`clean`,`page`)
+			VALUES(
+				{$in['site']},
+				{$in['html']},
+				{$in['clean']},
+				{$in['page']}
+			)
+		");
+	}
+
+	// Mixed order ...
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function db_getHtmlFromFirstpage($site) {
