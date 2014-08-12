@@ -10,17 +10,6 @@ The basic function of this code is to first crawl/scrape an old site (perhaps bu
 
 Until version 1.0 is reached it's highly recommended to use proper backups of your database before using this code.
 
-What the code will not do
-----------------
-
-This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.0 and doesn't take into account that WordPress database design might change in the future.
-
-Also, don't expect Migrate 2 WP to produce perfect result from old code. It will do the best it can. You won't get away from manually editing some pages in the end.
-
-Migrate 2 WP doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and injecting simple html.
-
-It won't support content spread into many different "blocks" / areas on a single page. It only supports one starting point, and then one ending point. Everything between them will be counted as content by this project.
-
 Updates:
 ----------------
 
@@ -50,11 +39,17 @@ And the crawling in Step 1 had major improvements, with bugfixes, http header st
 ### 0.5
 If you manually edit the code, you can get all the steps running and working fine =) Still a lot to go, and a bucket load of ideas coming. For instance moving the steps around a bit, merging a few, adding one last "checklist", and of course much better settings. Stay tuned!
 
-### 0.2
-Step 1 and 2 are working, but not without problem. Also the basics are down for the rest of the steps, as well as for the settings. Still, this release is far from release ready!
 
-### 0.1
-Initial release. Just setting up the basic structure and idea of the project.
+Disclaimer
+----------------
+
+This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.0 and doesn't take into account that WordPress database design might change in the future.
+
+Also, don't expect Migrate 2 WP to produce perfect result from old code. It will do the best it can. You won't get away from manually editing some pages in the end.
+
+Migrate 2 WP doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and injecting simple html.
+
+It won't support content spread into many different "blocks" / areas on a single page. It only supports one starting point, and then one ending point. Everything between them will be counted as content.
 
 
 Installation:
@@ -83,28 +78,14 @@ This admin is based and tested on:
 
 ### Bobby CMS
 * Version 0.9.2.1
-* By me
+* Developed by me =)
 * https://github.com/Bellfalasch/Bobby-CMS
 * Used as included files
 
-### Bootstrap
-* Version 2.3.1
-* By Twitter
-* http://twitter.github.io/bootstrap/
-* Used as included file
-
-### TinyMCE
-* Version ?
-* By Moxiecode
-* Used as included files
-
-### jQuery
-* Version 1.8.1
-* By jQuery
-* Used as linked CDN
+Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 1.8.1. All included. Update/remove at own risk!
 
 
-Basic structure:
+Basic file structure and form-generation:
 ----------------
 
-Check out the readme for [Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS) if you need more information on basic functions, structure, etc that this project uses. All forms are built using that project.
+Check out the readme for [Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS) if you need more information on basic functions, structure, etc that this project uses. All forms are built using that project too. It has a way of setting up forms easily by defining arrays of options. Some code and boom - form for editing, adding, and validation is generated. It's far from finished, but at least it works good enough to be used here =)
