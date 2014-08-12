@@ -6,13 +6,29 @@ Migrate your static files to Wordpress
 
 This repo is based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development.
 
-The basic function of this code is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html, connect old pages to new pages in Wordpress, and end it all by pushing the clean code straight into Wordpress.
+The basic function of this code is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html, connect old pages to new pages in WordPress, and end it all by pushing the clean code straight into Wordpress.
 
 Until version 1.0 is reached it's highly recommended to use proper backups of your database before using this code.
 
+What the code will not do
+----------------
+
+This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.0 and doesn't take into account that WordPress database design might change in the future.
+
+Also, don't expect Migrate 2 WP to produce perfect result from old code. It will do the best it can. You won't get away from manually editing some pages in the end.
+
+Migrate 2 WP doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and injecting simple html.
+
+It won't support content spread into many different "blocks" / areas on a single page. It only supports one starting point, and then one ending point. Everything between them will be counted as content by this project.
 
 Updates:
 ----------------
+
+### 0.9
+
+Other than a lot of refactoring and other improvements, I've introduced Step 5b (I will use the time until 1.0 to think of a new step/menu order). Step 5b is called "Split", because that is what it does. It let's you select any page from you're menu structure and then type in a html-code to look for. For each time that code is found within the same page, a sub-page will be created! This makes splitting huge textual pages into smaller sub-pages a breeze. You can even use wildcards in the html-code.
+
+Only problem is that now that I found out how to use Regex this way I want to rewrite a lot of the other steps :P
 
 ### 0.8.9
 
@@ -52,7 +68,7 @@ Log in with "admin@example.com" and "password" in the folder "_admin" (might cha
 Dependencies:
 ----------------
 
-This admin is based on: 
+This admin is based and tested on: 
 
 ### PHP
 * Version 4.3.10
