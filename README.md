@@ -15,7 +15,7 @@ Updates:
 
 ### 0.9
 
-Other than a lot of refactoring and other improvements, I've introduced Step 5b (I will use the time until 1.0 to think of a new step/menu order). Step 5b is called "Split", because that is what it does. It let's you select any page from you're menu structure and then type in a html-code to look for. For each time that code is found within the same page, a sub-page will be created! This makes splitting huge textual pages into smaller sub-pages a breeze. You can even use wildcards in the html-code.
+Other than a lot of refactoring and other improvements, I've introduced Step 5b (I will use the time until 1.0 to think of a new step/menu order). Step 5b is called "Split", because that is what it does. It let's you select any page from your menu structure and then type in a html-code to look for. For each time that code is found within the same page, a sub-page will be created with that text! This makes splitting huge textual pages into smaller sub-pages a breeze. You can even use wildcards in the html-code.
 
 Only problem is that now that I found out how to use Regex this way I want to rewrite a lot of the other steps :P
 
