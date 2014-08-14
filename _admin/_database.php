@@ -2,9 +2,12 @@
 
 	// All these SQLs are for the different pages in this admin. Add yours here.
 
-	// Universal admin code
+	//////////////////////////////////////////////////////////////////////////////////
+	// STEPS
 	//////////////////////////////////////////////////////////////////////////////////
 
+	/* Universal SQL used in many places */
+	/* **************************************************************************** */
 	function db_updateStepValue($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_sites`
@@ -14,8 +17,25 @@
 		");
 	}
 
-	// Step 2
-	//////////////////////////////////////////////////////////////////////////////////
+	/* Step 1 */
+	/* **************************************************************************** */
+	
+	// Also used in Step 5b
+	function db_setNewPage($in) { cleanup($in);
+		return db_MAIN("
+			INSERT INTO `migrate_content`
+				(`site`,`html`,`clean`,`page`)
+			VALUES(
+				{$in['site']},
+				{$in['html']},
+				{$in['clean']},
+				{$in['page']}
+			)
+		");
+	}
+
+	/* Step 2 */
+	/* **************************************************************************** */
 	function db_setContentCode($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
@@ -25,8 +45,29 @@
 		");
 	}
 
-	// Step 3
-	//////////////////////////////////////////////////////////////////////////////////
+	// NB! Old style
+	function db_getHtmlFromFirstpage($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `html`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY `id` ASC
+			LIMIT 1
+		");
+	}
+
+	// NB! Old style
+	function db_getDataFromSite($site) {
+		$q = "SELECT `id`, `page`, `html`
+			  FROM `migrate_content`
+			  WHERE `site` = $site
+			  ORDER BY `page` ASC
+			  ";
+		return db_MAIN( $q );
+	}
+
+	/* Step 3 */
+	/* **************************************************************************** */
 	function db_setWashCode($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
@@ -36,8 +77,18 @@
 		");
 	}
 
-	// Step 4
-	//////////////////////////////////////////////////////////////////////////////////
+	// Also used in Step 4 and 5
+	function db_getContentFromSite($site) {
+		return db_MAIN("
+			SELECT `id`, `page`, `content`, `wash`, `tidy`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY `page` ASC
+		");
+	}
+
+	/* Step 4 */
+	/* **************************************************************************** */
 	function db_setTidyCode($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
@@ -47,8 +98,8 @@
 		");
 	}
 
-	// Step 5
-	//////////////////////////////////////////////////////////////////////////////////
+	/* Step 5 */
+	/* **************************************************************************** */
 	function db_setCleanCode($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
@@ -58,8 +109,8 @@
 		");
 	}
 
-	// Step 5b (sub pages)
-	//////////////////////////////////////////////////////////////////////////////////
+	/* Step 5b (sub pages) */
+	/* **************************************************************************** */
 	function db_getHtmlFromPage($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`
@@ -80,67 +131,8 @@
 		");
 	}
 
-	// Also used in Step 1
-	function db_setNewPage($in) { cleanup($in);
-		return db_MAIN("
-			INSERT INTO `migrate_content`
-				(`site`,`html`,`clean`,`page`)
-			VALUES(
-				{$in['site']},
-				{$in['html']},
-				{$in['clean']},
-				{$in['page']}
-			)
-		");
-	}
-
-	// Mixed order ... (even the comments lie, some functions not even used!)
-	//////////////////////////////////////////////////////////////////////////////////
-
-	function db_getHtmlFromFirstpage($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `html`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			ORDER BY `id` ASC
-			LIMIT 1
-		");
-	}
-
-	// Step 2
-	/**
-	 * Hæmta data från vald sajt som vi crawlat tidigare.
-	 * 
-	 * @param int site 				Vald site att hæmta data før
-	 * @return id, page, data
-	 */
-	function db_getDataFromSite($site) {
-		$q = "SELECT `id`, `page`, `html`
-			  FROM `migrate_content`
-			  WHERE `site` = $site
-			  ORDER BY `page` ASC
-			  ";
-		return db_MAIN( $q );
-	}
-
-	// Step 3
-	/**
-	 * Hæmta data från vald sajt som vi crawlat tidigare.
-	 * 
-	 * @param int site 				Vald site att hæmta data før
-	 * @return id, page, data
-	 */
-	function db_getContentFromSite($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			ORDER BY `page` ASC
-		");
-	}
-
-	// Step 4
-	// List all ffueater data (from current/old site)
+	/* Step 6 */
+	/* **************************************************************************** */
 	function db_getWPDataFromSite($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
@@ -150,7 +142,6 @@
 		");
 	}
 
-	// List all Wordpress-pages
 	function db_getDataFromWordpress($wptable) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -160,15 +151,6 @@
 				OR `post_type` = 'ffu_characters')
 				AND	`post_status` = 'publish'
 			ORDER BY `post_name` DESC
-		");
-	}
-
-	// Get specific files WP data
-	function db_getPostFromWP($wptable, $id) {
-		return wp_MAIN("
-			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE `id` = $id
 		");
 	}
 
@@ -183,8 +165,28 @@
 		");
 	}
 
-	// Step 5
-	// List all ffueater data (from current/old site)
+	function db_getPostFromWP($wptable, $id) {
+		return wp_MAIN("
+			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
+			FROM `" . $wptable . "_posts`
+			WHERE `id` = $id
+		");
+	}
+
+	// Disconnect an already connected page from it's WordPress counterpart
+	function db_updateDisconnectPage($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET
+				`wp_guid` = null,
+				`wp_postid` = 0
+			WHERE `site` = {$in['site']}
+			AND `id` = {$in['id']}
+		");
+	}
+
+	/* Step 7 */
+	/* **************************************************************************** */
 	function db_getWPDataFromSite2($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
@@ -196,7 +198,6 @@
 		");
 	}
 
-	// List all Wordpress-pages
 	function db_getPageFromWordpress($wptable, $postid) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -215,18 +216,10 @@
 		");
 	}
 
-	// Step 6
-	// List all ffueater data (from current/old site)
-	function db_getWPDataFromSite3($site) {
-		return db_MAIN("
-			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
-			FROM `migrate_content`
-			WHERE `site` = $site
-			AND wp_postid > 0
-			ORDER BY wp_postid ASC, `page` DESC
-		");
-	}
+	/* Mixed order ... */
+	/* **************************************************************************** */
 
+/*
 	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
 		//global $mysqWP;
 		return wp_EXEC("
@@ -235,20 +228,10 @@
 			WHERE `post_status` = 'publish'
 		");
 	}
+*/
 
-	// Disconnect an already connected page from it's WordPress counterpart
-	function db_updateDisconnectPage($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET
-				`wp_guid` = null,
-				`wp_postid` = 0
-			WHERE `site` = {$in['site']}
-			AND `id` = {$in['id']}
-		");
-	}
-
-
+	//////////////////////////////////////////////////////////////////////////////////
+	// PROJECTS
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function db_getSites() {
@@ -292,7 +275,6 @@
 			WHERE `id` = {$in['id']}
 		");
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// USERS
