@@ -73,25 +73,27 @@
 			$PAGE_headerNeedleLength = $headerNeedleLength;
 			$PAGE_footerNeedleLength = $footerNeedleLength;
 
-			echo "
+		?>
+
 			<p>
 				<strong>Important!</strong> All html marked in red will be removed when saving these pages back to
 				the database. The originally crawled content will be kept in the column 'html' in the table
 				'migrate_content', if you need it for reference. This also adds support for you to redo this step
-				as many time as you'd like in case you wanna change your needles). The green html will be saved
+				as many times as you'd like in case you wanna change your needles). The green html will be saved
 				into the column 'content'.
 			</p>
 			<p>
-				Please do make extra sure that all code is intact, that is that the ONLY allowed difference between the
+				Please do make extra sure that all code is intact, that the ONLY allowed difference between the
 				left and the right side are the colors. Look for bad cuts shopping of the header or the start of the footer!
 				If so, just tweak your needles and re-run this step until it gets perfect (found at bottom of the page).
 			</p>
 			<p>
-				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will try and find everything surrounded by
-				the body-tag. If not even the body-tag is found, it will try and use the html-tag. If that also is missing,
-				we'll keep the entire content in the database for the following Steps.
+				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will expect that
+				everything inside the body-tag is content. If not even the body-tag is found, it will try and use the html-tag.
+				If that also fail we'll keep the entire html as the content.
 			</p>
-			";
+
+		<?php
 
 			$result = db_getDataFromSite($PAGE_siteid);
 			if ( isset( $result ) )
@@ -121,7 +123,6 @@
 						$headerEnd = mb_strpos($body, $headerNeedle);
 
 						// If we can't find a needle we need to try other things that usually exists in the html
-						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
 						if ($headerEnd === FALSE) {
 							$headerNeedle = "<BODY";
 							$headerNeedleLength = mb_strlen($headerNeedle);
@@ -153,10 +154,8 @@
 						$footerStart = mb_strpos($body, $footerNeedle);
 
 						// If we can't find a needle we need to try other things that usually exists in the html
-						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
 						if ($footerStart === FALSE) {
 							$footerNeedle = "</BODY>";
-							// TODO: No need for footer needle length!
 							// $footerNeedleLength = mb_strlen($footerNeedle);
 							$footerStart = mb_strpos($UC_body, $footerNeedle);
 
@@ -258,7 +257,7 @@
 
 
 
-<form class="well form-inline" action="" method="post" enctype="multipart/form-data">
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
