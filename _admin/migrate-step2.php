@@ -108,6 +108,8 @@
 					$body = $row->html;
 					$UC_body = mb_strtoupper($body);
 
+					$needleUsed = 'your';
+
 					if ( mb_strlen($body) == 0 OR is_null($body) ) {
 
 						echo "<p>Empty body!</p>";
@@ -131,6 +133,8 @@
 							// Find placement of body closing tag
 							$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
 
+							$needleUsed = 'body';
+
 							if ($headerEnd === FALSE) {
 								$headerNeedle = "<HTML";
 								$headerNeedleLength = mb_strlen($headerNeedle);
@@ -139,10 +143,14 @@
 								// Find placement of html closing tag
 								$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
 
+								$needleUsed = 'html';
+
 								if ($headerEnd === FALSE) {
 									$headerNeedle = "";
 									$headerNeedleLength = 0;
 									$headerEnd = 0;
+
+									$needleUsed = 'none';
 								}
 							}
 						}
@@ -200,6 +208,24 @@
 						// Start to cut from where the header ends, until the header and body total length is reached (where the footer starts)
 						$body = mb_substr( $body, $headerEnd, ( mb_strlen($body) - mb_strlen($header) - mb_strlen($footer) ) );
 						
+						switch($needleUsed) {
+							case "yours":
+								echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needle was found on this page, awesome!</div>';
+								break;
+
+							case "body":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the body-tag instead</div>';
+								break;
+
+							case "html":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								break;
+
+							case "none":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								break;
+						}
+
 						// Ugly little presentation of how the needles work on each page.
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
 						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
