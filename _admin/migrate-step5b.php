@@ -43,40 +43,6 @@
 				get to write a small "needle"-code that we will look for in the code. For each match we will create a new sub-page of the
 				selected page. Brilliant for splitting long long pages into sub-pages instead.
 			</p>
-	<!--
-			<h2>Important information</h2>
-			<p>
-				To the left under this text you'll see all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
-				to reload this pages and see the same button on the right side. This side contains all your Wordpress pages. Just click the
-				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
-				other way around is not supported, yet).
-				<strong>No data is transfered to WordPress yet!</strong>
-			</p>
-			<p>
-				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) in the right table. Thanks
-				to this you get a good overview of what old pages remain. Feel free to change any connection by clicking the grayed out connect-button
-				again on any page.
-			</p>
-			<p>
-				Select a page once more (with the connect-button) and click the disconnect-button that took its place to remove a page's
-				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 7 that page will
-				be skipped).
-			</p>
-
-			<div class="alert alert-block alert-success">
-				<h4>No Save-button!?</h4>
-				<?php if ($PAGE_sitestep >= 6) { ?>
-				<p>
-					When you're ready with all pages you wanna move, manually <a href="migrate-step7.php">go to Step 7</a>.
-					Pages left unconnected on the left side in this step will not be moved to Wordpress!
-				</p>
-				<?php } else { ?>
-				<p>
-					Save is instant when you click the links. Go ahead, connect some pages!
-				</p>
-				<?php } ?>
-			</div>
-	-->
 		</div>
 	</div>
 
@@ -94,7 +60,7 @@
 
 <?php
 
-// Do the connecting
+// Do the splitting
 // ****************************************************************************
 
 	$split_id = qsGet("split");
@@ -113,61 +79,32 @@
 				$splitcode = $PAGE_form[0]["content"];
 				$split_ORG = $splitcode;
 
-				// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
+				if ( substr_count( $splitcode, "[?]" ) == 1 ) {
 
-				//$splitcode = str_replace('\\', '\\\\', $splitcode);
-				$splitcode = str_replace('(', '\(', $splitcode);
-				$splitcode = str_replace(')', '\)', $splitcode);
-				$splitcode = str_replace('.', '\.', $splitcode);
-				$splitcode = str_replace('&', '\&', $splitcode);
-				$splitcode = str_replace('/', '\/', $splitcode);
-				//$splitcode = str_replace('<', '\<', $splitcode);
-				//$splitcode = str_replace('>', '\>', $splitcode);
-				$splitcode = str_replace('[*]', '.*', $splitcode);
-				$splitcode = str_replace('[?]', '(.*?)', $splitcode);
-/*
-				if (formGet("split") == "Run split") {
+					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
 
+					//$splitcode = str_replace('\\', '\\\\', $splitcode);
+					$splitcode = str_replace('(', '\(', $splitcode);
+					$splitcode = str_replace(')', '\)', $splitcode);
+					$splitcode = str_replace('.', '\.', $splitcode);
+					$splitcode = str_replace('&', '\&', $splitcode);
+					$splitcode = str_replace('/', '\/', $splitcode);
+					//$splitcode = str_replace('<', '\<', $splitcode);
+					//$splitcode = str_replace('>', '\>', $splitcode);
+					$splitcode = str_replace('[*]', '.*', $splitcode);
+					$splitcode = str_replace('[?]', '(.*?)', $splitcode);
 
 				} else {
 
-					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+					echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
 
 				}
-*/
+
 			}
 
 			$PAGE_form[0]["content"] = $split_ORG;
 		}
 
-		// Fetch data from WordPress
-/*
-		$result = db_getPostFromWP($wp_table, $to);
-
-		if ( isset( $result ) ) {
-
-			$row = $result->fetch_object();
-			$newData_id = $row->id;
-			$newData_post_name = $row->post_name;
-			$newData_post_title = $row->post_title;
-			$newData_guid = $row->guid;
-
-		}
-*/
-/*
-		// Save the selection to the database
-		$result = db_updateCleanerWithWP($id, $newData_post_title, $newData_post_name, $newData_id, $newData_guid);
-
-		// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
-		if ($PAGE_sitestep >= 2) {
-			db_updateStepValue( array(
-				'step' => $PAGE_step,
-				'id' => $PAGE_siteid
-			) );
-		}
-
-		header('Location: migrate-step6.php');
-*/
 	}
 
 ?>
@@ -270,29 +207,8 @@
 			) );
 		if ( isset( $result ) )
 		{
-			//echo '<table style="width:50%; float:left;">';
-			//echo '<tr>';
 
 			$row = $result->fetch_object();
-	/*
-			while ( $row = $result->fetch_object() )
-			{
-				if (!in_array($row->ID, $arrWPidDone))
-					echo '<tr>';
-				else
-					echo '<tr style="opacity:0.3;">';
-
-				if ( qsGet("connect") != "" )
-					echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
-				else
-					echo "<td>-</td>";
-
-				echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-				echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
-				echo '</tr>';
-
-			}
-	*/
 
 			$codeoutput = $row->clean;
 			$baseurl    = $row->page;
@@ -394,9 +310,6 @@
 
 				echo "</pre>";
 
-				//$codeoutput = '<span style="color:green">' . $codeoutput . '</span>';
-				//$codeoutput = '<p style="color:gray">' . $codeoutput . '</p>';
-
 			} else {
 
 				$codeoutput = htmlentities( $codeoutput );
@@ -404,12 +317,6 @@
 
 			}
 
-			//echo '<td>';
-			//echo "<pre style='width:47%; float:left; font-size: 7pt;'>" . $codeoutput . "</pre>";
-			//echo '</td>';
-
-			//echo '</tr>';
-			//echo '</table>';
 		}
 
 	}
