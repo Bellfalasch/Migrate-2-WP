@@ -108,7 +108,7 @@
 					$body = $row->html;
 					$UC_body = mb_strtoupper($body);
 
-					$needleUsed = 'your';
+					$needleUsed = 'yours';
 
 					if ( mb_strlen($body) == 0 OR is_null($body) ) {
 
