@@ -73,7 +73,7 @@
 
 			if (empty($SYS_errors)) {
 				
-				echo "<div class='alert alert-block alert-success'><h4>Debugging</h4><p>Early alpha code ...</p></div>";
+				echo "<div class='alert alert-block alert-info'><h4>Beware!</h4><p>Early alpha code ...</p></div>";
 
 				// Stupid way of getting all the form data into variables for use to save the data.
 				$splitcode = $PAGE_form[0]["content"];
@@ -167,20 +167,11 @@
 
 		while ( $row = $result->fetch_object() )
 		{
-//			if ($row->wp_postid > 0) {
-//				if ($row->id == qsGet("connect") ) {
-//					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-//				} else {
-//					echo '<tr style="opacity:0.3;">';
-//				}
-//				array_push($arrWPidDone, $row->wp_postid);
-//			} else {
-//				if ($row->id == qsGet("connect") ) {
-//					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
-//				} else {
-					echo '<tr>';
-//				}
-//			}
+			if ($row->id == $split_id ) {
+				echo '<tr style="background-color:black; color:white; font-weight:bold;">';
+			} else {
+				echo '<tr>';
+			}
 			
 			if ($split_id > 0) {
 				echo "<td>-</td>";
