@@ -109,8 +109,12 @@
 						'id' => $del_id
 					) );
 
+			$del_content = db_delSiteContent( array(
+									'site' => $del_id
+								) );
+
 			if ($del >= 0)
-				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The data is now deleted</p></div>";
+				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The entire project and all of its content is now deleted</p></div>";
 			else
 				pushError("Delete of data failed, please try again.");
 		}
@@ -327,7 +331,7 @@
 		<button type="submit" class="btn btn-primary">Save project</button>
 
 		<?php if ($PAGE_dbid > 0) { ?>
-			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger">Delete this</a>
+			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger" onclick=" if ( confirm('Are you sure you want to delete this entire project and all of its content? Can't be undone!') { return true; } else { return false; }">Delete this</a>
 		<?php } ?>
 	</div>
 

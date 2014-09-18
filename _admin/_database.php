@@ -292,6 +292,12 @@
 			WHERE `id` = {$in['id']}
 		");
 	}
+	function db_delSiteContent($in) { cleanup($in);
+		return db_MAIN("
+			DELETE FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+		");
+	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////
