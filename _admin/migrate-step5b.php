@@ -37,6 +37,12 @@
 
 	<div class="row">
 		<div class="span8">
+
+			<div class="alert">
+				<h4>Optional step!</h4>
+				<p>This step is not mandatory =)</p>
+			</div>
+
 			<h2>Split pages!</h2>
 			<p>
 				This function is extremely powerful when changing your site structure. You select one page to the left, and after that
@@ -171,7 +177,6 @@
 	}
 
 ?>
-
 	
 		<?php if ( $split_id > 0 ) { ?>
 

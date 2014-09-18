@@ -147,7 +147,7 @@
 		if (!ISPOST) {
 	?>
 
-		<div class="alert alert-success">
+		<div class="alert">
 			<h4>Optional step!</h4>
 			<p>Doing this step is highly recommended, but it's not mandatory =)</p>
 		</div>
