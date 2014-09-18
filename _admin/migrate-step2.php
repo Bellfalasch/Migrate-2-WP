@@ -73,25 +73,27 @@
 			$PAGE_headerNeedleLength = $headerNeedleLength;
 			$PAGE_footerNeedleLength = $footerNeedleLength;
 
-			echo "
+		?>
+
 			<p>
 				<strong>Important!</strong> All html marked in red will be removed when saving these pages back to
 				the database. The originally crawled content will be kept in the column 'html' in the table
 				'migrate_content', if you need it for reference. This also adds support for you to redo this step
-				as many time as you'd like in case you wanna change your needles). The green html will be saved
+				as many times as you'd like in case you wanna change your needles). The green html will be saved
 				into the column 'content'.
 			</p>
 			<p>
-				Please do make extra sure that all code is intact, that is that the ONLY allowed difference between the
+				Please do make extra sure that all code is intact, that the ONLY allowed difference between the
 				left and the right side are the colors. Look for bad cuts shopping of the header or the start of the footer!
 				If so, just tweak your needles and re-run this step until it gets perfect (found at bottom of the page).
 			</p>
 			<p>
-				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will try and find everything surrounded by
-				the body-tag. If not even the body-tag is found, it will try and use the html-tag. If that also is missing,
-				we'll keep the entire content in the database for the following Steps.
+				<strong>Needle miss:</strong> If any of your needles misses on the current html, the code will expect that
+				everything inside the body-tag is content. If not even the body-tag is found, it will try and use the html-tag.
+				If that also fail we'll keep the entire html as the content.
 			</p>
-			";
+
+		<?php
 
 			$result = db_getDataFromSite($PAGE_siteid);
 			if ( isset( $result ) )
@@ -105,6 +107,8 @@
 
 					$body = $row->html;
 					$UC_body = mb_strtoupper($body);
+
+					$needleUsed = 'yours';
 
 					if ( mb_strlen($body) == 0 OR is_null($body) ) {
 
@@ -121,7 +125,6 @@
 						$headerEnd = mb_strpos($body, $headerNeedle);
 
 						// If we can't find a needle we need to try other things that usually exists in the html
-						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
 						if ($headerEnd === FALSE) {
 							$headerNeedle = "<BODY";
 							$headerNeedleLength = mb_strlen($headerNeedle);
@@ -129,6 +132,8 @@
 							
 							// Find placement of body closing tag
 							$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
+
+							$needleUsed = 'body';
 
 							if ($headerEnd === FALSE) {
 								$headerNeedle = "<HTML";
@@ -138,10 +143,14 @@
 								// Find placement of html closing tag
 								$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
 
+								$needleUsed = 'html';
+
 								if ($headerEnd === FALSE) {
 									$headerNeedle = "";
 									$headerNeedleLength = 0;
 									$headerEnd = 0;
+
+									$needleUsed = 'none';
 								}
 							}
 						}
@@ -153,10 +162,8 @@
 						$footerStart = mb_strpos($body, $footerNeedle);
 
 						// If we can't find a needle we need to try other things that usually exists in the html
-						// TODO: Re-make code to be a loop that goes through an array of different predefined needles
 						if ($footerStart === FALSE) {
 							$footerNeedle = "</BODY>";
-							// TODO: No need for footer needle length!
 							// $footerNeedleLength = mb_strlen($footerNeedle);
 							$footerStart = mb_strpos($UC_body, $footerNeedle);
 
@@ -201,6 +208,24 @@
 						// Start to cut from where the header ends, until the header and body total length is reached (where the footer starts)
 						$body = mb_substr( $body, $headerEnd, ( mb_strlen($body) - mb_strlen($header) - mb_strlen($footer) ) );
 						
+						switch($needleUsed) {
+							case "yours":
+								echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needle was found on this page, awesome!</div>';
+								break;
+
+							case "body":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the body-tag instead</div>';
+								break;
+
+							case "html":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								break;
+
+							case "none":
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								break;
+						}
+
 						// Ugly little presentation of how the needles work on each page.
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
 						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
@@ -258,7 +283,7 @@
 
 
 
-<form class="well form-inline" action="" method="post" enctype="multipart/form-data">
+<form class="well form-inline" action="" method="post">
 
 	<div class="row">
 		<div class="span12">

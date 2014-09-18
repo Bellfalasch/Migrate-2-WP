@@ -183,10 +183,10 @@
 				again until you're satisfied. It saves its washed data in a separate database column.
 			</p>
 
-			<label>
+			<label class="checkbox">
 				<input type="checkbox" name="comments" value="yes"<?php if (isset($_POST['comments'])) { ?> checked="checked"<?php } ?> />
 				Remove all HTML-comments and their contents?
-			</label><br />
+			</label>
 			<br />
 
 			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />

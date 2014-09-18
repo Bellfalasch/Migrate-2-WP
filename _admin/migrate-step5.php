@@ -172,29 +172,43 @@
 				$tidy = str_replace(' bgcolor="#C0C0C0"', '', $tidy);
 				$tidy = str_replace(' bgcolor="#E0E0E0"', '', $tidy);
 
-				// Ugly code, but remove myriad of line breaks left behind in the code
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
-				$tidy = str_replace("<br /><br />\n", "<br /><br />\n\n", $tidy); // Do double line breaks after a stack of br-tags for readability
+				// If user adds h1 programatically in WP themes we want to get rid of h1 and turn them into h2 
+				if (isset($_POST['h1'])) {
 
-				// Some last manual adjustments of the code
+					$tidy = str_replace("<h1>", '<h2>', $tidy);
+					$tidy = str_replace("</h1>", '</h2>', $tidy);
+
+				}
+
+				// Ugly code, but remove myriad of line breaks left behind in the code
+				if (isset($_POST['linebreaks'])) {
+					
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+					$tidy = str_replace("<br />\n<br />", '<br /><br />', $tidy);
+
+					$tidy = str_replace("<br /></p>", '</p>', $tidy);
+					$tidy = str_replace("<br /></p>", '</p>', $tidy);
+					$tidy = str_replace("<br /></p>", '</p>', $tidy);
+					$tidy = str_replace("<p><br />", '<p>', $tidy);
+					$tidy = str_replace("<p><br />", '<p>', $tidy); // Starting breaking tag directly inside a p-tag is pretty common
+					$tidy = str_replace("<p>\n<br />", '<p>', $tidy);
+					
+					// Do double line breaks after a stack of br-tags for readability
+					$tidy = str_replace("<br /><br />\n", "<br /><br />\n\n", $tidy);
+				}
+
+				// Some last manual adjustments of the code (minor)
 				$tidy = str_replace("</tr>\n<tr>", '</tr><tr>', $tidy);
 				$tidy = str_replace("<table>\n<tr>", '<table><tr>', $tidy);
 				$tidy = str_replace("</tr>\n</table>", '</tr></table>', $tidy);
-				$tidy = str_replace("<br /></p>", '</p>', $tidy);
-				$tidy = str_replace("<br /></p>", '</p>', $tidy);
-				$tidy = str_replace("<br /></p>", '</p>', $tidy);
-				$tidy = str_replace("<p><br />", '<p>', $tidy);
-				$tidy = str_replace("<p><br />", '<p>', $tidy); // Starting breaking tag directly inside a p-tag is pretty common
-				$tidy = str_replace("<p>\n<br />", '<p>', $tidy);
 				$tidy = str_replace("<p>\n", '<p>', $tidy);
 				$tidy = str_replace("<p>\n", '<p>', $tidy);
 				$tidy = str_replace("<p>\n", '<p>', $tidy);
@@ -208,15 +222,19 @@
 				$tidy = str_replace("</span></td>", "</th>", $tidy);
 
 				// Delete empty tags
-				$tidy = str_replace("<p>\n</p>", '', $tidy);
-				$tidy = str_replace("<p><br /></p>\n", "", $tidy);
-				$tidy = str_replace("<p><br /><br /></p>\n", "", $tidy);
-				$tidy = str_replace("<pre>\n</pre>\n", "", $tidy);
-				$tidy = str_replace("<pre>\n<br />\n</pre>\n", "", $tidy);
-				$tidy = str_replace("<pre>\n<br />\n\n</pre>\n", "", $tidy);
-				$tidy = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $tidy);
-				$tidy = str_replace("<p></p>\n", "", $tidy);
-				$tidy = str_replace("<div></div>", "", $tidy);
+				if (isset($_POST['empty'])) {
+
+					$tidy = str_replace("<p>\n</p>", '', $tidy);
+					$tidy = str_replace("<p><br /></p>\n", "", $tidy);
+					$tidy = str_replace("<p><br /><br /></p>\n", "", $tidy);
+					$tidy = str_replace("<pre>\n</pre>\n", "", $tidy);
+					$tidy = str_replace("<pre>\n<br />\n</pre>\n", "", $tidy);
+					$tidy = str_replace("<pre>\n<br />\n\n</pre>\n", "", $tidy);
+					$tidy = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $tidy);
+					$tidy = str_replace("<p></p>\n", "", $tidy);
+					$tidy = str_replace("<div></div>", "", $tidy);
+
+				}
 
 				// Do some simple indentation - NO, ruins later replaces
 				//$tidy = str_replace('<td', "\t<td", $tidy);
@@ -315,10 +333,22 @@
 				again until you're satisfied. It saves its data in a separate database column.
 			</p>
 
-			<label>
+			<label class="checkbox">
 				<input type="checkbox" name="images" value="yes"<?php if (isset($_POST['images'])) { ?> checked="checked"<?php } ?> />
 				Update all images to use the assets-folder on the new site?
-			</label><br />
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" name="h1" value="yes"<?php if (isset($_POST['h1'])) { ?> checked="checked"<?php } ?> />
+				Downgrade every h1-tag in the content to h2?
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" name="empty" value="yes"<?php if (isset($_POST['empty'])) { ?> checked="checked"<?php } ?> />
+				Try to remove most empty tags?
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" name="linebreaks" value="yes"<?php if (isset($_POST['linebreaks'])) { ?> checked="checked"<?php } ?> />
+				Try to remove clusters of extra linebreaks and br-tags? 
+			</label>
 			<br />
 
 			<input type="submit" name="save_clean" value="Run clean" class="btn btn-primary" />
