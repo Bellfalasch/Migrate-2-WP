@@ -168,7 +168,8 @@
 					// This is the result from the db-handling in my files.
 					// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
 					if ($result >= 0) {
-						echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
+						//echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
+						header('Location: migrate-project.php?saved=true');
 					} else {
 						pushError("Data could not be saved, do retry.");
 					}
@@ -186,7 +187,7 @@
 					// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
 					if ($result > 0) {
 						
-						echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . $result . '</p></div>';
+						//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . $result . '</p></div>';
 
 						// Reset all the data so we get a clean form after an insert.
 						$PAGE_dbid = -1;
@@ -195,6 +196,8 @@
 						$PAGE_form[0]["content"] = '';
 						$PAGE_form[1]["content"] = '';
 						$PAGE_form[2]["content"] = '';
+
+						header('Location: migrate-project.php?saved=' . $result);
 
 					} else {
 						pushError("Data could not be saved, do retry.");
@@ -238,6 +241,15 @@
 				$PAGE_form[7]["content"] = $wp_dbpass;
 			}
 			
+		}
+
+
+		if ( qsGet("saved") != "" ) {
+			if ( qsGet("saved") == "true" ) {
+				echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
+			} elseif ( qsGet("saved") !== "" ) {
+				echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . qsGet("saved") . '</p></div>';
+			}
 		}
 
 	?>
