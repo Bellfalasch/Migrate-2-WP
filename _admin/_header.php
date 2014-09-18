@@ -79,7 +79,7 @@
 			<?php } else if (isActiveOn("migrate")) { ?>
 
 				<?php if ($SYS_adminlvl > 0) { ?>
-					<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-project.php">Project</a></li>
+					<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-project.php">Projects</a></li>
 
 					<li>
 
@@ -118,12 +118,6 @@
 						</select>
 					</li>
 
-					<?php if ($PAGE_siteid > 0) { ?>
-						<li<?php flagAsActiveOn("settings") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-settings.php">Setti.</a></li>
-					<?php } else { ?>
-						<li class="disabled"><a href="#0">Setti.</a></li>
-					<?php } ?>
-
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 0) { ?>
 						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">1: Eat</a></li>
 					<?php } else { ?>
@@ -147,10 +141,10 @@
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 1) { ?>
-						<li<?php flagAsActiveOn("step5b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5b.php">Split</a></li>
+						<li<?php flagAsActiveOn("step5b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5b.php">5b: Split</a></li>
 						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Connect</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">Split</a></li>
+						<li class="disabled"><a href="#0">5b: Split</a></li>
 						<li class="disabled"><a href="#0">6: Connect</a></li>
 					<?php } ?>
 
