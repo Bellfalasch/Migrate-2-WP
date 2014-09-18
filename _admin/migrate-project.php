@@ -263,6 +263,13 @@
 	<div class="row">
 		<div class="span7">
 
+			<div class="alert">
+				<p>
+					All the settings preceded by "WP" are only temporary stored on your computer. We only use it to be able to connect to your
+					WordPress database in the last few steps to insert the crawled and cleaned data.
+				</p>
+			</div>
+
 	<?php
 
 		// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
