@@ -117,9 +117,9 @@ function checklink($link)
 	if (in_array($filetype, $endings) ) {
 		$checked_link = $link;
 		//echo  "\n" . $checked_link . " ---<br />\n";
-		return TRUE;
+		return true;
 	} else {
-		return FALSE;
+		return false;
 	}
 
 }
