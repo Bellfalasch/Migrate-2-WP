@@ -82,15 +82,17 @@ function checklink($link)
 {
 	global $checked_link;
 
-	// Find every space in URLs, and replcase it with %20
-	$space_search = array('/\\s/i');
-	$space_replace = array('%20');
-	$link = preg_replace($space_search, $space_replace, $link);
+	// Find every space in URLs, and replace it with %20
+//	$space_search = array('/\s/i');
+//	$space_replace = array('%20');
+//	$link = preg_replace($space_search, $space_replace, $link);
 
-	// Find all achors ( #-sign ) and replace them with '\2' (part two of url)
-	$square_search = array('/(.*?)\#(.*?)/i');
-	$square_replace = array('\\2');
-	$link = preg_replace($square_search, $square_replace, $link);
+	// Simplification of the above:
+	$link = replace( " ", "%20", $link );
+
+	// Find all achors ( #-sign ) and delete it and everything after
+	$anchor_search = "/(.*)\#(.*?)/i'";
+	$link = preg_replace($anchor_search, '', $link);
 
 	// List of file endings on pages to crawl for, fetch from setting
 	// Our formGet doesn't tackle post arrays, so need to read it directly
@@ -112,14 +114,11 @@ function checklink($link)
 	$filetype = $filetype[0];
 
 
-	if(in_array($filetype, $endings))
-	{
+	if (in_array($filetype, $endings) ) {
 		$checked_link = $link;
 		//echo  "\n" . $checked_link . " ---<br />\n";
 		return TRUE;
-	}
-	else
-	{
+	} else {
 		return FALSE;
 	}
 
