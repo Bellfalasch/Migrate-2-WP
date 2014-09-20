@@ -88,7 +88,7 @@ function checklink($link)
 //	$link = preg_replace($space_search, $space_replace, $link);
 
 	// Simplification of the above:
-	$link = replace( " ", "%20", $link );
+	$link = str_replace( " ", "%20", $link );
 
 	// Find all achors ( #-sign ) and delete it and everything after
 	$anchor_search = "/(.*)\#(.*?)/i'";
