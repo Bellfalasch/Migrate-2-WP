@@ -47,6 +47,14 @@
 	// At the moment only way to delete data in the table and start anew:
 	//mysql_query("TRUNCATE `" . $cleaner_table . "`");
 
+	// List of file endings on pages to crawl for, fetch from setting
+	// Our formGet doesn't tackle post arrays, so need to read it directly
+	$fileendings = array();
+
+	if (isset($_POST['filetype'])) {
+		$fileendings = $_POST['filetype'];
+	}
+
 
 // Crawler functions
 // ****************************************************************************
@@ -81,6 +89,7 @@ function savepage($url, $html)
 function checklink($link)
 {
 	global $checked_link;
+	global $fileendings;
 
 	// Find every space in URLs, and replace it with %20
 //	$space_search = array('/\s/i');
@@ -91,20 +100,18 @@ function checklink($link)
 	$link = str_replace( " ", "%20", $link );
 
 	// Find all achors ( #-sign ) and delete it and everything after
-	$anchor_search = "/(.*)\#(.*?)/i'";
-	$link = preg_replace($anchor_search, '', $link);
-
-	// List of file endings on pages to crawl for, fetch from setting
-	// Our formGet doesn't tackle post arrays, so need to read it directly
-
-	if (isset($_POST['filetype'])) {
-		$optionArray = $_POST['filetype'];
-		//for ($i=0; $i<count($optionArray); $i++) {
-		//	echo $optionArray[$i]."<br />";
-		//}
+	$matches = array();
+	$anchor_search = "/(.*?)#(.*?)/i";
+	preg_match($anchor_search, $link, $matches);
+	
+	// If match found (# found in URL) remove it
+	if ( $matches ) {
+		$link = $matches[0];
+//		echo $matches[0];
 	}
+//	var_dump($matches);
 
-	$endings = $optionArray;
+//	echo $link;
 
 	//var_dump( $endings );
 	
@@ -113,8 +120,7 @@ function checklink($link)
 	$filetype = explode("?", $filetype);
 	$filetype = $filetype[0];
 
-
-	if (in_array($filetype, $endings) ) {
+	if (in_array($filetype, $fileendings) ) {
 		$checked_link = $link;
 		//echo  "\n" . $checked_link . " ---<br />\n";
 		return true;
@@ -156,7 +162,7 @@ function getsite($site, $site_address)
 	// Different kind of link formats for this site.
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array (
-		'/\<option value="(.*?)"(.*?)>(.*?)<\/option>/i',
+		'/\<option value="(.*?)".*>.*<\/option>/i',
 		'/ href="(.*?)"/i',
 		'/ src="(.*?)"/i',
 		'/window\.open\("(.*?)"/i'
@@ -231,6 +237,7 @@ function getsite($site, $site_address)
 	if ($search != "") {
 		while(($buffer = fgets($handle)) !== false)
 		{
+
 			$pagebuffer .= $buffer;
 			// Search for all the different regex
 
@@ -243,7 +250,7 @@ function getsite($site, $site_address)
 				{
 			#		print_r($result[0]);
 					//if ( $i < count($result[$i]) ) {
-						array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
+					array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
 						
 						// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
 						// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
@@ -266,20 +273,26 @@ function getsite($site, $site_address)
 	// Regexp-format on the URL's we'll primarily look for.
 	$search_links = array(
 		'/^\.\.(.*?)/i',
-		'/^http\:\/\/(.*)/i'
+		'/^http\:\/\/(.*?)/i'
 	);
 
 
 	echo "<ol>";
 
+
+	// For each type of URL format ...
 	for ($i=0; $i<=$search_length; $i++)
 	{
+
 		$links_length = count($links[$i]);
 
+		// For each link found ...
 		for ($j=0; $j<=$links_length; $j++)
 		{
+
 			if (!empty($links[$i][$j]) )
 			{
+
 				// Honeypot, catching bad URLs:
 				if (preg_match($search_links[0], $links[$i][$j][0], $res_links))
 				{
@@ -355,6 +368,7 @@ function getsite($site, $site_address)
 				}
 				else
 				{
+
 				// Match link without regexp
 
 #					echo "\n2: " . $links[$i][$j][1] . "<br />\n";
@@ -381,8 +395,13 @@ function getsite($site, $site_address)
 							// Don't collect garbage links (only # in the href, or mailto-links)
 							if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
 							{
+	// exit;
+//								if ( $y > 1 )
+//									exit;
+
 								$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
-								echo "<li>[" . $i . "]<a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
+								//echo "<li>[" . $i . "]<a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
+								echo "<li><a href=\"" . $links[$i][$j][$y] . "\" target=\"_blank\">" . $links[$i][$j][$y] . "</a>\n";
 								//echo "2: " . $links[$i][$j][1] . "\n";
 		#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
 								if (checklink($links[$i][$j][$y]))
@@ -399,8 +418,12 @@ function getsite($site, $site_address)
 									echo " <span class=\"label\">Not a page</span>";
 								}
 								echo "</li>";
+
+
 							}
 						}
+						
+						exit;
 					
 					} // for $y
 
@@ -430,7 +453,6 @@ function getsite($site, $site_address)
 	}
 
 	echo "<br /><br />";
-
 
 }
 
