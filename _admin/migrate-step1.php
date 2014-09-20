@@ -507,7 +507,7 @@ function getsite($site, $site_address)
 	</div>
 
 
-<form class="well form-inline" action="" method="post">
+<form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
@@ -523,7 +523,7 @@ function getsite($site, $site_address)
 
 			<div class="row">
 				<div class="span5">
-					<strong>Fetch these filetypes:</strong><br />
+					<h4>Fetch these filetypes:</h4>
 					
 					<?php
 						// Valid file endings to crawl
@@ -532,20 +532,20 @@ function getsite($site, $site_address)
 							$optionArray = $_POST['filetype'];
 						}
 					?>
-					<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label><br />
-					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label><br />
-					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label><br />
-					<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label><br /><br />
+					<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label>
+					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label>
+					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label>
+					<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label>
 				</div>
 
 				<div class="span5 offset1">
-					<strong>Perform HTTP-status check:</strong><br />
-					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes!</label> (skip all pages giving errors)<br />
+					<h4>Perform HTTP-status check:</h4>
+					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
 				</div>
 			</div>
 
 			<p>
-				Crawling of a website can take very long time, depending on how many pages and links it has.
+				Crawling of a website can take a very long time, depending on how many pages and links it has.
 			</p>
 
 			<input type="submit" name="save_crawl" value="Run crawl" class="btn btn-primary" />
