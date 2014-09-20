@@ -317,7 +317,7 @@
 
 	<?php } ?>
 
-<form class="well form-inline" action="" method="post">
+<form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
@@ -333,9 +333,10 @@
 				again until you're satisfied. It saves its data in a separate database column.
 			</p>
 
+			<h3>Settings</h3>
 			<label class="checkbox">
 				<input type="checkbox" name="images" value="yes"<?php if (isset($_POST['images'])) { ?> checked="checked"<?php } ?> />
-				Update all images to use the assets-folder on the new site?
+				Update all images to use the "assets/_old"-folder on the new site?
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="h1" value="yes"<?php if (isset($_POST['h1'])) { ?> checked="checked"<?php } ?> />
@@ -343,7 +344,7 @@
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="empty" value="yes"<?php if (isset($_POST['empty'])) { ?> checked="checked"<?php } ?> />
-				Try to remove most empty tags?
+				Try to remove most empty tags (div and p)?
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="linebreaks" value="yes"<?php if (isset($_POST['linebreaks'])) { ?> checked="checked"<?php } ?> />
