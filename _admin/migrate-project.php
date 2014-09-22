@@ -331,7 +331,7 @@
 		<button type="submit" class="btn btn-primary">Save project</button>
 
 		<?php if ($PAGE_dbid > 0) { ?>
-			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger" onclick="var answer = confirm('Are you sure you want to delete this entire project and all of its content? Can't be undone!') if (answer) { return true } else { return false }">Delete this</a>
+			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger">Delete this</a>
 		<?php } ?>
 	</div>
 

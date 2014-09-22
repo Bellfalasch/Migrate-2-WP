@@ -30,8 +30,9 @@
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script src="<?= $SYS_root . $SYS_folder ?>/assets/admin.js"></script>
 </head>
-<body>
+<body class="<?= $SYS_script ?>">
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
