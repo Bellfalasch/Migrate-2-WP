@@ -83,7 +83,6 @@ function savepage($url, $html)
 function checklink($link)
 {
 	global $checked_link;
-	global $fileendings;
 
 	// Find every space in URLs, and replace it with %20
 //	$space_search = array('/\s/i');
@@ -108,15 +107,28 @@ function checklink($link)
 //	echo $link;
 
 	//var_dump( $endings );
-	
+
+	if ( validfiletype($link) ) {
+		$checked_link = $link;
+		//echo  "\n" . $checked_link . " ---<br />\n";
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+// Validate file ending (don't add links to files we don't want)
+function validfiletype($link)
+{
+	global $fileendings;
+
 	$filetype = explode(".", $link);
 	$filetype = $filetype[sizeof($filetype)-1];
 	$filetype = explode("?", $filetype);
 	$filetype = $filetype[0];
 
 	if (in_array($filetype, $fileendings) ) {
-		$checked_link = $link;
-		//echo  "\n" . $checked_link . " ---<br />\n";
 		return true;
 	} else {
 		return false;
@@ -153,6 +165,8 @@ function getsite($site, $site_address)
 	global $check_links;
 	global $checked_link;
 
+	$linklist = array(); // Array to store all the links in
+
 	// Different kind of link formats for this site.
 	// Example from one of my old sites that had it's navigation in a select > option-list ... >_<
 	$search = array (
@@ -181,12 +195,12 @@ function getsite($site, $site_address)
 	echo "<strong>Fetching URL:</strong> " . $site . " ";
 
 	// Get a URL's code
-	$handle = fopen($site, "r");
+	$http_request = fopen($site, "r");
 
 	//print_r($http_response_header);
 
 	// Check HTTP status message, only get OK pages (if setting says so)
-	if ($handle)
+	if ($http_request)
 	{
 		// Check that it says status 200 OK in the header
 		if (is_array($http_response_header)) {
@@ -219,52 +233,89 @@ function getsite($site, $site_address)
 //	echo "The crawler found these links:";
 	echo "</p>";
 
-	//$handle = stream_get_contents($handle);
+	//$http_request = stream_get_contents($http_request);
 
 	// Create array to store all the links we find, one for each regex-string
-	for ($i=0; $i<=$search_length; $i++) {
-		$links[$i] = array();
-	}
+//	for ($i=0; $i<=$search_length; $i++) {
+//		$linklist = array();
+//	}
 
 	// Collect a list of links from our pages and check for duplicates
 	$pagebuffer = "";
-	if ($search != "") {
-		while(($buffer = fgets($handle)) !== false)
+	
+	if ($search_length > 0) { // If we have any search terms
+
+		while ( ($buffer = fgets($http_request)) !== false )
 		{
 
-			$pagebuffer .= $buffer;
-			// Search for all the different regex
+			$pagebuffer .= $buffer; // "while" checks if it worked, add it to the buffer (no idea why it adds it like this)
+									// Nevermind, read up on documentation ... fgets apparently reads files/URLs line by line (facepalm)
+
+//			echo "sparat ...";
+//			exit;
 
 			//echo "search_length: " . $search_length . "<br />";
-
-			for ($i=0; $i<$search_length; $i++)
-			{
-				// Find all matching links in the fetched URL
-				if (preg_match_all($search[$i], $buffer, $result[$i]))
-				{
-			#		print_r($result[0]);
-					//if ( $i < count($result[$i]) ) {
-					array_push($links[$i], $result[$i][1]); // 0 = The matching string (with href etc), and 1 = only the result
-						
-						// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
-						// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
-
-						// TODO: Testa att inte sätta detta till 1. Jag tror den innehåller en flera dimensioner djup array, och vi därför måste bygga ut loopen nedan ett steg till!
-
-						//echo '$result[$i][1]';
-						//var_dump($result[$i][1]);
-						//var_dump($links[$i]);
-					//}
-				}
-			}
 		}
-		//var_dump($links[0]);
-		//var_dump($links[1]);
-		//var_dump($links[2]);
-		//var_dump($links[3]);
+		//var_dump($linklist[0]);
+		//var_dump($linklist[1]);
+		//var_dump($linklist[2]);
+		//var_dump($linklist[3]);
 	}
 
-	// Regexp-format on the URL's we'll primarily look for.
+	// Search for all the different regex we have
+	for ( $i = 0; $i < $search_length; $i++ )
+	{
+
+		//exit;
+
+		// Find all matching links in the fetched URL's html
+		if ( preg_match_all($search[$i], $pagebuffer, $result) )
+		{
+	#		print_r($result[0]);
+			//if ( $i < count($result[$i]) ) {
+
+			//exit;
+
+			// Add each link we find to our link list
+			$result_length = count($result[1]);
+
+			for ( $u = 0; $u < $search_length; $u++ )
+			{
+				// Don't add duplicates
+				if ( !in_array($result[1][$u], $linklist) ) {
+
+					if ( validfiletype($result[1][$u]) ) {
+
+						array_push($linklist, $result[1][$u]); // Preg_match_all returns array like so:
+															   // 0 = The matching strings (with href etc), and 1 = only the exact result matches
+
+					}
+
+				}
+			
+			}
+				
+			//var_dump($result);
+
+			// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
+			// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
+
+			// TODO: Testa att inte sätta detta till 1. Jag tror den innehåller en flera dimensioner djup array, och vi därför måste bygga ut loopen nedan ett steg till!
+
+			//echo '$result[$i][1]';
+			// var_dump($result[$i][0]);
+			// var_dump($result[$i][1]);
+			// var_dump($result[$i][2]);
+			// var_dump($result[$i][3]);
+			//var_dump($linklist);
+
+			//} 
+			//exit;
+
+		}
+	}
+
+	// Regexp-format on the URL's we'll primarily look for as invalid (not contained in that site).
 	$search_links = array(
 		'/^\.\.(.*?)/i',
 		'/^http\:\/\/(.*?)/i'
@@ -275,27 +326,27 @@ function getsite($site, $site_address)
 
 
 	// For each type of URL format ...
-	for ($i=0; $i<=$search_length; $i++)
-	{
+//	for ($i=0; $i<=$search_length; $i++)
+//	{
 
-		$links_length = count($links[$i]);
+		$links_length = count($linklist);
 
 		// For each link found ...
 		for ($j=0; $j<=$links_length; $j++)
 		{
 
-			if (!empty($links[$i][$j]) )
+			if (!empty($linklist[$j]) )
 			{
 
-				// Honeypot, catching bad URLs:
-				if (preg_match($search_links[0], $links[$i][$j][0], $res_links))
+				// Honeypot, catching bad URLs: (going down one folder)
+				if (preg_match($search_links[0], $linklist[$j], $res_links))
 				{
 					#			print_r(".." . $res_links );
 	#				echo "\n0:\n". $res_links . "\n";
 	#				print_r($res_links);
 				}
-				// Honeypot, catching bad URLs:
-				else if (preg_match($search_links[1], $links[$i][$j][0], $res_links))
+				// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
+				else if (preg_match($search_links[1], $linklist[$j], $res_links))
 				{
 					$break = false;
 					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
@@ -363,75 +414,75 @@ function getsite($site, $site_address)
 				else
 				{
 
-				// Match link without regexp
+				// Match link without regexp, should be valid and inside that site
 
-#					echo "\n2: " . $links[$i][$j][1] . "<br />\n";
+#					echo "\n2: " . $linklist[$j][1] . "<br />\n";
 #					print_r($res_links);
 
-//					echo "count:" . count($links[$i][$j]);
+//					echo "count:" . count($linklist[$j]);
 /*
 					$del_val = "#";
-					$key = array_search($del_val, $links[$i][$j]);
+					$key = array_search($del_val, $linklist[$j]);
 
 					if ( $key !== false ) {
-						unset($links[$i][$j][$key]);
+						unset($linklist[$j][$key]);
 					}
 */
-					$links2_length = count($links[$i][$j]);
+//					$links2_length = count($linklist[$j]);
+
 					
-					for ($y=0; $y<=$links2_length; $y++)
-					{
+//					for ($y=0; $y<=$links2_length; $y++)
+//					{
 //					$y = 0;
 
-						if (!empty($links[$i][$j][$y]) )
-						{
+						var_dump( $linklist[$j] );
 
-							// Don't collect garbage links (only # in the href, or mailto-links)
-							if ($links[$i][$j][$y] != "#" && substr( $links[$i][$j][$y], 0, 7 ) != "mailto:")
-							{
-	// exit;
+						// Don't collect garbage links (only # in the href, or mailto-links)
+						if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
+						{
+// exit;
 //								if ( $y > 1 )
 //									exit;
 
-								$links[$i][$j][$y] = $site_address . $links[$i][$j][$y];
-								//echo "<li>[" . $i . "]<a href=\"#\">" . $links[$i][$j][$y] . "</a>\n";
-								echo "<li><a href=\"" . $links[$i][$j][$y] . "\" target=\"_blank\">" . $links[$i][$j][$y] . "</a>\n";
-								//echo "2: " . $links[$i][$j][1] . "\n";
-		#						$link = preg_replace($replace_search, $replace, $links[$i][$j][1]);
-								if (checklink($links[$i][$j][$y]))
+							// Create full http links with domain name and all
+							$link_full = $site_address . $linklist[$j];
+
+							// Output information (link) to user
+							echo "<li><a href=\"" . $link_full . "\" target=\"_blank\">" . $link_full . "</a>\n";
+
+	#						$link = preg_replace($replace_search, $replace, $link_full[1]);
+							if (checklink($link_full))
+							{
+								//echo "\n" . $checked_link . " ---\n";
+								if (!array_key_exists($checked_link, $check_links))
 								{
-									//echo "\n" . $checked_link . " ---\n";
-									if (!array_key_exists($checked_link, $check_links))
-									{
-										echo " <span class=\"label label-info\">Added</span>";
-										$check_links[$checked_link] = 0;
-									} else {
-										echo " <span class=\"label\">Skipped</span>";
-									}
+									echo " <span class=\"label label-info\">Added</span>";
+									$check_links[$checked_link] = 0;
 								} else {
-									echo " <span class=\"label\">Not a page</span>";
+									echo " <span class=\"label\">Skipped</span>";
 								}
-								echo "</li>";
-
-
+							} else {
+								echo " <span class=\"label\">Not a page</span>";
 							}
+							echo "</li>";
+
 						}
 						
 						exit;
 					
-					} // for $y
+//					} // for $y
 
 				}
 			}
 		}
-	}
+//	}
 
 	echo "</ol>";
 
 	$check_links[$PAGE_siteurl] = 1;
 
 	// Close file/URL
-	fclose($handle);
+	fclose($http_request);
 
 	//print_r($check_links);
 	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
