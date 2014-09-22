@@ -238,7 +238,16 @@
 						$title   = $arr_titles[1][$i]; // Index 0 contains matching area, index 1 the extracted match
 						$content = $arr_content[$i+1]; // Skip first content
 
-						$title_db = trim( urlencode( str_replace(' ', '-', strtolower($title) ) ) );
+						// Convert page title into something more URL friendly
+						$title_db = trim( strtolower($title) );
+						$title_db = str_replace(' ', '-', $title);
+						$title_db = str_replace(',', '', $title);
+						$title_db = str_replace('.', '', $title);
+						$title_db = str_replace('&', '', $title);
+						$title_db = str_replace('%', '', $title);
+						$title_db = str_replace('#', '', $title);
+						$title_db = urlencode( $title );
+
 						$content_db = trim( $content );
 
 						if (formGet("split") == "Run split") {
