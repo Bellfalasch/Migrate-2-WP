@@ -1,6 +1,13 @@
 // On page load run jQuery scripts
 $(function() {
 
+	// General
+	$("#project_list").change(function() {
+
+		location.href = window.location.href.split('?')[0] + "?project=" + $("#project_list option:selected").val();
+
+	});
+
 	// Project page
 	//////////////////////////////////////////////////////////////
 	$("body.migrate-project .btn-danger").click( function() {

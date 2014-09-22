@@ -83,17 +83,6 @@
 					<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-project.php">Projects</a></li>
 
 					<li>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#project_list").change(function() {
-
-			location.href = window.location.href.split('?')[0] + "?project=" + $("#project_list option:selected").val();
-
-		});
-	});
-</script>
-
 						<select name="project" style="margin-top:4px;" id="project_list">
 							<option value="">Choose Project:</option>
 			<?php
