@@ -559,7 +559,7 @@ function getsite($site, $site_address)
 				</div>
 			</div>
 
-			<p>
+			<p class="text-error">
 				Crawling of a website can take a very long time, depending on how many pages and links it has.
 			</p>
 

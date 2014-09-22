@@ -162,7 +162,7 @@
 
 	<?php } ?>
 
-<form class="well form-inline" action="" method="post">
+<form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span12">

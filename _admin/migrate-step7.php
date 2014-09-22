@@ -203,6 +203,7 @@
 				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
 				Add a "Text not manually checked" on top of every moved page in WordPress?
 			</label>
+			<br />
 
 			<input type="submit" name="save_move" value="Move 'em all!" class="btn btn-primary" />
 
