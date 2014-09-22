@@ -43,7 +43,7 @@
 					<span class="icon-bar"></span>
 				</a>
 				
-				<a class="brand" href="http://www.github.com/Bellfalasch/">Migrate 2 WP</a>
+				<a class="brand" href="http://www.github.com/Bellfalasch/Migrate-2-WP">Migrate 2 WP</a>
 				
 				<div class="nav-collapse">
 
