@@ -7,17 +7,11 @@
 	$PAGE_step  = 1;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'crawl an entire site\'s html';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>crawl an entire site's html</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>12<?php } else { ?>1<?php } ?>%;"></div>

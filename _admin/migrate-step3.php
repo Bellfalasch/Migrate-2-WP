@@ -3,17 +3,11 @@
 	$PAGE_step  = 3;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'wash away or replace old html';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>wash away or replace old html</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>43<?php } else { ?>30<?php } ?>%;"></div>

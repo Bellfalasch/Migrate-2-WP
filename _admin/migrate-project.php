@@ -2,6 +2,7 @@
 	/* Set up template variables */
 	$PAGE_name  = 'Project';
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'create and manage your projects';
 ?>
 <?php require('_global.php'); ?>
 
@@ -257,13 +258,6 @@
 		}
 
 	?>
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>create and manage your projects</small>
-		</h1>
-	</div>
 
 <?php
 

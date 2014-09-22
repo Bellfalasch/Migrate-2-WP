@@ -151,4 +151,11 @@
 	</div>
 
 	<div id="container">
+
+		<div class="page-header">
+			<h1>
+				<?= $PAGE_name ?>
+				<small><?= $PAGE_desc ?></small>
+			</h1>
+		</div>
 <!-- /header -->

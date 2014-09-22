@@ -3,6 +3,7 @@
 	$PAGE_step  = 6;
 	$PAGE_name  = 'Step 5b';
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'split a page into sub pages';
 ?>
 <?php require('_global.php'); ?>
 
@@ -23,13 +24,6 @@
 ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>split a page into sub pages</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>95<?php } else { ?>75<?php } ?>%;"></div>

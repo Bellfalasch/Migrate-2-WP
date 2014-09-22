@@ -3,17 +3,11 @@
 	$PAGE_step  = 7;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'push content into Wordpress';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>push content into Wordpress</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>99<?php } else { ?>96<?php } ?>%;"></div>

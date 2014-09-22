@@ -3,6 +3,7 @@
 	$PAGE_step  = 2;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'locate content and strip away repeating html';
 ?>
 <?php require('_global.php'); ?>
 
@@ -33,13 +34,6 @@
 ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>locate content and strip away repeating html</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>28<?php } else { ?>15<?php } ?>%;"></div>

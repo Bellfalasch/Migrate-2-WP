@@ -3,17 +3,11 @@
 	$PAGE_step  = 4;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'fix old html with PHP tidy-component';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>fix old html with PHP tidy-component</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>58<?php } else { ?>45<?php } ?>%;"></div>

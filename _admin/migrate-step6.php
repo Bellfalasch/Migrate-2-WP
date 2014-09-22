@@ -3,17 +3,11 @@
 	$PAGE_step  = 6;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'connect crawled pages with WordPress';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>connect crawled pages with WordPress</small>
-		</h1>
-	</div>
 
 	<div class="progress progress-striped">
 		<div class="bar" style="width: <?php if (ISPOST) { ?>95<?php } else { ?>75<?php } ?>%;"></div>
