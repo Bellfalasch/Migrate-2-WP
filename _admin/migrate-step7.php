@@ -146,7 +146,7 @@
 
 ?>
 
-<form class="well form-inline" action="" method="post">
+<form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
@@ -160,21 +160,21 @@
 				Wordpress installation.
 			</p>
 
-			<strong>Settings:</strong><br />
+			<h3>Settings:</h3>
 			<label>
 				<input type="checkbox" name="fix" value="yes"<?php if (isset($_POST['fix'])) { ?> checked="checked"<?php } ?> />
 				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
-				This class is automatically removed on all links we can manage to update through the code.
-			</label><br />
+				<span class="help-block">This class is automatically removed on all links we can manage to update through the code.</span>
+			</label>
 			<label>
 				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
-				When pages get smashed together in one WP-page, add a separator? (without this, existing content in WordPress will be removed!)
-			</label><br />
+				When pages get smashed together in one WP-page, add a separator?
+				<span class="help-block">Without this, existing content in WordPress will be removed!</span>
+			</label>
 			<label>
 				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
 				Add a "Text not manually checked" on top of every moved page in WordPress?
-			</label><br />
-			<br />
+			</label>
 
 			<input type="submit" name="save_move" value="Move 'em all!" class="btn btn-primary" />
 

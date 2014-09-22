@@ -96,7 +96,7 @@
 			) );
 		}
 
-		header('Location: migrate-step6.php');
+		header('Location: ' . $SYS_script . '.php');
 
 	}
 
@@ -110,7 +110,7 @@
 						'site' => $PAGE_siteid
 					) );
 
-		header('Location: migrate-step6.php');
+		header('Location: ' . $SYS_script . '.php');
 
 	}
 
