@@ -30,110 +30,138 @@
 			{
 				
 				//$content = utf8_encode($row->clean);
-				$content = $row->clean;
 
-				// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
-				if (isset($_POST['fix'])) {
-					$content = str_replace('<img ', '<img class="imgfix" ', $content);
-					$content = str_replace('<a href="', '<a class="fix" href="', $content);
+				$stop = false;
+
+				// Waterfall-choose the best (cleanest) html from the database depending on which is available
+				if ( is_null($row->clean) ) {
+
+					$content = $row->clean;
+
+				} elseif ( is_null($row->tidy) ) {
+
+					$content = $row->tidy;
+
+				} elseif ( is_null($row->wash) ) {
+
+					$content = $row->wash;
+
+				} elseif ( is_null($row->content) ) {
+
+					$content = $row->content;
+
+				} else {
+
+					$stop = true;
+				
 				}
 
-				$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
+				if ( !$stop ) {
 
-				if (!is_null($getWP)) {
+					// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
+					if (isset($_POST['fix'])) {
+						$content = str_replace('<img ', '<img class="imgfix" ', $content);
+						$content = str_replace('<a href="', '<a class="fix" href="', $content);
+					}
 
-					// Update all links
-					$newlink = $row->wp_guid;
-					$oldlink = $row->page;
+					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
-					if ($newlink != "" && !is_null($newlink))
-					{
+					if (!is_null($getWP)) {
 
-						$mapparArr = explode('/', $oldlink);
-						$fil = $mapparArr[count($mapparArr) - 1];
-						$mapp = $mapparArr[count($mapparArr) - 2];
+						// Update all links
+						$newlink = $row->wp_guid;
+						$oldlink = $row->page;
 
-						// Content with links that has the class="fix" added should get that removed now
-						if (isset($_POST['fix'])) {
-							$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
-						}
+						if ($newlink != "" && !is_null($newlink))
+						{
 
-						// Replace all the old href URLs with the new one in the current text
-						$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content );
-						// TODO: Counter - http://php.net/manual/en/function.str-replace.php
-						
-						// This will turn out bad on WP folder navigation, we need full root linking!
-						//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
-						//str_replace( $PAGE_sitenewurl, "/", $newlink )
+							$mapparArr = explode('/', $oldlink);
+							$fil = $mapparArr[count($mapparArr) - 1];
+							$mapp = $mapparArr[count($mapparArr) - 2];
 
-						echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
+							// Content with links that has the class="fix" added should get that removed now
+							if (isset($_POST['fix'])) {
+								$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
+							}
 
-/*
-						// Update all the Links on ALL the pages in WP!!!
-						$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
-
-						$fixWP = 0;
-						//$fixWP2 = 0;
-
-						// Output a counter
-						if ($fixWP >= 0 OR $fixWP2 >= 0) {
+							// Replace all the old href URLs with the new one in the current text
+							$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content );
+							// TODO: Counter - http://php.net/manual/en/function.str-replace.php
 							
-							echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
-						}
-*/
-						echo "<span class=\"badge badge-success\">?</span>";
-						echo "<br />";
+							// This will turn out bad on WP folder navigation, we need full root linking!
+							//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
+							//str_replace( $PAGE_sitenewurl, "/", $newlink )
 
-					}
-					// End link updater
+							echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
 
-					$WProw = $getWP->fetch_object();
+	/*
+							// Update all the Links on ALL the pages in WP!!!
+							$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
 
-					// Add the review page flag
-					if (isset($_POST['flag'])) {
-						
-						// Flag every page at the top for manual review
-						if ($WProw->post_content == '') {
+							$fixWP = 0;
+							//$fixWP2 = 0;
 
-							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
-
-						}
-					}
-
-					// Add the page separator?
-					if (isset($_POST['separator'])) {
-						
-						// Separate content in WP if there already is something there
-						if ($WProw->post_content != '') {
-
-							$content = $WProw->post_content . "<hr /><hr /><hr />" . $content;
+							// Output a counter
+							if ($fixWP >= 0 OR $fixWP2 >= 0) {
+								
+								echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
+							}
+	*/
+							echo "<span class=\"badge badge-success\">?</span>";
+							echo "<br />";
 
 						}
-					}
+						// End link updater
+
+						$WProw = $getWP->fetch_object();
+
+						// Add the review page flag
+						if (isset($_POST['flag'])) {
+							
+							// Flag every page at the top for manual review
+							if ($WProw->post_content == '') {
+
+								$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
+
+							}
+						}
+
+						// Add the page separator?
+						if (isset($_POST['separator'])) {
+							
+							// Separate content in WP if there already is something there
+							if ($WProw->post_content != '') {
+
+								$content = $WProw->post_content . "<hr /><hr /><hr />" . $content;
+
+							}
+						}
 
 
-					echo "<p>";
-					echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
-					echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
-					echo " <span class=\"label label-success\">OK</span>";
-					echo "</p>";
+						echo "<p>";
+						echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
+						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
+						echo " <span class=\"label label-success\">OK</span>";
+						echo "</p>";
 
-					if (formGet("save_move") != "Test move") {
+						if (formGet("save_move") != "Test move") {
 
-						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+							echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-						// Do some saving right into WP
-						db_updateWPwithText($wp_table, $content, $row->wp_postid);
+							// Do some saving right into WP
+							db_updateWPwithText($wp_table, $content, $row->wp_postid);
 
-						db_updateStepValue( array(
-							'step' => $PAGE_step,
-							'id' => $PAGE_siteid
-						) );
+							db_updateStepValue( array(
+								'step' => $PAGE_step,
+								'id' => $PAGE_siteid
+							) );
 
-					} else {
+						} else {
+							
+							echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 						
-						echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-					
+						}
+
 					}
 
 				}

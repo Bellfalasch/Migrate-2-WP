@@ -189,7 +189,7 @@
 	/* **************************************************************************** */
 	function db_getWPDataFromSite2($site) {
 		return db_MAIN("
-			SELECT `id`, `page`, `html`, `clean`, `wp_postid`, `wp_guid`
+			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `wp_postid`, `wp_guid`
 			FROM `migrate_content`
 			WHERE `site` = $site
 			AND wp_postid > 0
