@@ -168,6 +168,7 @@
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
+		$pages = array();
 
 		while ( $row = $result->fetch_object() )
 		{
@@ -184,12 +185,33 @@
 			//echo "<td>" . $row->ID . "</td>";
 			//echo "<td>" . $row->post_name . "</td>";
 			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
+			
+			// Add to an array to be used to suggest a page structure if WP is empty
+			array_push( $pages, $row->post_title );
+			
 			echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
 			echo '</tr>';
 
 		}
 
 		echo '</table>';
+		
+	} else {
+		
+		echo '<div style="width:50%; float:left;">';
+		echo "<p><strong>No pages in WordPress!</strong></p>";
+		echo "<p>1. Download and install the plugin '<a href=\"http://wordpress.org/extend/plugins/simple-add-pages-or-posts/\">Simple add pages or posts</a>' to WordPress.";
+		echo "<p>2. Copy and paste the text bellow and paste it into the plugin to create your site structure in a second!</p>";
+		echo "<p>";
+		
+		// Loop out every page from the array of crawled pages
+		$pages_length = count($pages);
+		for ($i=0; $i < $pages_length; $i++) {
+			echo $pages[$i] . "<br />";
+		}
+		
+		echo "</p>";
+		echo "</div>";
 	}
 
 // END FILE
