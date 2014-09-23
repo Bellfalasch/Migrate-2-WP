@@ -33,6 +33,26 @@
 			)
 		");
 	}
+	// Check if crawled page exist already, so we won't create it again
+	function db_getDoesPageExist($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`
+			FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			AND `page` = {$in['page']}
+			)
+		");
+	}
+	// Crawled page existed, so update it's html instead of adding a new page
+	function db_setUpdatePage($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET	`html` = {$in['html']}
+			WHERE `site` = {$in['site']}
+			AND	`id` = {$in['id']}
+			)
+		");
+	}
 
 	/* Step 2 */
 	/* **************************************************************************** */
