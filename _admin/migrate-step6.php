@@ -121,6 +121,8 @@
 	// Array for all the WP-pages we have listed (don't list again)
 	$arrWPidDone = array();
 
+	$pages = array();
+
 	$result = db_getWPDataFromSite($PAGE_siteid);
 	if ( isset( $result ) )
 	{
@@ -154,6 +156,9 @@
 			}
 
 			$page = $row->page;
+			
+			// Add to an array to be used to suggest a page structure if WP is empty
+			array_push( $pages, $page );
 
 			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
 			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
@@ -168,7 +173,6 @@
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
-		$pages = array();
 
 		while ( $row = $result->fetch_object() )
 		{
@@ -185,9 +189,6 @@
 			//echo "<td>" . $row->ID . "</td>";
 			//echo "<td>" . $row->post_name . "</td>";
 			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-			
-			// Add to an array to be used to suggest a page structure if WP is empty
-			array_push( $pages, $row->post_title );
 			
 			echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
 			echo '</tr>';
@@ -206,7 +207,7 @@
 		
 		// Loop out every page from the array of crawled pages
 		$pages_length = count($pages);
-		for ($i=0; $i < $pages_length; $i++) {
+		for ($i = 0; $i < $pages_length; $i++) {
 			echo $pages[$i] . "<br />";
 		}
 		
