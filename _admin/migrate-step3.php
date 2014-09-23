@@ -9,11 +9,6 @@
 <?php include('_header.php'); ?>
 
 
-	<div class="progress progress-striped">
-		<div class="bar" style="width: <?php if (ISPOST) { ?>43<?php } else { ?>30<?php } ?>%;"></div>
-	</div>
-
-
 <?php
 
 	if (ISPOST)

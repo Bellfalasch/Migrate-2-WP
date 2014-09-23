@@ -13,7 +13,6 @@
 			UPDATE `migrate_sites`
 			SET `step` = {$in['step']}
 			WHERE `id` = {$in['id']}
-			AND `step` < {$in['step']}
 		");
 	}
 
@@ -47,8 +46,7 @@
 		return db_MAIN("
 			UPDATE `migrate_content`
 			SET `html` = {$in['html']}
-			WHERE `site` = {$in['site']}
-			AND `id` = {$in['id']}
+			WHERE `id` = {$in['id']}
 		");
 	}
 

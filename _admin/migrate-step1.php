@@ -13,11 +13,6 @@
 <?php include('_header.php'); ?>
 
 
-	<div class="progress progress-striped">
-		<div class="bar" style="width: <?php if (ISPOST) { ?>12<?php } else { ?>1<?php } ?>%;"></div>
-	</div>
-
-
 	<?php
 		outputErrors($SYS_errors);
 	?>
@@ -69,13 +64,32 @@ function savepage($url, $html)
 //	exit;
 
 	if ($html != "") {
-		//db_MAIN("INSERT INTO " . $cleaner_table . "(page, html, site) VALUES('" . $url . "', '" . $mysqli->real_escape_string($html) . "', " . $PAGE_siteid . ")");
 
-		$result = db_setNewPage( array(
+		// Check if page exists
+		$exists = db_getDoesPageExist( array(
 						'site' => $PAGE_siteid,
-						'html' => $mysqli->real_escape_string($html),
 						'page' => $url
 					) );
+
+		// Insert or Update?
+		if ( isset($exists) ) {
+
+			$row = $result->fetch_object();
+
+			$result = db_setUpdatePage( array(
+							'html' => $mysqli->real_escape_string($html),
+							'id' => $row->id
+						) );
+
+		} else {
+
+			$result = db_setNewPage( array(
+							'site' => $PAGE_siteid,
+							'html' => $mysqli->real_escape_string($html),
+							'page' => $url,
+							'clean' => null
+						) );
+		}
 
 	}
 }

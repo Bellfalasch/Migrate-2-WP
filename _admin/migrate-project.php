@@ -99,12 +99,11 @@
 <?php
 
 		////////////////////////////////////////////////////////
-		// DELETE DATA-SUPPORT
+		// DELETE PROJECT AND DATA
 
-		// Deletion of content (comment out if not to be allowed)
 		if (isset($_GET['del']) && !ISPOST)
 		{
-			$del_id = trim( $_GET['del'] );
+			$del_id = qsGet('del');
 
 			$del = db_delSite( array(
 						'id' => $del_id
@@ -115,7 +114,31 @@
 								) );
 
 			if ($del >= 0)
-				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The entire project and all of its content is now deleted</p></div>";
+				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The entire project and all of its content is now deleted.</p></div>";
+			else
+				pushError("Delete of data failed, please try again.");
+		}
+
+		////////////////////////////////////////////////////////
+		// TRUNCATE DATA
+
+		if (isset($_GET['truncate']) && !ISPOST)
+		{
+			$del_id = qsGet('truncate');
+
+			// Delete all the contents
+			$del = db_delSiteContent( array(
+						'site' => $del_id
+					) );
+
+			// Reset the Projects step-counter
+			$step = db_updateStepValue( array(
+				'step' => 0,
+				'id' => $del_id
+			) );
+
+			if ($del >= 0)
+				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The project is kept but its now empty, all the crawled pages has been removed.</p></div>";
 			else
 				pushError("Delete of data failed, please try again.");
 		}
@@ -325,7 +348,8 @@
 		<button type="submit" class="btn btn-primary">Save project</button>
 
 		<?php if ($PAGE_dbid > 0) { ?>
-			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger">Delete this</a>
+			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
+			<a href="?truncate=<?= $PAGE_dbid ?>" class="btn btn-mini btn-warning">Delete data (keep project)</a>
 		<?php } ?>
 	</div>
 

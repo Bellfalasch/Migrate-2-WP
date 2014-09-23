@@ -12,8 +12,10 @@ form {
 	width: 400px; 
 	height: 200px;
 }
-.btn-danger {
+.btn-danger,
+.btn-warning {
 	float: right;
+	margin-left: 5px;
 }
 /*
 label {
