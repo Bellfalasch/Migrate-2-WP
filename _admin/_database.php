@@ -58,12 +58,12 @@
 
 	// NB! Old style
 	function db_getDataFromSite($site) {
-		$q = "SELECT `id`, `page`, `html`
-			  FROM `migrate_content`
-			  WHERE `site` = $site
-			  ORDER BY `page` ASC
-			  ";
-		return db_MAIN( $q );
+		return db_MAIN("
+			SELECT `id`, `page`, `html`
+			FROM `migrate_content`
+			WHERE `site` = $site
+			ORDER BY `page` ASC
+		");
 	}
 
 	/* Step 3 */
@@ -78,6 +78,7 @@
 	}
 
 	// Also used in Step 4 and 5
+	// NB! Old style
 	function db_getContentFromSite($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`
@@ -133,6 +134,7 @@
 
 	/* Step 6 */
 	/* **************************************************************************** */
+	// NB! Old style
 	function db_getWPDataFromSite($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
@@ -141,7 +143,8 @@
 			ORDER BY wp_postid ASC, `page` DESC
 		");
 	}
-
+	
+	// NB! Old style
 	function db_getDataFromWordpress($wptable) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -154,6 +157,7 @@
 		");
 	}
 
+	// NB! Old style
 	function db_updateCleanerWithWP($id, $title, $name, $postid, $guid) {
 		return db_MAIN("
 			UPDATE `migrate_content`
@@ -165,6 +169,7 @@
 		");
 	}
 
+	// NB! Old style
 	function db_getPostFromWP($wptable, $id) {
 		return wp_MAIN("
 			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -187,6 +192,7 @@
 
 	/* Step 7 */
 	/* **************************************************************************** */
+	// NB! Old style
 	function db_getWPDataFromSite2($site) {
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `wp_postid`, `wp_guid`
@@ -198,6 +204,7 @@
 		");
 	}
 
+	// NB! Old style
 	function db_getPageFromWordpress($wptable, $postid) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -206,6 +213,7 @@
 		");
 	}
 
+	// NB! Old style
 	function db_updateWPwithText($wptable, $content, $postid) {
 		global $mysqWP;
 		return wp_MAIN("
