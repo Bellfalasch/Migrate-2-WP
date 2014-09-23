@@ -158,4 +158,26 @@
 				<small><?= $PAGE_desc ?></small>
 			</h1>
 		</div>
+		
+		<?php
+			// Generate the progress indicator automatically
+			if ( $SYS-script == '' ) {
+
+				$percentage = 0;
+				$total_steps = 7;
+				$perstep = 100 / $total_steps;
+				$notpost = 0.9 * $perstep;
+
+				$percentage = $PAGE_step * $perstep;
+
+				if (!ISPOST) {
+					$percentage -= $notpost;
+				}
+		?>
+		
+			<div class="progress progress-striped">
+				<div class="bar" style="width: <?= $percentage ?>%;"></div>
+			</div>
+
+		<?php } ?>
 <!-- /header -->
