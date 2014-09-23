@@ -40,17 +40,15 @@
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			AND `page` = {$in['page']}
-			)
 		");
 	}
 	// Crawled page existed, so update it's html instead of adding a new page
 	function db_setUpdatePage($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
-			SET	`html` = {$in['html']}
+			SET `html` = {$in['html']}
 			WHERE `site` = {$in['site']}
-			AND	`id` = {$in['id']}
-			)
+			AND `id` = {$in['id']}
 		");
 	}
 
