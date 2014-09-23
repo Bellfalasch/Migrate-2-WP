@@ -161,7 +161,7 @@
 		
 		<?php
 			// Generate the progress indicator automatically
-			if ( substr($SYS-script,0,-1) == 'migrate_step' ) {
+			if ( substr($SYS_script,0,-1) == 'migrate_step' ) {
 
 				$percentage = 0;
 				$total_steps = 7;
