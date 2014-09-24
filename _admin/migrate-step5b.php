@@ -11,10 +11,10 @@
 
 	// Form generator
 	addField( array(
-		"label" => "Code to split on:",
+		"label" => "HTML-code to split on:",
 		"id" => "splitcode",
-		"type" => "area(5*6)",
-		"description" => "Use '[*]'' as a wildcard, and use '[?]' as the locator (the page will be saved with that name).",
+		"type" => "area(10*7)",
+		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]'' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -107,10 +107,11 @@
 	
 		<?php if ( $split_id > 0 ) { ?>
 
-<form class="form-horizontal" action="" method="post">
+<!-- <form class="form-horizontal" action="" method="post"> -->
+<form class="well form" action="" method="post">
 
 	<div class="row">
-		<div class="span7">
+		<div class="span12">
 
 	<?php
 
@@ -121,24 +122,30 @@
 
 	?>
 
+			<h3>Settings</h3>
+
+			<label class="checkbox">
+				<input type="checkbox" name="keep" value="yes"<?php if (isset($_POST['keep'])) { ?> checked="checked"<?php } ?> />
+				Keep the entire matched html-area in the new pages
+			</label>
+
+			<p>Normally the first match on a page is a bit down in that page's text. What do you want to do with this text (if any)?</p>
+			<label class="radio">
+				<input type="radio" name="prematch" value="parent"<?php if (isset($_POST['prematch'])) { ?> checked="checked"<?php } ?> />
+				Use it for the Parent-page content
+			</label>
+			<label class="radio">
+				<input type="radio" name="prematch" value="sub"<?php if (isset($_POST['prematch'])) { ?> checked="checked"<?php } ?> />
+				Use it as a subpage too
+			</label>
+			<br />
+		
+			<input type="submit" name="split" value="Run split" class="btn btn-primary" />
+
+			<input type="submit" name="split" value="Test split" class="btn" />
+
 		</div>
 
-
-		<div class="span4 offset1">
-
-			<h4>Help</h4>
-			<p>
-				None to get so far ...
-			</p>
-
-		</div>
-	</div>
-
-
-	<div class="form-actions">
-		<input type="submit" name="split" value="Run split" class="btn btn-primary" />
-
-		<input type="submit" name="split" value="Test split" class="btn" />
 	</div>
 
 </form>
