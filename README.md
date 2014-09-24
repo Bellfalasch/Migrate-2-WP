@@ -43,21 +43,25 @@ If you manually edit the code, you can get all the steps running and working fin
 Disclaimer
 ----------------
 
-This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.0 and doesn't take into account that WordPress database design might change in the future.
+This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code from about 10 different sites. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.0 and doesn't take into account that WordPress database design might change in the future.
 
-Also, don't expect Migrate 2 WP to produce perfect result from old code. It will do the best it can. You won't get away from manually editing some pages in the end.
+It won't handle URL's based on folders, as it expects a file ending to validate a file as crawlable. It doesn't handle JavaScript (or Ajax) at all, or Flash.
 
-Migrate 2 WP doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and injecting simple html.
+Also, don't expect Migrate 2 WP to produce perfect result from old code. It will do the best it can. You won't get away from having to manually editing some pages in the end anyway, but the amount of work is greatly reduced.
+
+Migrate 2 WP doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and injecting simple html inte an existing structure.
 
 It won't support content spread into many different "blocks" / areas on a single page. It only supports one starting point, and then one ending point. Everything between them will be counted as content.
+
+It's based on a somewhat slow fopen-crawl, this will be changed in the future. We had no clue about Curl when we started the project.
 
 
 Installation:
 ----------------
 
-Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "/DATABASE.sql". Now you can upload your files (or start localhost).
+Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "/DATABASE.sql" in root. Now upload all the files to your server (or localhost). It *should* work in any folder structure.
 
-Log in with "admin@example.com" and "password" in the folder "_admin" (might change in the future). Going to the projects root-folder will automatically take you there too.
+Log in with "admin@example.com" and "password" in the login form (you should be redirected automatically when you open the projects root folder).
 
 
 Dependencies:
@@ -82,7 +86,7 @@ This admin is based and tested on:
 * https://github.com/Bellfalasch/Bobby-CMS
 * Used as included files
 
-Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 1.8.1. All included. Update/remove at own risk!
+Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and not changed because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 1.8.1. All included. Update/remove at own risk!
 
 
 Basic file structure and form-generation:
