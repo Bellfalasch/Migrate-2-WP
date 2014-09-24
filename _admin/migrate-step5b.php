@@ -132,7 +132,7 @@
 			<h3>Settings</h3>
 
 			<label class="checkbox">
-				<input type="checkbox" name="keep" value="yes"<?php if (isset($_POST['keep'])) { ?> checked="checked"<?php } ?> />
+				<input type="checkbox" name="keep" value="yes"<?php if (formGet('keep') == "yes") { ?> checked="checked"<?php } ?> />
 				Keep the entire matched html-area in the new pages
 			</label>
 
@@ -246,8 +246,25 @@
 
 					if ($i <= $length_title && $i+1 < $length_arr) {
 					
-						$title   = $arr_titles[1][$i]; // Index 0 contains matching area, index 1 the extracted match
-						$content = $arr_content[$i+1]; // Skip first content
+						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
+						// What to get is controlled by a setting (getting only the exact match is default).
+						if ( formGet('keep') == "yes") {
+							$title   = $arr_titles[0][$i];
+						} else {
+							$title   = $arr_titles[1][$i];
+						}
+
+						if ( formGet('prematch') == "sub") {
+							$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
+						} else {
+							$content = $arr_content[$i+1]; // Skip first content (because of same setting)
+
+							// Setting to save everything before first match as parent content
+							if ($i === 1 && formGet('prematch') == "parent") {
+								$parentcontent = $arr_content[$i];
+								// TODO: Add this to parent content ...
+							}
+						}
 
 						// Convert page title into something more URL friendly
 						$title_db = trim( strtolower($title) );
