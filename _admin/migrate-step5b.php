@@ -21,25 +21,33 @@
 					)
 	) );
 
+	$split_id = qsGet("split");
+
 ?>
 <?php include('_header.php'); ?>
 
+	<div class="alert">
+		<h4>Optional step!</h4>
+		<p>This step is not mandatory =)</p>
+	</div>
+
+	<h2>Split pages!</h2>
 
 	<div class="row">
 		<div class="span8">
-
-			<div class="alert">
-				<h4>Optional step!</h4>
-				<p>This step is not mandatory =)</p>
-			</div>
-
-			<h2>Split pages!</h2>
 			<p>
 				This function is extremely powerful when changing your site structure. You select one page to the left, and after that
 				get to write a small "needle"-code that we will look for in the code. For each match we will create a new sub-page of the
 				selected page. Brilliant for splitting long long pages into sub-pages instead.
 			</p>
 		</div>
+<?php if ($split_id > 0) { ?>
+		<div class="span3 offset1">
+			
+			<a class="btn btn-success" href="<?= $SYS_root . $SYS_folder ?>/<?= $SYS_script ?>.php"><i class="icon-plus-sign icon-white"></i> Setup new 'Split'</a>
+		
+		</div>
+<?php } ?>
 	</div>
 
 <?php
@@ -58,8 +66,6 @@
 
 // Do the splitting
 // ****************************************************************************
-
-	$split_id = qsGet("split");
 
 	if ( $split_id > 0 ) {
 
@@ -96,9 +102,10 @@
 
 				}
 
+				$PAGE_form[0]["content"] = $split_ORG;
+
 			}
 
-			$PAGE_form[0]["content"] = $split_ORG;
 		}
 
 	}
@@ -129,13 +136,13 @@
 				Keep the entire matched html-area in the new pages
 			</label>
 
-			<p>Normally the first match on a page is a bit down in that page's text. What do you want to do with this text (if any)?</p>
+			<p>Normally the first match on a page is a bit down on that page's text. What do you want to do with this text (if any is found)?</p>
 			<label class="radio">
-				<input type="radio" name="prematch" value="parent"<?php if (isset($_POST['prematch'])) { ?> checked="checked"<?php } ?> />
+				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
 				Use it for the Parent-page content
 			</label>
 			<label class="radio">
-				<input type="radio" name="prematch" value="sub"<?php if (isset($_POST['prematch'])) { ?> checked="checked"<?php } ?> />
+				<input type="radio" name="prematch" value="sub"<?php if (formGet('prematch') == "sub") { ?> checked="checked"<?php } ?> />
 				Use it as a subpage too
 			</label>
 			<br />
@@ -198,6 +205,7 @@
 				'site' => $PAGE_siteid,
 				'id' => $split_id
 			) );
+
 		if ( isset( $result ) )
 		{
 
