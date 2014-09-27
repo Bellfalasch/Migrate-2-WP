@@ -40,7 +40,7 @@
 	// Our formGet doesn't tackle post arrays, so need to read it directly
 	$fileendings = array();
 
-	if (isset($_POST['filetype'])) {
+	if ( formGet('filetype') ) {
 		$fileendings = $_POST['filetype'];
 	}
 
