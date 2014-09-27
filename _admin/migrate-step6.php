@@ -76,13 +76,18 @@
 			$row = $result->fetch_object();
 			$newData_id = $row->id;
 			$newData_post_name = $row->post_name;
-			$newData_post_title = $row->post_title;
+			//$newData_post_title = $row->post_title;
 			$newData_guid = $row->guid;
 
 		}
 
 		// Save the selection to the database
-		$result = db_updateCleanerWithWP($id, $newData_post_title, $newData_post_name, $newData_id, $newData_guid);
+		$result = db_updateCleanerWithWP( array(
+						'id' => $id,
+						'name' => $newData_post_name,
+						'postid' => $newData_id,
+						'guid' => $newData_guid
+					) );
 
 		// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
 		if ($PAGE_sitestep >= 2) {
@@ -119,7 +124,7 @@
 
 	$pages = array();
 
-	$result = db_getWPDataFromSite($PAGE_siteid);
+	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid );
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';

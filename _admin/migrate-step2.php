@@ -84,7 +84,7 @@
 
 		<?php
 
-			$result = db_getDataFromSite($PAGE_siteid);
+			$result = db_getDataFromSite( array( 'site' => $PAGE_siteid );
 			if ( isset( $result ) )
 			{
 				while ( $row = $result->fetch_object() )
@@ -240,7 +240,7 @@
 						
 						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-						$body = trim( $body );
+						$content = trim( $content );
 
 						// Push the stripped data back to the database for the next step to take care of
 						//db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
@@ -292,7 +292,7 @@
 
 		$html = "";
 
-		$result = db_getHtmlFromFirstpage($PAGE_siteid);
+		$result = db_getHtmlFromFirstpage( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 			$row = $result->fetch_object();

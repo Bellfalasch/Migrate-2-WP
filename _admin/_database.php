@@ -67,23 +67,21 @@
 		");
 	}
 
-	// NB! Old style
-	function db_getHtmlFromFirstpage($site) {
+	function db_getHtmlFromFirstpage($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `html`
 			FROM `migrate_content`
-			WHERE `site` = $site
+			WHERE `site` = {$in['site']}
 			ORDER BY `id` ASC
 			LIMIT 1
 		");
 	}
 
-	// NB! Old style
-	function db_getDataFromSite($site) {
+	function db_getDataFromSite($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `html`
 			FROM `migrate_content`
-			WHERE `site` = $site
+			WHERE `site` = {$in['site']}
 			ORDER BY `page` ASC
 		");
 	}
@@ -100,12 +98,11 @@
 	}
 
 	// Also used in Step 4 and 5
-	// NB! Old style
-	function db_getContentFromSite($site) {
+	function db_getContentFromSite($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`
 			FROM `migrate_content`
-			WHERE `site` = $site
+			WHERE `site` = {$in['site']}
 			ORDER BY `page` ASC
 		");
 	}
@@ -156,17 +153,16 @@
 
 	/* Step 6 */
 	/* **************************************************************************** */
-	// NB! Old style
-	function db_getWPDataFromSite($site) {
+	function db_getWPDataFromSite($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
 			FROM `migrate_content`
-			WHERE `site` = $site
+			WHERE `site` = {$in['site']}
 			ORDER BY wp_postid ASC, `page` DESC
 		");
 	}
 	
-	// NB! Old style
+	// NB! Old style - can't be changed because we're sending in the table name
 	function db_getDataFromWordpress($wptable) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -179,19 +175,18 @@
 		");
 	}
 
-	// NB! Old style
-	function db_updateCleanerWithWP($id, $title, $name, $postid, $guid) {
+	function db_updateCleanerWithWP($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
 			SET
-				wp_slug = '$name',
-				wp_postid = '$postid',
-				wp_guid = '$guid'
-			WHERE `id` = $id
+				wp_slug = {$in['name']},
+				wp_postid = {$in['postid']},
+				wp_guid = {$in['guid']},
+			WHERE `id` = {$in['id']}
 		");
 	}
 
-	// NB! Old style
+	// NB! Old style - can't be changed because we're sending in the table name
 	function db_getPostFromWP($wptable, $id) {
 		return wp_MAIN("
 			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -214,19 +209,18 @@
 
 	/* Step 7 */
 	/* **************************************************************************** */
-	// NB! Old style
-	function db_getWPDataFromSite2($site) {
+	function db_getWPDataFromSite2($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `wp_postid`, `wp_guid`
 			FROM `migrate_content`
-			WHERE `site` = $site
+			WHERE `site` = {$in['site']}
 			AND wp_postid > 0
 			AND `wp_guid` IS NOT NULL
 			ORDER BY wp_postid ASC, `page` DESC
 		");
 	}
 
-	// NB! Old style
+	// NB! Old style - can't be changed because we're sending in the table name
 	function db_getPageFromWordpress($wptable, $postid) {
 		return wp_MAIN("
 			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
@@ -235,7 +229,7 @@
 		");
 	}
 
-	// NB! Old style
+	// NB! Old style - can't be changed because we're sending in the table name
 	function db_updateWPwithText($wptable, $content, $postid) {
 		global $mysqWP;
 		return wp_MAIN("
@@ -245,20 +239,6 @@
 			LIMIT 1
 		");
 	}
-
-	/* Mixed order ... */
-	/* **************************************************************************** */
-
-/*
-	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
-		//global $mysqWP;
-		return wp_EXEC("
-			UPDATE `" . $wptable . "_posts`
-			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')
-			WHERE `post_status` = 'publish'
-		");
-	}
-*/
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// PROJECTS
