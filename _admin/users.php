@@ -2,6 +2,7 @@
 	/* Set up template variables */
 	$PAGE_name  = 'Users';
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'create and manage users';
 ?>
 <?php require('_global.php'); ?>
 
@@ -104,7 +105,7 @@
 			// This line is needed to call the validation-process of your form!
 			validateForm();
 
-			var_dump($PAGE_form); // For debugging
+//			var_dump($PAGE_form); // For debugging
 
 			// Stupid way of getting all the form data into variables for use to save the data.
 			$formName     = $PAGE_form[0]["content"];
@@ -121,8 +122,6 @@
 			// If no errors:
 			if (empty($SYS_errors)) {
 				
-				echo "<div class='alert alert-block alert-success'><h4>Success</h4><p><strong>Your posted data validated!</strong> (we have not set this up yet to save to your database =/)</p></div>";
-
 				// UPDATE
 				if ( $PAGE_dbid > 0 )
 				{
@@ -216,13 +215,6 @@
 		}
 
 	?>
-
-	<div class="page-header">
-		<h1>
-			<?= $PAGE_name ?>
-			<small>create and manage <?= $PAGE_name ?></small>
-		</h1>
-	</div>
 
 	<?php
 

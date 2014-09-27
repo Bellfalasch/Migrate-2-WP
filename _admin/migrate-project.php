@@ -151,7 +151,7 @@
 			// This line is needed to call the validation-process of your form!
 			validateForm();
 
-			//var_dump($PAGE_form); // For debugging
+//			var_dump($PAGE_form); // For debugging
 
 			// Stupid way of getting all the form data into variables for use to save the data.
 			$formName     = $PAGE_form[0]["content"];
@@ -171,11 +171,11 @@
 
 			// Save data in cookies
 			$expire = time() + (60*60*24*31);
-			setcookie( "wp_dburl",       $wp_dburl,       $expire );
-			setcookie( "wp_dbname",      $wp_dbname,      $expire );
-			setcookie( "wp_table",       $wp_table,       $expire );
-			setcookie( "wp_dbuser",      $wp_dbuser,      $expire );
-			setcookie( "wp_dbpass",      $wp_dbpass,      $expire );
+			setcookie( "wp_dburl",   $wp_dburl,   $expire );
+			setcookie( "wp_dbname",  $wp_dbname,  $expire );
+			setcookie( "wp_table",   $wp_table,   $expire );
+			setcookie( "wp_dbuser",  $wp_dbuser,  $expire );
+			setcookie( "wp_dbpass",  $wp_dbpass,  $expire );
 
 			// If no errors:
 			if (empty($SYS_errors)) {
@@ -216,14 +216,14 @@
 					if ($result > 0) {
 						
 						//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . $result . '</p></div>';
-
-						// Reset all the data so we get a clean form after an insert.
-						$PAGE_dbid = -1;
-
-						// Stupid way of reseting the PAGE_form
-						$PAGE_form[0]["content"] = '';
-						$PAGE_form[1]["content"] = '';
-						$PAGE_form[2]["content"] = '';
+//
+//						// Reset all the data so we get a clean form after an insert.
+//						$PAGE_dbid = -1;
+//
+//						// Stupid way of reseting the PAGE_form
+//						$PAGE_form[0]["content"] = '';
+//						$PAGE_form[1]["content"] = '';
+//						$PAGE_form[2]["content"] = '';
 
 						header('Location: ' . $SYS_pageself . '?saved=' . $result);
 
@@ -267,6 +267,8 @@
 				$PAGE_form[5]["content"] = $wp_table;
 				$PAGE_form[6]["content"] = $wp_dbuser;
 				$PAGE_form[7]["content"] = $wp_dbpass;
+
+//				var_dump( $PAGE_form );
 			}
 			
 		}

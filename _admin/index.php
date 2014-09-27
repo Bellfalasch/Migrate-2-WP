@@ -2,6 +2,7 @@
 	/* Set up template variables */
 	$PAGE_name = 'Login';
 	$PAGE_title = 'Admin/' . $PAGE_name;
+	$PAGE_desc = 'sign in to your account';
 ?>
 <?php require('_global.php'); ?>
 <?php require('_header.php'); ?>
@@ -66,13 +67,6 @@
 			}
 		}
 	?>
-
-	<div class="page-header">
-		<h1>
-			Migrate 2 WP
-			<small>sign in to your account</small>
-		</h1>
-	</div>
 
 	<?php
 		outputErrors($SYS_errors);

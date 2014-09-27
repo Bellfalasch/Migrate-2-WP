@@ -9,32 +9,6 @@
 
 
 	//////////////////////////////////////////////////////////////////////////////////
-	// Migration settings:
-	//////////////////////////////////////////////////////////////////////////////////
-	
-	if (isset($_COOKIE['wp_dburl'])) {
-		
-		$wp_dburl = 		$_COOKIE['wp_dburl'];
-		$wp_dbname = 		$_COOKIE['wp_dbname'];
-		$wp_table  = 		$_COOKIE['wp_table'];
-		$wp_dbuser = 		$_COOKIE['wp_dbuser'];
-		
-		$wp_dbpass = "";
-		if (isset($_COOKIE['wp_dbpass'])) {
-			$wp_dbpass = $_COOKIE['wp_dbpass'];
-		}
-
-	}
-
-	// Defaults	
-	$cleaner_dburl  = "localhost";
-	$cleaner_dbname = "test";
-	$cleaner_table  = "migrate_content";
-	$cleaner_dbuser = "root";
-	$cleaner_dbpass = "";
-
-
-	//////////////////////////////////////////////////////////////////////////////////
 	// Set up system variables:
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -136,6 +110,41 @@
 			$PAGE_sitename = $row->name;
 		}
 	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Migration settings for WordPress:
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	if ( $PAGE_dbid > 0 ) {
+
+//		var_dump( $_COOKIE['wp_dburl[' . $PAGE_dbid . ']'] );
+//		var_dump( $_COOKIE );
+
+		if (isset($_COOKIE['wp_dburl'])) {
+			
+			$wp_dburl  = $_COOKIE['wp_dburl'];
+			$wp_dbname = $_COOKIE['wp_dbname'];
+			$wp_table  = $_COOKIE['wp_table'];
+			$wp_dbuser = $_COOKIE['wp_dbuser'];
+//			$wp_dbpass = "";
+
+			if (isset($_COOKIE['wp_dbpass'])) {
+				$wp_dbpass = $_COOKIE['wp_dbpass'];
+			}
+
+//			var_dump( $wp_dburl );
+//			var_dump( $_COOKIE['wp_dburl[' . $PAGE_dbid . ']'] );
+
+		}
+	}
+
+	// Defaults	
+	$cleaner_dburl  = "localhost";
+	$cleaner_dbname = "test";
+	$cleaner_table  = "migrate_content";
+	$cleaner_dbuser = "root";
+	$cleaner_dbpass = "";
 
 	
 	//////////////////////////////////////////////////////////////////////////////////
