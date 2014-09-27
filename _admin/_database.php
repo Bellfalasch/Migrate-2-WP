@@ -13,6 +13,12 @@
 			UPDATE `migrate_sites`
 			SET `step` = {$in['step']}
 			WHERE `id` = {$in['id']}
+			AND
+			(
+				{$in['step']} > `step`
+				OR
+				0 = {$in['step']}
+			)
 		");
 	}
 
