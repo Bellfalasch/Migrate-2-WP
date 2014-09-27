@@ -197,7 +197,7 @@
 					// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
 					if ($result >= 0) {
 						//echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
-						header('Location: migrate-project.php?saved=true');
+						header('Location: ' . $SYS_pageself . '?saved=true');
 					} else {
 						pushError("Data could not be saved, do retry.");
 					}
@@ -225,7 +225,7 @@
 						$PAGE_form[1]["content"] = '';
 						$PAGE_form[2]["content"] = '';
 
-						header('Location: migrate-project.php?saved=' . $result);
+						header('Location: ' . $SYS_pageself . '?saved=' . $result);
 
 					} else {
 						pushError("Data could not be saved, do retry.");

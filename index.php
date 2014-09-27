@@ -3,6 +3,6 @@
 <?php
 
 	ob_clean();
-	header('Location: ' . $SYS_root . $SYS_folder . '/index.php');
+	header('Location: ' . $SYS_pageroot);
 
 ?>

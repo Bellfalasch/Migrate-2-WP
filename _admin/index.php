@@ -34,7 +34,7 @@
 					$_SESSION['id'] = $row->id;
 
 					ob_clean();
-					header('Location: ' . $SYS_root . $SYS_folder . '/');
+					header('Location: ' . $SYS_pageroot);
 
 				} else {
 
@@ -62,7 +62,7 @@
 				unset( $_SESSION['id'] );
 
 				ob_clean();
-				header('Location: ' . $SYS_root . $SYS_folder . '/');
+				header('Location: ' . $SYS_pageroot);
 			}
 		}
 	?>

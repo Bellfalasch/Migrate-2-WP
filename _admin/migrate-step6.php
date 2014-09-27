@@ -97,7 +97,7 @@
 			) );
 		}
 
-		header('Location: ' . $SYS_script . '.php');
+		header('Location: ' . $SYS_pageself);
 
 	}
 
@@ -111,7 +111,7 @@
 						'site' => $PAGE_siteid
 					) );
 
-		header('Location: ' . $SYS_script . '.php');
+		header('Location: ' . $SYS_pageself);
 
 	}
 

@@ -47,6 +47,8 @@
 
 	$SYS_root = '/' . $TMP_foldersArr[count($TMP_foldersArr) - 3];
 	$SYS_folder = '/' . $TMP_foldersArr[count($TMP_foldersArr) - 2];
+	$SYS_pageself = $SYS_root . $SYS_folder . ".php";
+	$SYS_pageroot = $SYS_root . $SYS_folder . "/";
 
 	$SYS_incroot = rtrim($_SERVER['DOCUMENT_ROOT'],"/") . $SYS_root;
 
@@ -148,7 +150,7 @@
 		if ($SYS_script != "index" && $SYS_script != "migrate_settings" )
 		{
 			ob_clean();
-			header('Location: ' . $SYS_root . $SYS_folder . '/index.php');
+			header('Location: ' . $SYS_pageroot);
 		}
 	}
 
