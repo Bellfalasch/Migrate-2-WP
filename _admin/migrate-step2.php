@@ -84,7 +84,7 @@
 
 		<?php
 
-			$result = db_getDataFromSite( array( 'site' => $PAGE_siteid );
+			$result = db_getDataFromSite( array( 'site' => $PAGE_siteid ) );
 			if ( isset( $result ) )
 			{
 				while ( $row = $result->fetch_object() )

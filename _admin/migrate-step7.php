@@ -18,7 +18,7 @@
 	{
 
 		// Get all pages that has been connected to a Wordpress page, these will get transfered now
-		$result = db_getWPDataFromSite2( array( 'site' => $PAGE_siteid );
+		$result = db_getWPDataFromSite2( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 
