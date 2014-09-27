@@ -124,10 +124,12 @@
 
 	$pages = array();
 
+	// The crawled content side
+	echo '<table style="width:50%; float:left;">';
+	
 	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid ) );
 	if ( isset( $result ) )
 	{
-		echo '<table style="width:50%; float:left;">';
 
 		while ( $row = $result->fetch_object() )
 		{
@@ -166,15 +168,16 @@
 			echo '</tr>';
 		}
 
-		echo '</table>';
 	}
+	echo '</table>';
 
-
+	// The WordPress side
 	$result = db_getDataFromWordpress($wp_table);
-	if ( isset( $result ) )
+	//var_dump( $result );
+	if ( isset( $result->length ) )
 	{
 		echo '<table style="width:50%; float:left;">';
-
+		
 		while ( $row = $result->fetch_object() )
 		{
 			if (!in_array($row->ID, $arrWPidDone))
@@ -204,15 +207,25 @@
 		echo "<p><strong>No pages in WordPress!</strong></p>";
 		echo "<p>1. Download and install the plugin '<a href=\"http://wordpress.org/extend/plugins/simple-add-pages-or-posts/\">Simple add pages or posts</a>' to WordPress.";
 		echo "<p>2. Copy and paste the text bellow and paste it into the plugin to create your site structure in a second!</p>";
-		echo "<p>";
+		echo "<textarea style=\"width:90%;height:600px;\">";
 		
 		// Loop out every page from the array of crawled pages
 		$pages_length = count($pages);
 		for ($i = 0; $i < $pages_length; $i++) {
-			echo $pages[$i] . "<br />";
+			
+			// Wash URL so we get a good name
+			$pagename = $pages[$i];
+			$pagename = str_replace( $PAGE_siteurl, '', $pagename ); // Remove domain name
+			$pagename = str_replace( array('asp','php','html','htm'), '', $pagename ); // Removed file endings
+			$pagename = str_replace( array('_','-','+'), ' ', $pagename ); // Change some usual chars to replace spaces
+			$pagename = str_replace( '.', '', $pagename ); // Remove any dot left from fileendings
+
+			$pagename = strtoupper(mb_substr( $pagename, 0, 1 ) ) . mb_substr( $pagename, 1 ); // Uppercase first letter
+
+			echo $pagename . "\n";
 		}
 		
-		echo "</p>";
+		echo "</textarea>";
 		echo "</div>";
 	}
 
