@@ -136,7 +136,10 @@
 				Keep the entire matched html-area in the new pages
 			</label>
 
-			<p>Normally the first match on a page is a bit down on that page's text. What do you want to do with this text (if any is found)?</p>
+			<hr />
+
+			<h4>Not in use ...</h4>
+			<p>Normally the first match on a page is a bit down from the top on that page's text. What do you want to do with all the text before this first match (if any)?</p>
 			<label class="radio">
 				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
 				Use it for the Parent-page content
@@ -223,7 +226,7 @@
 				$arr_titles  = array();
 
 				$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
-				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the boss names
+				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names
 
 				//var_dump( $arr_content );
 				//var_dump( $arr_titles );
@@ -247,13 +250,20 @@
 					if ($i <= $length_title && $i+1 < $length_arr) {
 					
 						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
+
+						$title   = $arr_titles[1][$i];
+
+/*
 						// What to get is controlled by a setting (getting only the exact match is default).
 						if ( formGet('keep') == "yes") {
 							$title   = $arr_titles[0][$i];
 						} else {
 							$title   = $arr_titles[1][$i];
 						}
+*/
 
+// This function is totally wrong ... it should go from first match and to beginning of file, not increment the array counter
+if ( 1 === 3 ) {
 						if ( formGet('prematch') == "sub") {
 							$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
 						} else {
@@ -264,6 +274,14 @@
 								$parentcontent = $arr_content[$i];
 								// TODO: Add this to parent content ...
 							}
+						}
+}
+
+						$content = $arr_content[$i+1];
+
+						// Setting tells us to keep the entire match inside the content of new page
+						if ( formGet('keep') == "yes") {
+							$content = $arr_titles[0][$i] . $content;
 						}
 
 						// Convert page title into something more URL friendly
