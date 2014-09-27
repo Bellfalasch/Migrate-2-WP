@@ -677,9 +677,10 @@ if (DEBUG) {
 					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
 
 					<br />
+					<h4>Debug-mode</h4>
 					<label>
 						<input type="checkbox" name="debug" value="yes"<?php if (isset($_POST['debug'])) { ?> checked="checked"<?php } ?> />
-						Output extensive debugging information during crawl
+						Active (output extra debug-information during crawl)
 					</label>
 				</div>
 			</div>
