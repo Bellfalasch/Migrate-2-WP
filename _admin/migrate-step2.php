@@ -215,15 +215,21 @@
 								break;
 						}
 
+						// Get the right encoding for output:
+						$html   = htmlspecialchars($row->html, ENT_QUOTES, "UTF-8");
+						$header = htmlspecialchars($header, ENT_QUOTES, "UTF-8");
+						$body   = htmlspecialchars($body, ENT_QUOTES, "UTF-8");
+						$footer = htmlspecialchars($footer, ENT_QUOTES, "UTF-8");
+
 						// Ugly little presentation of how the needles work on each page.
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
-						echo "<pre style='font-size: 7pt;'>" . htmlentities( $row->html ) . "</pre>";
+						echo "<pre style='font-size: 7pt;'>" . $row->html . "</pre>";
 						echo "</div>";
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Stripped:</strong>";
 						echo "<pre style='font-size: 7pt;'>";
-						echo "<span style='color: red;'>" . htmlentities( $header ) . "</span>";
-						echo "<span style='color:green;'>" . htmlentities( $body ) . "</span>";
-						echo "<span style='color: red;'>" . htmlentities( $footer ) . "</span>";
+						echo "<span style='color: red;'>" . $header . "</span>";
+						echo "<span style='color:green;'>" . $body . "</span>";
+						echo "<span style='color: red;'>" . $footer . "</span>";
 						echo "</pre>";
 
 					}
