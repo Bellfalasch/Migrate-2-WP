@@ -71,11 +71,6 @@
 	else
 		DEFINE('ISPOST', false);
 
-	// Auto set up the current id of data so we can edit existing data
-	$PAGE_dbid = qsGet("id");
-	if ($PAGE_dbid == '')
-		$PAGE_dbid = -1;
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Now that we have the incroot-variable we can fetch needed includes
@@ -83,6 +78,12 @@
 	require($SYS_incroot . '/inc/database.php');
 	require('_database.php');
 	//////////////////////////////////////////////////////////////////////////////////
+
+
+	// Auto set up the current id of data so we can edit existing data
+	$PAGE_dbid = qsGet("id");
+	if ($PAGE_dbid == '')
+		$PAGE_dbid = -1;
 
 
 	//////////////////////////////////////////////////////////////////////////////////

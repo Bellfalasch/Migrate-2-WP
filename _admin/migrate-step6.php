@@ -124,7 +124,7 @@
 
 	$pages = array();
 
-	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid );
+	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid ) );
 	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
