@@ -226,11 +226,14 @@
 				//$html = str_replace('<td', "\t<td", $html);
 
 				// Old images should all be moved to the assets-folder
+				// Deaktivated, it doesn't serve any purpose since new URL's are also wrong and we can't easily get them right - images should be uploaded manually through WordPress.
+/*
 				if (isset($_POST['images'])) {
 					$html = str_replace(' src="b/', ' src="assets/_old/', $html);
 					$html = str_replace(' src="pic/', ' src="assets/_old/', $html);
 					$html = str_replace(' src="i/', ' src="assets/_old/', $html);
 				}
+*/
 
 				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$html = str_replace('<img src="assets/O.jpg" class="psx_button" />', '<span class="psx_button circle">O</span>', $html);
@@ -320,10 +323,6 @@
 			</p>
 
 			<h3>Settings</h3>
-			<label class="checkbox">
-				<input type="checkbox" name="images" value="yes"<?php if (isset($_POST['images'])) { ?> checked="checked"<?php } ?> />
-				Update all images to use the "assets/_old"-folder on the new site?
-			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="h1" value="yes"<?php if (isset($_POST['h1'])) { ?> checked="checked"<?php } ?> />
 				Downgrade every h1-tag in the content to h2?
