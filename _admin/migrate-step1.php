@@ -55,10 +55,11 @@ function savepage($url, $html)
 	global $PAGE_siteid;
 	global $cleaner_table;
 
-	if ( mb_detect_encoding($html, "utf-8, iso-8859-1") == "UTF-8" )
+	if ( mb_detect_encoding($html, "utf-8, iso-8859-1") == "UTF-8" ) {
 		$html;
-	else
+	} else {
 		$html = iconv("iso-8859-1", "utf-8", $html);
+	}
 
 //	echo mb_detect_encoding($html, "utf-8, iso-8859-1");
 //	exit;
