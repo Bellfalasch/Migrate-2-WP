@@ -174,7 +174,7 @@
 	// The WordPress side
 	$result = db_getDataFromWordpress($wp_table);
 	//var_dump( $result );
-	if ( isset( $result->length ) )
+	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
 		
