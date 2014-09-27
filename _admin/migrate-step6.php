@@ -79,25 +79,27 @@
 			//$newData_post_title = $row->post_title;
 			$newData_guid = $row->guid;
 
+			// Save the selection to the database
+			$result2 = db_updateCleanerWithWP( array(
+							'id' => $id,
+							'name' => $newData_post_name,
+							'postid' => $newData_id,
+							'guid' => $newData_guid
+						) );
+
+			// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
+			if ($PAGE_sitestep >= 2) {
+				db_updateStepValue( array(
+					'step' => $PAGE_step,
+					'id' => $PAGE_siteid
+				) );
+			}
+
+			header('Location: ' . $SYS_pageself);
+
+		} else {
+			echo "Could't find any data";
 		}
-
-		// Save the selection to the database
-		$result = db_updateCleanerWithWP( array(
-						'id' => $id,
-						'name' => $newData_post_name,
-						'postid' => $newData_id,
-						'guid' => $newData_guid
-					) );
-
-		// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
-		if ($PAGE_sitestep >= 2) {
-			db_updateStepValue( array(
-				'step' => $PAGE_step,
-				'id' => $PAGE_siteid
-			) );
-		}
-
-		header('Location: ' . $SYS_pageself);
 
 	}
 

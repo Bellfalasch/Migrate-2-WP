@@ -181,7 +181,7 @@
 			SET
 				wp_slug = {$in['name']},
 				wp_postid = {$in['postid']},
-				wp_guid = {$in['guid']},
+				wp_guid = {$in['guid']}
 			WHERE `id` = {$in['id']}
 		");
 	}
