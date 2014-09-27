@@ -330,7 +330,10 @@
 
 					echo "<p>";
 					echo "<strong>" . $title . "</strong><br />";
-					echo htmlentities( $content );
+
+					$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
+
+					echo $content;
 					echo "</p>";
 
 				}
@@ -338,8 +341,16 @@
 				echo "</pre>";
 
 			} else {
+/*
+				if ( mb_detect_encoding($codeoutput, "utf-8, iso-8859-1") == "UTF-8" ) {
+					$codeoutput;
+				} else {
+					$codeoutput = iconv("iso-8859-1", "utf-8", $codeoutput);
+				}
+*/
+				//$codeoutput = htmlentities( $codeoutput );
+				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
 
-				$codeoutput = htmlentities( $codeoutput );
 				echo "<pre style='width:67%; float:left; font-size: 7pt;'>" . $codeoutput . "</pre>";
 
 			}
