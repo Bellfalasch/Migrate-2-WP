@@ -3,7 +3,7 @@
 	$PAGE_step  = 5;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'clean up left over html and fix semantics';
+	$PAGE_desc = 'clean up leftover html and fix semantics';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
