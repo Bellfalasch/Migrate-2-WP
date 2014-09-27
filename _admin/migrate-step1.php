@@ -1,7 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeouts on the server
-	set_time_limit(5);
-	ini_set('max_execution_time', 5);
+	set_time_limit(20);
+	ini_set('max_execution_time', 20);
 
 	/* Set up template variables */
 	$PAGE_step  = 1;
@@ -40,8 +40,15 @@
 	// Our formGet doesn't tackle post arrays, so need to read it directly
 	$fileendings = array();
 
-	if ( $_POST['filetype'] ) {
+	if ( isset($_POST['filetype']) ) {
 		$fileendings = $_POST['filetype'];
+	}
+
+	// Custom debugging of crawl activated
+	if ( formGet('debug') === 'yes' ) {
+		DEFINE('DEBUG', true);
+	} else {
+		DEFINE('DEBUG', false);
 	}
 
 
@@ -272,10 +279,7 @@ function getsite($site, $site_address)
 
 			//echo "search_length: " . $search_length . "<br />";
 		}
-		//var_dump($linklist[0]);
-		//var_dump($linklist[1]);
-		//var_dump($linklist[2]);
-		//var_dump($linklist[3]);
+
 	}
 
 	// Search for all the different regex we have
@@ -291,14 +295,33 @@ function getsite($site, $site_address)
 			//if ( $i < count($result[$i]) ) {
 
 			//exit;
+if (DEBUG) {
+			echo '<strong>$result</strong>';
+			var_dump( $result );
+}
 
 			// Add each link we find to our link list
 			$result_length = count($result[1]);
 
-			for ( $u = 0; $u < $search_length; $u++ )
+if (DEBUG) {
+			echo 'Array längd: ' . $result_length . '<br />';
+}
+
+			for ( $u = 0; $u < $result_length; $u++ )
 			{
+
+if (DEBUG) {
+				echo $u . ' - ' . in_array($result[1][$u], $linklist) . '<br />';
+}
 				// Don't add duplicates
 				if ( !in_array($result[1][$u], $linklist) ) {
+
+if (DEBUG) {
+					echo '<strong>$result[1][$u]</strong>';
+					var_dump($result[1][$u]);
+					echo 'validfiletype($result[1][$u])';
+					var_dump(validfiletype($result[1][$u]) );
+}
 
 					if ( validfiletype($result[1][$u]) ) {
 
@@ -311,7 +334,7 @@ function getsite($site, $site_address)
 			
 			}
 				
-			//var_dump($result);
+//			var_dump($result);
 
 			// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
 			// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
@@ -319,11 +342,12 @@ function getsite($site, $site_address)
 			// TODO: Testa att inte sätta detta till 1. Jag tror den innehåller en flera dimensioner djup array, och vi därför måste bygga ut loopen nedan ett steg till!
 
 			//echo '$result[$i][1]';
-			// var_dump($result[$i][0]);
-			// var_dump($result[$i][1]);
-			// var_dump($result[$i][2]);
-			// var_dump($result[$i][3]);
-			//var_dump($linklist);
+//			var_dump($result[0][$i]);
+//			var_dump($result[1][$i]);
+if (DEBUG) {
+			echo '<strong>$linklist</strong>';
+			var_dump($linklist);
+}
 
 			//} 
 			//exit;
@@ -348,8 +372,12 @@ function getsite($site, $site_address)
 		$links_length = count($linklist);
 
 		// For each link found ...
-		for ($j=0; $j<=$links_length; $j++)
+		for ( $j = 0; $j < $links_length; $j++)
 		{
+
+if (DEBUG) {
+			echo "Validating link: " . $linklist[$j];
+}
 
 			if (!empty($linklist[$j]) )
 			{
@@ -360,11 +388,19 @@ function getsite($site, $site_address)
 					#			print_r(".." . $res_links );
 	#				echo "\n0:\n". $res_links . "\n";
 	#				print_r($res_links);
+if (DEBUG) {
+					echo " = not allowed";
+}
+
 				}
 				// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
 				else if (preg_match($search_links[1], $linklist[$j], $res_links))
 				{
 					$break = false;
+
+if (DEBUG) {
+					echo " = http link, checking ...";
+}
 					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
 					/*
 					echo strlen($res_links[0]) . "<br />";
@@ -394,6 +430,9 @@ function getsite($site, $site_address)
 									//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
 									$break = true;
 									break;
+if (DEBUG) {
+									echo " = cool";
+}
 								}
 							}
 						}
@@ -402,6 +441,10 @@ function getsite($site, $site_address)
 					{
 #						echo "TRUE2";
 						$break = true;
+if (DEBUG) {
+						echo " = not allowed";
+}
+
 					}
 
 
@@ -451,7 +494,10 @@ function getsite($site, $site_address)
 //					{
 //					$y = 0;
 
-						var_dump( $linklist[$j] );
+						//var_dump( $linklist[$j] );
+if (DEBUG) {
+						echo " = not .. or http in start, checking";
+}
 
 						// Don't collect garbage links (only # in the href, or mailto-links)
 						if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
@@ -484,14 +530,20 @@ function getsite($site, $site_address)
 
 						}
 						
-						exit;
+						//exit;
 					
 //					} // for $y
 
 				}
 			}
+
+if (DEBUG) {
+	echo "<br />";
+}
+			
 		}
 //	}
+
 
 	echo "</ol>";
 
@@ -623,6 +675,12 @@ function getsite($site, $site_address)
 				<div class="span5 offset1">
 					<h4>Perform HTTP-status check:</h4>
 					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
+
+					<br />
+					<label>
+						<input type="checkbox" name="debug" value="yes"<?php if (isset($_POST['debug'])) { ?> checked="checked"<?php } ?> />
+						Output extensive debugging information during crawl
+					</label>
 				</div>
 			</div>
 
