@@ -215,6 +215,8 @@
 								break;
 						}
 
+						$content = $body;
+
 						// Get the right encoding for output:
 						$html   = htmlspecialchars($row->html, ENT_QUOTES, "UTF-8");
 						$header = htmlspecialchars($header, ENT_QUOTES, "UTF-8");
@@ -244,7 +246,7 @@
 						//db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
 
 						db_setContentCode( array(
-							'content' => $mysqli->real_escape_string($body),
+							'content' => $mysqli->real_escape_string($content),
 							'id' => $row->id
 						) );
 
