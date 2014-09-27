@@ -159,7 +159,7 @@
 				$html = str_replace(' bgcolor="#E0E0E0"', '', $html);
 
 				// If user adds h1 programatically in WP themes we want to get rid of h1 and turn them into h2 
-				if (isset($_POST['h1'])) {
+				if ( formGet('h1') === 'yes' ) {
 
 					$html = str_replace("<h1>", '<h2>', $html);
 					$html = str_replace("</h1>", '</h2>', $html);
@@ -167,7 +167,7 @@
 				}
 
 				// Ugly code, but remove myriad of line breaks left behind in the code
-				if (isset($_POST['linebreaks'])) {
+				if ( formGet('linebreaks') === 'yes' ) {
 					
 					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
 					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
@@ -208,7 +208,7 @@
 				$html = str_replace("</span></td>", "</th>", $html);
 
 				// Delete empty tags
-				if (isset($_POST['empty'])) {
+				if ( formGet('empty') === 'yes' ) {
 
 					$html = str_replace("<p>\n</p>", '', $html);
 					$html = str_replace("<p><br /></p>\n", "", $html);
