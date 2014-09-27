@@ -1,7 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeouts on the server
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
+	set_time_limit(5);
+	ini_set('max_execution_time', 5);
 
 	/* Set up template variables */
 	$PAGE_step  = 1;
@@ -40,7 +40,7 @@
 	// Our formGet doesn't tackle post arrays, so need to read it directly
 	$fileendings = array();
 
-	if ( formGet('filetype') ) {
+	if ( $_POST['filetype'] ) {
 		$fileendings = $_POST['filetype'];
 	}
 
@@ -177,6 +177,7 @@ function forsites($check_links)
 // Request the site we want to crawl
 function getsite($site, $site_address)
 {
+	global $PAGE_siteurl;
 	global $check_links;
 	global $checked_link;
 
