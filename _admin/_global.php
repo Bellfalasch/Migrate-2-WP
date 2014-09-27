@@ -60,15 +60,6 @@
 
 	$SYS_incroot = rtrim($_SERVER['DOCUMENT_ROOT'],"/") . $SYS_root;
 
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// Now that we have the incroot-variable we can fetch needed includes
-	require($SYS_incroot . '/inc/functions.php');
-	require($SYS_incroot . '/inc/database.php');
-	require('_database.php');
-	//////////////////////////////////////////////////////////////////////////////////
-
-
 	// Start up the error and debug variables with an empty array.
 	$SYS_errors = array();
 	$SYS_debug  = array();
@@ -84,6 +75,14 @@
 	$PAGE_dbid = qsGet("id");
 	if ($PAGE_dbid == '')
 		$PAGE_dbid = -1;
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Now that we have the incroot-variable we can fetch needed includes
+	require($SYS_incroot . '/inc/functions.php');
+	require($SYS_incroot . '/inc/database.php');
+	require('_database.php');
+	//////////////////////////////////////////////////////////////////////////////////
 
 
 	//////////////////////////////////////////////////////////////////////////////////
