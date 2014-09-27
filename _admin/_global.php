@@ -37,6 +37,9 @@
 	//////////////////////////////////////////////////////////////////////////////////
 	// Set up system variables:
 	//////////////////////////////////////////////////////////////////////////////////
+
+	// Dynamic links etc based on where we have the code-files
+	$SYS_domain = $_SERVER['SERVER_NAME'];
 	
 	// Get the current folder the files are in, account for different servers by exploding the variable differently.
 	$TMP_folders = __FILE__;
@@ -45,10 +48,15 @@
 	else
 		$TMP_foldersArr = explode('/', $TMP_folders); // dedicated server
 
+	// Fetch name of currently viewed file without the .php
+	$TMP_parts = explode('/', $_SERVER["SCRIPT_NAME"]);
+	$TMP_currentFile = $TMP_parts[count($TMP_parts) - 1];
+	$SYS_script = str_replace('.php','',$TMP_currentFile);
+
 	$SYS_root = '/' . $TMP_foldersArr[count($TMP_foldersArr) - 3];
 	$SYS_folder = '/' . $TMP_foldersArr[count($TMP_foldersArr) - 2];
-	$SYS_pageself = $SYS_root . $SYS_folder . ".php";
 	$SYS_pageroot = $SYS_root . $SYS_folder . "/";
+	$SYS_pageself = $SYS_pageroot . $SYS_script . ".php";
 
 	$SYS_incroot = rtrim($_SERVER['DOCUMENT_ROOT'],"/") . $SYS_root;
 
@@ -76,14 +84,6 @@
 	$PAGE_dbid = qsGet("id");
 	if ($PAGE_dbid == '')
 		$PAGE_dbid = -1;
-
-	// Dynamic links etc based on where we have the code-files
-	$SYS_domain = $_SERVER['SERVER_NAME'];
-
-	// Fetch name of currently viewed file without the .php
-	$TMP_parts = explode('/', $_SERVER["SCRIPT_NAME"]);
-	$TMP_currentFile = $TMP_parts[count($TMP_parts) - 1];
-	$SYS_script = str_replace('.php','',$TMP_currentFile);
 
 
 	//////////////////////////////////////////////////////////////////////////////////
