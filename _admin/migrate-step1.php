@@ -58,9 +58,7 @@
 // Simple insert into the database, no check if data already is there.
 function savepage($url, $html)
 {
-	global $mysqli;
 	global $PAGE_siteid;
-	global $cleaner_table;
 
 	if ( mb_detect_encoding($html, "utf-8, iso-8859-1") == "UTF-8" ) {
 		$html;
@@ -85,7 +83,7 @@ function savepage($url, $html)
 			$row = $exists->fetch_object();
 
 			$result = db_setUpdatePage( array(
-							'html' => $mysqli->real_escape_string($html),
+							'html' => $html,
 							'id' => $row->id
 						) );
 
@@ -93,7 +91,7 @@ function savepage($url, $html)
 
 			$result = db_setNewPage( array(
 							'site' => $PAGE_siteid,
-							'html' => $mysqli->real_escape_string($html),
+							'html' => $html,
 							'page' => $url,
 							'clean' => null
 						) );
@@ -207,10 +205,9 @@ function getsite($url)
 	);
 	$search_length = count($search);
 
-	// '/src="([^\s"]+)"/iU',
-	// '/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
-
 /*
+	'/src="([^\s"]+)"/iU',
+	'/\<a href="(.*?)"(.*?)>(.*?)<\/a>/i',
 	'/\<frame src="(.*?)"(.*?)/i',
 	'/\<a(.*)href="(.*?)"(.*?)>(.*?)<\/a>/i',
 	'/\<A HREF="(.*?)"(.*?)>(.|\n)+(.*?)(.|\n)+<\/A>/i',
@@ -227,8 +224,6 @@ function getsite($url)
 	// Get a URL's code
 	$http_request = fopen($url, "r");
 
-	//print_r($http_response_header);
-
 	// Check HTTP status message, only get OK pages (if setting says so)
 	if ($http_request)
 	{
@@ -240,27 +235,20 @@ function getsite($url)
 				echo "<span class=\"label label-important\">HTTP ERROR</span>";
 				$check_links[$url] = 2;
 				$search = "";
-				//return false;
 			}
 		} else {
 			echo "<span class=\"label label-important\">HTTP ERROR</span>";
 			$check_links[$url] = 2;
 			$search = "";
-			//return false;
 		}
-		//print_r($http_response_header);
-		//exit;
 	}
 	else
 	{
 		echo "<span class=\"label label-important\">HTTP ERROR</span>";
 		$check_links[$url] = 2;
 		$search = "";
-		//return false;
 	}
 
-//	echo "<br />";
-//	echo "The crawler found these links:";
 	echo "</p>";
 
 	//$http_request = stream_get_contents($http_request);
@@ -293,15 +281,11 @@ function getsite($url)
 	for ( $i = 0; $i < $search_length; $i++ )
 	{
 
-		//exit;
-
 		// Find all matching links in the fetched URL's html
 		if ( preg_match_all($search[$i], $pagebuffer, $result) )
 		{
-	#		print_r($result[0]);
 			//if ( $i < count($result[$i]) ) {
 
-			//exit;
 if (DEBUG) {
 			echo '<strong>$result</strong>';
 			var_dump( $result );
@@ -341,16 +325,6 @@ if (DEBUG) {
 			
 			}
 				
-//			var_dump($result);
-
-			// TODO: Jag tror felet här är att detta blir fel här så kommande loop får aldrig något resultat i de andra regex:en.
-			// Som det är nu körs bara regex 1, endast den. Jag förstår inte varför. 0, 2 och 3 skippas. Kan va att de sparar över varandra.
-
-			// TODO: Testa att inte sätta detta till 1. Jag tror den innehåller en flera dimensioner djup array, och vi därför måste bygga ut loopen nedan ett steg till!
-
-			//echo '$result[$i][1]';
-//			var_dump($result[0][$i]);
-//			var_dump($result[1][$i]);
 if (DEBUG) {
 			echo '<strong>$linklist</strong>';
 			var_dump($linklist);
@@ -392,9 +366,7 @@ if (DEBUG) {
 				// Honeypot, catching bad URLs: (going down one folder)
 				if (preg_match($search_links[0], $linklist[$j], $res_links))
 				{
-					#			print_r(".." . $res_links );
-	#				echo "\n0:\n". $res_links . "\n";
-	#				print_r($res_links);
+
 if (DEBUG) {
 					echo " = not allowed";
 }
@@ -408,24 +380,9 @@ if (DEBUG) {
 if (DEBUG) {
 					echo " = http link, checking if correct domain ...";
 }
-					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
-					/*
-					echo strlen($res_links[0]) . "<br />";
-					echo strlen($site_address) . "<br />";
-					echo strlen($res_links[0]) . "<br />";
-					echo strlen($site_address) . "<br />";
-					echo $res_links[0][strlen($site_address)] . "<br />";
-					*/
-					//if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
+
 					if ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) && ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) ) && count($res_links[0] >= strlen($PAGE_siteurl) ) )
 					{
-						/*
-						echo strlen($res_links[0]) . "<br />";
-						echo strlen($site_address) . "<br />";
-						echo strlen($res_links[0]) . "<br />";
-						echo strlen($site_address) . "<br />";
-						echo $res_links[0][strlen($site_address)-1] . "<br />";
-						*/
 
 						if ( (($res_links[0][strlen($PAGE_siteurl)-1] != ".") ) )
 						{
@@ -559,7 +516,7 @@ if (DEBUG) {
 
 	echo "</ol>";
 
-	//$check_links[$PAGE_siteurl] = 1; // Link is flagged as parsed/crawled
+	//$check_links[$PAGE_siteurl] = 1;
 	$check_links[$url] = 1; // Link is flagged as parsed/crawled
 
 if (DEBUG) {
@@ -570,17 +527,13 @@ if (DEBUG) {
 	// Close file/URL
 	fclose($http_request);
 
-	//print_r($check_links);
 	echo "<span class=\"badge badge-inverse\">" . count($check_links) . "</span> unique links collected (so far)!";
 
 	// Only save when Run crawl is pressed (never on Test)
 	if (formGet("save_crawl") == "Run crawl") {
-		savepage($PAGE_siteurl, trim($pagebuffer) );
 
-		db_updateStepValue( array(
-			'step' => $PAGE_step,
-			'id' => $PAGE_siteid
-		) );
+		savepage($url, trim($pagebuffer) );
+
 	}
 
 	echo "<br /><br />";
@@ -601,7 +554,14 @@ if (DEBUG) {
 
 		// Don't save on test
 		if (formGet("save_crawl") == "Run crawl") {
+
+			db_updateStepValue( array(
+				'step' => $PAGE_step,
+				'id' => $PAGE_siteid
+			) );
+
 			echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+
 		} else {
 			echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
 		}
