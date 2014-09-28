@@ -1,7 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeouts on the server
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
+	set_time_limit(20);
+	ini_set('max_execution_time', 20);
 
 	/* Set up template variables */
 	$PAGE_step  = 1;
@@ -133,6 +133,11 @@ function checklink($link)
 	if ( validfiletype($link) ) {
 		$checked_link = $link;
 		//echo  "\n" . $checked_link . " ---<br />\n";
+
+		if (DEBUG) {
+			echo "Valid 'checked_link': " . $checked_link;
+		}
+
 		return true;
 	} else {
 		return false;
@@ -399,7 +404,7 @@ if (DEBUG) {
 					$break = false;
 
 if (DEBUG) {
-					echo " = http link, checking ...";
+					echo " = http link, checking if correct domain ...";
 }
 					//echo $res_links[0][strlen($site_address)] . "-" . $res_links[0][strlen($site_address)+1] . "<br />";
 					/*
@@ -520,6 +525,11 @@ if (DEBUG) {
 								{
 									echo " <span class=\"label label-info\">Added</span>";
 									$check_links[$checked_link] = 0;
+
+									if (DEBUG) {
+										echo "'checked_link' (" . $checked_link . ") = 0. ";
+									}
+
 								} else {
 									echo " <span class=\"label\">Skipped</span>";
 								}
