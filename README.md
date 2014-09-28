@@ -4,14 +4,18 @@ Migrate 2 WP
 Migrate your static files to Wordpress
 ------------------
 
-This repo is based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development.
+*This repo is based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development (basically just a simple CRUD-system to generate forms for the database).*
 
-The basic function of this code is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html, connect old pages to new pages in WordPress, and end it all by pushing the clean code straight into Wordpress.
+The main function of Migrate 2 WP is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html, connect old pages to new pages in WordPress, and end it all by pushing the clean code straight into Wordpress.
 
 Until version 1.0 is reached it's highly recommended to use proper backups of your database before using this code.
 
 Updates:
 ----------------
+
+### 0.9.8
+
+After loads and loads of commits, we're closing in on 1.0. Only 22 Asana-tasks remain - 6 critical, and 10 low priority (refactoring-things). All the steps work - finally - and they all have a lot of improvements on speed and quality. I can't point on specific things fixed, but the crawler have been getting a lot of improvements, so has the new "Split"-step.
 
 ### 0.9
 
@@ -35,9 +39,6 @@ Still not useful without hacking the code manually. It won't connect to the dest
 Getting there! Major rearrangement of all the steps after doing some heavy (well, light ;P) thinking. Dropped the last two steps, moved the link-updater from Step 6 into Step 5 ("Move"), and splitting the Step 3 ("Clean") into three steps of it's own (needed for easier handling of the code). All steps now have code - or will soon have - for testing the step before actually running it.
 
 And the crawling in Step 1 had major improvements, with bugfixes, http header status checks, settings, etc. I'm also introducing the brand new Projects page where you create and manage your project, as well as a drop down in the nav-bar so you can select which of your projects to run the migration on.
-
-### 0.5
-If you manually edit the code, you can get all the steps running and working fine =) Still a lot to go, and a bucket load of ideas coming. For instance moving the steps around a bit, merging a few, adding one last "checklist", and of course much better settings. Stay tuned!
 
 
 Disclaimer
