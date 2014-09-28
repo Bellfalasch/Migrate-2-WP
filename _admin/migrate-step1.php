@@ -7,7 +7,7 @@
 	$PAGE_step  = 1;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'crawl an entire site\'s html';
+	$PAGE_desc  = 'crawl an entire site\'s html';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
@@ -82,7 +82,7 @@ function savepage($url, $html)
 		// Insert or Update?
 		if ( isset($exists) ) {
 
-			$row = $result->fetch_object();
+			$row = $exists->fetch_object();
 
 			$result = db_setUpdatePage( array(
 							'html' => $mysqli->real_escape_string($html),
@@ -190,6 +190,8 @@ function forsites($check_links)
 function getsite($url)
 {
 	global $PAGE_siteurl;
+	global $PAGE_step;
+	global $PAGE_siteid;
 	global $check_links;
 	global $checked_link;
 
