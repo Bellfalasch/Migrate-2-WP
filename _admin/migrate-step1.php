@@ -175,11 +175,11 @@ function forsites($check_links)
 	{
 		$continue = false;
 		#		for ($i=0; $i<=count($check_links); $i++)
-		foreach ($check_links as $k => $v)
+		foreach ($check_links as $url => $v)
 		{
 			if ($v == 0)
 			{
-				getsite($k, $PAGE_siteurl);
+				getsite($url);
 				$continue = true;
 			}
 		}
@@ -187,7 +187,7 @@ function forsites($check_links)
 }
 
 // Request the site we want to crawl
-function getsite($site, $site_address)
+function getsite($url)
 {
 	global $PAGE_siteurl;
 	global $check_links;
@@ -220,10 +220,10 @@ function getsite($site, $site_address)
 	// http://www.catswhocode.com/blog/15-php-regular-expressions-for-web-developers
 
 	echo "<p>";
-	echo "<strong>Fetching URL:</strong> " . $site . " ";
+	echo "<strong>Fetching URL:</strong> " . $url . " ";
 
 	// Get a URL's code
-	$http_request = fopen($site, "r");
+	$http_request = fopen($url, "r");
 
 	//print_r($http_response_header);
 
@@ -236,13 +236,13 @@ function getsite($site, $site_address)
 				echo "<span class=\"label label-success\">OK</span>";
 			} else {
 				echo "<span class=\"label label-important\">HTTP ERROR</span>";
-				$check_links[$site] = 2;
+				$check_links[$url] = 2;
 				$search = "";
 				//return false;
 			}
 		} else {
 			echo "<span class=\"label label-important\">HTTP ERROR</span>";
-			$check_links[$site] = 2;
+			$check_links[$url] = 2;
 			$search = "";
 			//return false;
 		}
@@ -252,7 +252,7 @@ function getsite($site, $site_address)
 	else
 	{
 		echo "<span class=\"label label-important\">HTTP ERROR</span>";
-		$check_links[$site] = 2;
+		$check_links[$url] = 2;
 		$search = "";
 		//return false;
 	}
@@ -415,7 +415,7 @@ if (DEBUG) {
 					echo $res_links[0][strlen($site_address)] . "<br />";
 					*/
 					//if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) && (($res_links[0][strlen($site_address)] != ".") && ($res_links[0][strlen($site_address)+1] != "."))))
-					if ((strlen($res_links[0]) >= strlen($site_address)) && ((strlen($res_links[0]) >= strlen($site_address)) ) && count($res_links[0] >= strlen($site_address) ) )
+					if ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) && ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) ) && count($res_links[0] >= strlen($PAGE_siteurl) ) )
 					{
 						/*
 						echo strlen($res_links[0]) . "<br />";
@@ -425,11 +425,11 @@ if (DEBUG) {
 						echo $res_links[0][strlen($site_address)-1] . "<br />";
 						*/
 
-						if ( (($res_links[0][strlen($site_address)-1] != ".") ) )
+						if ( (($res_links[0][strlen($PAGE_siteurl)-1] != ".") ) )
 						{
-							for ($k=0; $k<strlen($site_address); $k++)
+							for ($k=0; $k<strlen($PAGE_siteurl); $k++)
 							{
-								if ($res_links[0][$k] != $site_address[$k])
+								if ($res_links[0][$k] != $PAGE_siteurl[$k])
 								{
 	#								echo "TRUE";
 									//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
@@ -512,7 +512,7 @@ if (DEBUG) {
 //									exit;
 
 							// Create full http links with domain name and all
-							$link_full = $site_address . $linklist[$j];
+							$link_full = $PAGE_siteurl . $linklist[$j];
 
 							// Output information (link) to user
 							echo "<li><a href=\"" . $link_full . "\" target=\"_blank\">" . $link_full . "</a>\n";
@@ -557,7 +557,8 @@ if (DEBUG) {
 
 	echo "</ol>";
 
-	$check_links[$PAGE_siteurl] = 1; // Link is flagged as parsed/crawled
+	//$check_links[$PAGE_siteurl] = 1; // Link is flagged as parsed/crawled
+	$check_links[$checked_link] = 1; // Link is flagged as parsed/crawled
 
 if (DEBUG) {
 	echo "<strong>'check_links' array:</strong><br />";
