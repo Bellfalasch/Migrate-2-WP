@@ -1,7 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeouts on the server
-	set_time_limit(20);
-	ini_set('max_execution_time', 20);
+	set_time_limit(30);
+	ini_set('max_execution_time', 30);
 
 	/* Set up template variables */
 	$PAGE_step  = 1;
@@ -524,7 +524,7 @@ if (DEBUG) {
 								if (!array_key_exists($checked_link, $check_links))
 								{
 									echo " <span class=\"label label-info\">Added</span>";
-									$check_links[$checked_link] = 0;
+									$check_links[$checked_link] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 
 									if (DEBUG) {
 										echo "'checked_link' (" . $checked_link . ") = 0. ";
@@ -557,7 +557,12 @@ if (DEBUG) {
 
 	echo "</ol>";
 
-	$check_links[$PAGE_siteurl] = 1;
+	$check_links[$PAGE_siteurl] = 1; // Link is flagged as parsed/crawled
+
+if (DEBUG) {
+	echo "<strong>'check_links' array:</strong><br />";
+	var_dump( $check_links );
+}
 
 	// Close file/URL
 	fclose($http_request);
