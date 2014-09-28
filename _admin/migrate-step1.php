@@ -1,7 +1,7 @@
 <?php
 	// This page will take a looong time to finish, so remove any timeouts on the server
-	set_time_limit(30);
-	ini_set('max_execution_time', 30);
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	/* Set up template variables */
 	$PAGE_step  = 1;
@@ -558,7 +558,7 @@ if (DEBUG) {
 	echo "</ol>";
 
 	//$check_links[$PAGE_siteurl] = 1; // Link is flagged as parsed/crawled
-	$check_links[$checked_link] = 1; // Link is flagged as parsed/crawled
+	$check_links[$url] = 1; // Link is flagged as parsed/crawled
 
 if (DEBUG) {
 	echo "<strong>'check_links' array:</strong><br />";
