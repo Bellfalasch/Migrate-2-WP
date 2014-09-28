@@ -652,12 +652,12 @@ if (DEBUG) {
 				continue to follow every link it can find.
 			</p>
 			<p>
-				We will crawl <strong><?= $PAGE_siteurl ?></strong> for you.
+				We will crawl <strong><?= $PAGE_siteurl ?></strong> for you and fetch all unique links there.
 			</p>
 
 			<div class="row">
 				<div class="span5">
-					<h4>Fetch these filetypes:</h4>
+					<h4>Fetch these filetypes</h4>
 					
 					<?php
 						// Valid file endings to crawl
@@ -673,7 +673,7 @@ if (DEBUG) {
 				</div>
 
 				<div class="span5 offset1">
-					<h4>Perform HTTP-status check:</h4>
+					<h4>Perform HTTP-status check</h4>
 					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
 
 					<br />
