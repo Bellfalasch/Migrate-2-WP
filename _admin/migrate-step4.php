@@ -3,7 +3,7 @@
 	$PAGE_step  = 4;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'fix old html with PHP tidy-component';
+	$PAGE_desc = 'wash away or replace old html';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
@@ -21,90 +21,110 @@
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
 				
-				$content = $row->wash;
+				$content = $row->content;
 				$clean = $content;
 				
-				// Start replacing old bad markup
-				//echo "<code><pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
-				/*
-				$tidy = new tidy();
-				$tidy->tidy_parse_string($row->content);
-				$tidy->cleanRepair();
-				$clean = (string)$tidy;
-				*/
+				// Start replacing old bad markup ... at the moment very manual work =/
 
-				// REF: http://tidy.sourceforge.net/docs/quickref.html
-				$options = array(
-						"output-xhtml" => true,
-						"clean" => true,
-						"css-prefix" => 'tidy_',
-	//					"indent-spaces" => 2,
-						"wrap" => 0,
-						"indent" => false,
-	//					"show-body-only" => true,
-	//					"drop-font-tags" => true,
-						"drop-empty-paras" => true,
-						"hide-comments" => false,
-						"join-styles" => true,
-	//					"join-classes" => true,
-						"word-2000" => true,
-						"drop-proprietary-attributes" => true,
-						"enclose-text" => true,
-						"fix-uri" => true,
-						"logical-emphasis" => true,
-						"lower-literals" => true,
-						"merge-divs" => true,
-						"quote-ampersand" => true,
-						"break-before-br" => false,
-						"sort-attributes" => 'alpha',
-	//					"tab-size" => 4,
-						"char-encoding" => 'utf8',
-						"doctype" => 'omit'
-					);
-				$tidy = tidy_parse_string($clean, $options,'UTF8');
-				//$tidy = tidy_parse_string($row->content, $options);
-				tidy_clean_repair($tidy);
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>',  '<span class="stars"><span class="lit">*</span>****</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>',         '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***',             '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>',  '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>',      '<span class="stars"><span class="lit">**</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>',         '<span class="stars"><span class="lit">***</span>**</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>',         '<span class="stars"><span class="lit">****</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>',         '<span class="stars"><span class="lit">*****</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT></B>',        '<span class="stars"><span class="lit">****</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>',        '<span class="stars"><span class="lit">***</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*',            '<span class="stars"><span class="lit">***</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>',        '<span class="stars"><span class="lit">**</span>**</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>',        '<span class="stars"><span class="lit">*</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT></B>',      '<span class="stars"><span class="lit">***</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>',      '<span class="stars"><span class="lit">**</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*',          '<span class="stars"><span class="lit">**</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>',      '<span class="stars"><span class="lit">*</span>**</span>', $clean);
+				$clean = str_replace('<B><font size="2" COLOR="Orange">**</font><font size="2">*</font></B>', '<span class="stars"><span class="lit">**</span>*</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange" size="2">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $clean);
+				$clean = str_replace('<B><font size="2" COLOR="Orange">*</font><font size="2">**</font></B>', '<span class="stars"><span class="lit">*</span>**</span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B>', '<span class="stars"><span class="lit">**</span></span>', $clean);
+				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>*</B>', '<span class="stars"><span class="lit">*</span>*</span>', $clean);
+
+				// Old footer copyright notice from an old site of mine, remove if you like
+				$clean = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $clean);
+				$clean = str_replace('Site graphics, layout, text and parts of this site is &copy;opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $clean);
+				$clean = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $clean);
+				$clean = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $clean);
+
+				// Can't remove trailing font-tag or Tidy in next step will go nuts
+				//$clean = str_replace('</FONT>', '</span>', $clean);
+
+				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
+				$clean = preg_replace( '@<FONT[^>]*?>@siu', '', $clean );
+
+				// My pages have a ad from Google on every page, but it's always kept in this div - so just remove it all
+				$clean = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $clean );
+
+				// Another block of code for RSS-buttons etc on my sites, I'm just removing it all
+				$clean = preg_replace( '/<div class="area_body">(.*)<\/div>/Uis', '', $clean );
+
+				// Remove all HTML comments and their contents - if setting is activated
+				if ( formGet('comments') ) {
+					$clean = preg_replace( '/<!--(.*)-->/Uis', '', $clean );
+				}
+
+				// Some markup we need to delete
+				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
+				$clean = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $clean);
+				$clean = str_replace('<CENTER><FONT STYLE="font-size:10pt">', '', $clean);
+				$clean = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $clean);
+				$clean = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $clean);
+				$clean = str_replace('<BR><BR></TD></TR></TABLE>', '', $clean);
+				$clean = str_replace(' VALIGN="top"', '', $clean);
+				$clean = str_replace(' ALIGN="left"', '', $clean);
+				$clean = str_replace(' ALIGN="right"', '', $clean);
+				$clean = str_replace(' ALIGN="center"', '', $clean);
 				
-				// Tidy leaves some code that we do not want inside WP, so let's remove it
-				$tidy = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $tidy);
-				$tidy = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $tidy);
-				$tidy = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '', $tidy);
-				$tidy = str_replace('<head>', '', $tidy);
-				$tidy = str_replace('<title></title>', '', $tidy);
-				$tidy = str_replace('</head>', '', $tidy);
-				$tidy = str_replace('<body>', '', $tidy);
-				$tidy = str_replace('</body>', '', $tidy);
-				$tidy = str_replace('</html>', '', $tidy);
+				// Some markup we can improve
+				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
+				
+				// This should be handled by Tidy ... let's try without
+				// $clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
 
-				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
-				$tidy = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $tidy );
+				// Some markup we potentially could improve, but they were more or less used for "design" and should be removed
+				$clean = str_replace('<CENTER>', '', $clean);
+				$clean = str_replace('</CENTER>', '', $clean);
+				$clean = str_replace('<SMALL>', '', $clean);
+				$clean = str_replace('</SMALL>', '', $clean);
+				$clean = str_replace('<U>', '', $clean);
+				$clean = str_replace('</U>', '', $clean);
 
-				// Some more garbage code from tidy (remove all classes it creates on styled items)
-				$tidy = str_replace(' class="c1"', '', $tidy);
-				$tidy = str_replace(' class="c2"', '', $tidy);
-				$tidy = str_replace(' class="c3"', '', $tidy);
-				$tidy = str_replace(' class="c4"', '', $tidy);
-				$tidy = str_replace(' class="c5"', '', $tidy);
+				// Old e-mails and names we wanna clean up
+				$clean = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $clean);
+				$clean = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $clean);
+				$clean = str_replace('Bobby Vestberg', 'Bobby Westberg', $clean);
 
-				$tidy = trim($tidy);
+				$clean = trim($clean);
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
-				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
-				echo "<pre class=\"clean\">" . htmlentities( $tidy, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<div class=\"spalt\"><strong>Washed code:</strong>";
+				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
-				if (formGet("save_tidy") == "Run Tidy") {
+				if (formGet("save_wash") == "Run wash") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					//db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($tidy) . "' WHERE id = " . $row->id . " LIMIT 1");
+					//db_MAIN("UPDATE migrate_content SET wash = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
 
-					db_setTidyCode( array(
-						'tidy' => $mysqli->real_escape_string($tidy),
+					db_setWashCode( array(
+						'wash' => $clean,
 						'id' => $row->id
 					) );
 
@@ -143,28 +163,30 @@
 
 	<?php } ?>
 
-<form class="well form-inline" action="" method="post">
+<form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span12">
 
 			<p>
-				This step configures and run the Tidy plugin in PHP. It brings old html version 3 and 4
-				into the modern ages of xhtml. It doesn't transform anything to html5 semantics (aside, article, etc),
-				but with the right doctype the code will also work for html5 pages.
+				A bunch of manual lines of replacement code will be run. These lines are run
+				before we let Tidy try and clean up the code mess. Sometimes this is easier
+				than running replacement code after Tidy (but you'll get that option as well).
 			</p>
 			<p>
-				After this step you will get the opportunity to clean up in the code Tidy left
-				and any other last changes before everything goes straight into Wordpress.
-			</p>
-			<p>
-				<strong>Notice!</strong> Feel free to fine tune settings and code and run this step over and over
-				again until you're satisfied. It saves its data in a separate database column.
+				<strong>Notice!</strong> Feel free to fine tune settings in the source code and run this step over and over
+				again until you're satisfied. It saves its washed data in a separate database column.
 			</p>
 
-			<input type="submit" name="save_tidy" value="Run Tidy" class="btn btn-primary" />
+			<label class="checkbox">
+				<input type="checkbox" name="comments" value="yes"<?php if (isset($_POST['comments'])) { ?> checked="checked"<?php } ?> />
+				Remove all HTML-comments and their contents?
+			</label>
+			<br />
 
-			<input type="submit" name="save_tidy" value="Test Tidy" class="btn" />
+			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
+
+			<input type="submit" name="save_wash" value="Test wash" class="btn" />
 
 		</div>
 	</div>

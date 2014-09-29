@@ -3,212 +3,241 @@
 	$PAGE_step  = 7;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'push content into Wordpress';
+	$PAGE_desc = 'connect crawled pages with WordPress';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
 
-<?php
+	<div class="row">
+		<div class="span8">
+			<h2>Important information</h2>
+			<p>
+				To the left under this text you'll see all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
+				to reload this pages and see the same button on the right side. This side contains all your Wordpress pages. Just click the
+				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
+				other way around is not supported, yet).
+				<strong>No data is transfered to WordPress yet!</strong>
+			</p>
+			<p>
+				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) in the right table. Thanks
+				to this you get a good overview of what old pages remain. Feel free to change any connection by clicking the grayed out connect-button
+				again on any page.
+			</p>
+			<p>
+				Select a page once more (with the connect-button) and click the disconnect-button that took its place to remove a page's
+				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 7 that page will
+				be skipped).
+			</p>
 
-// The actual code
-// ****************************************************************************	
-
-	if (ISPOST)
-	{
-
-		// Get all pages that has been connected to a Wordpress page, these will get transfered now
-		$result = db_getWPDataFromSite2( array( 'site' => $PAGE_siteid ) );
-		if ( isset( $result ) )
-		{
-
-			while ( $row = $result->fetch_object() )
-			{
-				
-				//$content = utf8_encode($row->clean);
-
-				$stop = false;
-
-				// Waterfall-choose the best (cleanest) html from the database depending on which is available
-				if ( is_null($row->clean) ) {
-
-					$content = $row->clean;
-
-				} elseif ( is_null($row->tidy) ) {
-
-					$content = $row->tidy;
-
-				} elseif ( is_null($row->wash) ) {
-
-					$content = $row->wash;
-
-				} elseif ( is_null($row->content) ) {
-
-					$content = $row->content;
-
-				} else {
-
-					$stop = true;
-				
-				}
-
-				if ( !$stop ) {
-
-					// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
-					if (isset($_POST['fix'])) {
-						$content = str_replace('<img ', '<img class="imgfix" ', $content);
-						$content = str_replace('<a href="', '<a class="fix" href="', $content);
-					}
-
-					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
-
-					if (!is_null($getWP)) {
-
-						// Update all links
-						$newlink = $row->wp_guid;
-						$oldlink = $row->page;
-
-						if ($newlink != "" && !is_null($newlink))
-						{
-
-							$mapparArr = explode('/', $oldlink);
-							$fil = $mapparArr[count($mapparArr) - 1];
-							$mapp = $mapparArr[count($mapparArr) - 2];
-
-							// Content with links that has the class="fix" added should get that removed now
-							if (isset($_POST['fix'])) {
-								$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
-							}
-
-							// Replace all the old href URLs with the new one in the current text
-							$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content );
-							// TODO: Counter - http://php.net/manual/en/function.str-replace.php
-							
-							// This will turn out bad on WP folder navigation, we need full root linking!
-							//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
-							//str_replace( $PAGE_sitenewurl, "/", $newlink )
-
-							echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
-
-	/*
-							// Update all the Links on ALL the pages in WP!!!
-							$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
-
-							$fixWP = 0;
-							//$fixWP2 = 0;
-
-							// Output a counter
-							if ($fixWP >= 0 OR $fixWP2 >= 0) {
-								
-								echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
-							}
-	*/
-							echo "<span class=\"badge badge-success\">?</span>";
-							echo "<br />";
-
-						}
-						// End link updater
-
-						$WProw = $getWP->fetch_object();
-
-						// Add the review page flag
-						if (isset($_POST['flag'])) {
-							
-							// Flag every page at the top for manual review
-							if ($WProw->post_content == '') {
-
-								$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
-
-							}
-						}
-
-						// Add the page separator?
-						if (isset($_POST['separator'])) {
-							
-							// Separate content in WP if there already is something there
-							if ($WProw->post_content != '') {
-
-								$content = $WProw->post_content . "<hr /><hr /><hr />" . $content;
-
-							}
-						}
-
-
-						echo "<p>";
-						echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
-						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
-						echo " <span class=\"label label-success\">OK</span>";
-						echo "</p>";
-
-						if (formGet("save_move") != "Test move") {
-
-							echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
-
-							// Do some saving right into WP
-							db_updateWPwithText($wp_table, $content, $row->wp_postid);
-
-							db_updateStepValue( array(
-								'step' => $PAGE_step,
-								'id' => $PAGE_siteid
-							) );
-
-						} else {
-							
-							echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-						
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
-?>
-
-<form class="well form" action="" method="post">
+			<div class="alert alert-block alert-success">
+				<h4>No Save-button!?</h4>
+				<?php if ($PAGE_sitestep >= 7) { ?>
+				<p>
+					When you're ready with all pages you wanna move, manually <a href="migrate-step8.php">go to Step 8</a>.
+					Pages left unconnected on the left side in this step will not be moved to Wordpress!
+				</p>
+				<?php } else { ?>
+				<p>
+					Save is instant when you click the links. Go ahead, connect some pages!
+				</p>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="span12">
 
-			<p>
-				Activating this step will run through your old clean pages and push all the code
-				straight into your Wordpress pages (given the connections made in previous step).
-			</p>
-			<p>
-				This step also updates all your old links so it fits nicely inside your new
-				Wordpress installation.
-			</p>
+<?php
 
-			<h3>Settings:</h3>
-			<label>
-				<input type="checkbox" name="fix" value="yes"<?php if (isset($_POST['fix'])) { ?> checked="checked"<?php } ?> />
-				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
-				<span class="help-block">This class is automatically removed on all links we can manage to update through the code.</span>
-			</label>
-			<label>
-				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
-				When pages get smashed together in one WP-page, add a separator?
-				<span class="help-block">Without this, existing content in WordPress will be removed!</span>
-			</label>
-			<label>
-				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
-				Add a "Text not manually checked" on top of every moved page in WordPress?
-			</label>
-			<br />
+/*
+	Swedish comment:
+	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
+	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
+	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
+	url/slug till sidan, och kan användas för att underlätta mappningen.
+*/
 
-			<input type="submit" name="save_move" value="Move 'em all!" class="btn btn-primary" />
 
-			<input type="submit" name="save_move" value="Test move" class="btn" />
+// Do the connecting
+// ****************************************************************************
+
+	if ( qsGet("connect") != "" && qsGet("to") != "") {
+
+		$id = qsGet("connect");
+		$to = qsGet("to");
+
+		// Fetch data from WordPress
+		$result = db_getPostFromWP($wp_table, $to);
+
+		if ( isset( $result ) ) {
+
+			$row = $result->fetch_object();
+			$newData_id = $row->id;
+			$newData_post_name = $row->post_name;
+			//$newData_post_title = $row->post_title;
+			$newData_guid = $row->guid;
+
+			// Save the selection to the database
+			$result2 = db_updateCleanerWithWP( array(
+							'id' => $id,
+							'name' => $newData_post_name,
+							'postid' => $newData_id,
+							'guid' => $newData_guid
+						) );
+
+			// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
+			if ($PAGE_sitestep >= 2) {
+				db_updateStepValue( array(
+					'step' => $PAGE_step,
+					'id' => $PAGE_siteid
+				) );
+			}
+
+			header('Location: ' . $SYS_pageself);
+
+		} else {
+			echo "Could't find any data";
+		}
+
+	}
+
+	// Disconnect a page
+	if ( qsGet("disconnect") != "" ) {
+
+		$page = qsGet("disconnect");
+
+		$result = db_updateDisconnectPage( array(
+						'id' => $page,
+						'site' => $PAGE_siteid
+					) );
+
+		header('Location: ' . $SYS_pageself);
+
+	}
+
+
+// The actual code
+// ****************************************************************************	
+
+	// Array for all the WP-pages we have listed (don't list again)
+	$arrWPidDone = array();
+
+	$pages = array();
+
+	// The crawled content side
+	echo '<table style="width:50%; float:left;">';
+	
+	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid ) );
+	if ( isset( $result ) )
+	{
+
+		while ( $row = $result->fetch_object() )
+		{
+			if ($row->wp_postid > 0) {
+				if ($row->id == qsGet("connect") ) {
+					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
+				} else {
+					echo '<tr style="opacity:0.3;">';
+				}
+				array_push($arrWPidDone, $row->wp_postid);
+			} else {
+				if ($row->id == qsGet("connect") ) {
+					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
+				} else {
+					echo '<tr>';
+				}
+			}
+			
+			if (qsGet("connect") != "") {
+				if ( $row->id == qsGet("connect") ) {
+					echo "<td><a href=\"?disconnect=" . $row->id . "\" class=\"btn btn-mini btn\">Disconnect</a></td>";
+				} else {
+					echo "<td>-</td>";
+				}
+			} else {
+				echo "<td><a href=\"?connect=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
+			}
+
+			$page = $row->page;
+			
+			// Add to an array to be used to suggest a page structure if WP is empty
+			array_push( $pages, $page );
+
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
+			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
+			echo '</tr>';
+		}
+
+	}
+	echo '</table>';
+
+	// The WordPress side
+	$result = db_getDataFromWordpress($wp_table);
+	//var_dump( $result );
+	if ( isset( $result ) )
+	{
+		echo '<table style="width:50%; float:left;">';
+		
+		while ( $row = $result->fetch_object() )
+		{
+			if (!in_array($row->ID, $arrWPidDone))
+				echo '<tr>';
+			else
+				echo '<tr style="opacity:0.3;">';
+
+			if ( qsGet("connect") != "" )
+				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
+			else
+				echo "<td>-</td>";
+
+			//echo "<td>" . $row->ID . "</td>";
+			//echo "<td>" . $row->post_name . "</td>";
+			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
+			
+			echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
+			echo '</tr>';
+
+		}
+
+		echo '</table>';
+		
+	} else {
+		
+		echo '<div style="width:50%; float:left;">';
+		echo "<p><strong>No pages in WordPress!</strong></p>";
+		echo "<p>1. Download and install the plugin '<a href=\"http://wordpress.org/extend/plugins/simple-add-pages-or-posts/\">Simple add pages or posts</a>' to WordPress.";
+		echo "<p>2. Copy and paste the text bellow and paste it into the plugin to create your site structure in a second!</p>";
+		echo "<textarea style=\"width:90%;height:600px;\">";
+		
+		// Loop out every page from the array of crawled pages
+		$pages_length = count($pages);
+		for ($i = 0; $i < $pages_length; $i++) {
+			
+			// Wash URL so we get a good name
+			$pagename = $pages[$i];
+			$pagename = str_replace( $PAGE_siteurl, '', $pagename ); // Remove domain name
+			$pagename = str_replace( array('asp','php','html','htm'), '', $pagename ); // Removed file endings
+			$pagename = str_replace( array('_','-','+'), ' ', $pagename ); // Change some usual chars to replace spaces
+			$pagename = str_replace( '.', '', $pagename ); // Remove any dot left from fileendings
+
+			$pagename = strtoupper(mb_substr( $pagename, 0, 1 ) ) . mb_substr( $pagename, 1 ); // Uppercase first letter
+
+			echo $pagename . "\n";
+		}
+		
+		echo "</textarea>";
+		echo "</div>";
+	}
+
+// END FILE
+// ****************************************************************************
+
+?>
 
 		</div>
 	</div>
-
-</form>
 
 
 <?php require('_footer.php'); ?>

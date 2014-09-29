@@ -199,19 +199,19 @@
 						
 						switch($needleUsed) {
 							case "yours":
-								echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needle was found on this page, awesome!</div>';
+								echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needles was found on this page, awesome!</div>';
 								break;
 
 							case "body":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the body-tag instead</div>';
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead</div>';
 								break;
 
 							case "html":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
 								break;
 
 							case "none":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needle missed on this page, trying to use the html-tag instead</div>';
+								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
 								break;
 						}
 
@@ -225,7 +225,7 @@
 
 						// Ugly little presentation of how the needles work on each page.
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
-						echo "<pre style='font-size: 7pt;'>" . $row->html . "</pre>";
+						echo "<pre style='font-size: 7pt;'>" . $html . "</pre>";
 						echo "</div>";
 						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Stripped:</strong>";
 						echo "<pre style='font-size: 7pt;'>";
@@ -242,11 +242,8 @@
 
 						$content = trim( $content );
 
-						// Push the stripped data back to the database for the next step to take care of
-						//db_MAIN("UPDATE migrate_content SET content = '" . $mysqli->real_escape_string($body) . "' WHERE id = " . $row->id . " LIMIT 1");
-
 						db_setContentCode( array(
-							'content' => $mysqli->real_escape_string($content),
+							'content' => $content,
 							'id' => $row->id
 						) );
 

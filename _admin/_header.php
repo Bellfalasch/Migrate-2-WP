@@ -50,6 +50,7 @@
 					<ul class="nav">
 						<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_root . $SYS_folder ?>/index.php">Start</a></li>
 						<?php if ($SYS_adminlvl > 0) { ?>
+							<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/project.php">Projects</a></li>
 							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate.php">Migrate</a></li>
 							<?php if ($SYS_adminlvl == 2) { ?>
 							<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
@@ -77,36 +78,19 @@
 				<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
 
 
+			<?php } else if (isActiveOn("project")) { ?>
+
+				<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/project.php">Projects</a></li>
+
 			<?php } else if (isActiveOn("migrate")) { ?>
 
 				<?php if ($SYS_adminlvl > 0) { ?>
-					<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-project.php">Projects</a></li>
 
-					<li>
-						<select name="project" style="margin-top:4px;" id="project_list">
-							<option value="">Choose Project:</option>
-			<?php
-				$result = db_getSites();
+					<li<?php flagAsActiveOn("select") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-select.php">0: Select</a></li>
 
-				if (!is_null($result))
-				{
-					while ( $row = $result->fetch_object() )
-					{
-						if ($row->id == $PAGE_siteid)
-							$selected = " selected=\"selected\"";
-						else
-							$selected = "";
-
-						echo "<option value=\"" . $row->id . "\"" . $selected . ">" . $row->name . "</option>";
-					}
-				}
-				else
-				{
-					echo "<option value=\"\">No projects found (create one!)</option>";
-				}
-			?>
-						</select>
-					</li>
+					<?php if ($PAGE_siteid > 0) { ?>
+						<li class="disabled"><a href="#0">"<?= $PAGE_sitename ?>"</a></li>
+					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 0) { ?>
 						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">1: Eat</a></li>
@@ -121,27 +105,31 @@
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
-						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Wash</a></li>
-						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Tidy</a></li>
-						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Clean</a></li>
+						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Manage</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">3: Wash</a></li>
-						<li class="disabled"><a href="#0">4: Tidy</a></li>
-						<li class="disabled"><a href="#0">5: Clean</a></li>
+						<li class="disabled"><a href="#0">3: Manage</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 1) { ?>
-						<li<?php flagAsActiveOn("step5b") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5b.php">5b: Split</a></li>
-						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Connect</a></li>
+					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
+						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Wash</a></li>
+						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Tidy</a></li>
+						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Clean</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">5b: Split</a></li>
-						<li class="disabled"><a href="#0">6: Connect</a></li>
+						<li class="disabled"><a href="#0">4: Wash</a></li>
+						<li class="disabled"><a href="#0">5: Tidy</a></li>
+						<li class="disabled"><a href="#0">6: Clean</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 6) { ?>
-						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Move</a></li>
+					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
+						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Connect</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">7: Move</a></li>
+						<li class="disabled"><a href="#0">7: Connect</a></li>
+					<?php } ?>
+
+					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 7) { ?>
+						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step8.php">8: Move</a></li>
+					<?php } else { ?>
+						<li class="disabled"><a href="#0">8: Move</a></li>
 					<?php } ?>
 
 				<?php } ?>
@@ -164,7 +152,7 @@
 			if ( substr($SYS_script,0,12) == 'migrate-step' ) {
 
 				$percentage = 0;
-				$total_steps = 7;
+				$total_steps = 8;
 				$perstep = 100 / $total_steps;
 				$notpost = 0.9 * $perstep;
 

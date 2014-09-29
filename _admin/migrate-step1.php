@@ -92,6 +92,7 @@ function savepage($url, $html)
 			$result = db_setNewPage( array(
 							'site' => $PAGE_siteid,
 							'html' => $html,
+							'content' => null,
 							'page' => $url,
 							'clean' => null
 						) );
