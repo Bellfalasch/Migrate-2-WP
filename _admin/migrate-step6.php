@@ -62,17 +62,7 @@
 </td>
 </tr>
 </table>', '</p></div>', $html);
-/*
-				$html = str_replace('<a class="fix" href="../rss.aspx"><img class="imgfix" src="../_main/icons/rss.gif" alt="RSS-kanaler" title="RSS-kanaler" class="alignleft" width="36" height="14" /></a> Få alla FFUs (inklusive denna sektors) uppdateringar och nyheter direkt på datorn! Läs mer om <a class="fix" href="../rss.aspx" class="help">FFUs RSS-kanaler</a>.<br />
-<br />
-<br />', '', $html);*/
 
-//				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html ); // Körs på Step 4
-/*
-				$html = str_replace('<div class="area_body">
-<p><a href="../rss.aspx"><img src="../_main/icons/rss.gif" alt="RSS-kanaler" title="RSS-kanaler" /></a> Få meddelande om alla FFUs (inklusive denna sidan) uppdateringar, nyheter och kommentarer direkt de inträffar (<a href="../rss.aspx">läs mer</a>)!</p>
-</div>', '', $html);
-*/
 				// Convert old school attributes to classes instead
 				$html = str_replace(' width="15" height="15"', ' class="psx_button"', $html);
 				$html = str_replace(' width="30" height="15"', ' class="psx_button wide"', $html);

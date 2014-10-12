@@ -21,17 +21,14 @@
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
 				
-				$content = $row->wash;
-				$clean = $content;
-				
-				// Start replacing old bad markup
-				//echo "<code><pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre></code>";
-				/*
-				$tidy = new tidy();
-				$tidy->tidy_parse_string($row->content);
-				$tidy->cleanRepair();
-				$clean = (string)$tidy;
-				*/
+				$html = $row->wash;
+
+				// If we haven't run Wash, use the Strip-data
+				if (is_null($html)) {
+					$html = $row->content;
+				}
+
+				$original_html = $html;
 
 				// REF: http://tidy.sourceforge.net/docs/quickref.html
 				$options = array(
@@ -61,50 +58,48 @@
 						"char-encoding" => 'utf8',
 						"doctype" => 'omit'
 					);
-				$tidy = tidy_parse_string($clean, $options,'UTF8');
+				$html = tidy_parse_string($html, $options,'UTF8');
 				//$tidy = tidy_parse_string($row->content, $options);
-				tidy_clean_repair($tidy);
+				tidy_clean_repair($html);
 				
 				// Tidy leaves some code that we do not want inside WP, so let's remove it
-				$tidy = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $tidy);
-				$tidy = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $tidy);
-				$tidy = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '', $tidy);
-				$tidy = str_replace('<head>', '', $tidy);
-				$tidy = str_replace('<title></title>', '', $tidy);
-				$tidy = str_replace('</head>', '', $tidy);
-				$tidy = str_replace('<body>', '', $tidy);
-				$tidy = str_replace('</body>', '', $tidy);
-				$tidy = str_replace('</html>', '', $tidy);
+				$html = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $html);
+				$html = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $html);
+				$html = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '', $html);
+				$html = str_replace('<head>', '', $html);
+				$html = str_replace('<title></title>', '', $html);
+				$html = str_replace('</head>', '', $html);
+				$html = str_replace('<body>', '', $html);
+				$html = str_replace('</body>', '', $html);
+				$html = str_replace('</html>', '', $html);
 
 				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
-				$tidy = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $tidy );
+				$html = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $html );
 
 				// Some more garbage code from tidy (remove all classes it creates on styled items)
-				$tidy = str_replace(' class="c1"', '', $tidy);
-				$tidy = str_replace(' class="c2"', '', $tidy);
-				$tidy = str_replace(' class="c3"', '', $tidy);
-				$tidy = str_replace(' class="c4"', '', $tidy);
-				$tidy = str_replace(' class="c5"', '', $tidy);
+				$html = str_replace(' class="c1"', '', $html);
+				$html = str_replace(' class="c2"', '', $html);
+				$html = str_replace(' class="c3"', '', $html);
+				$html = str_replace(' class="c4"', '', $html);
+				$html = str_replace(' class="c5"', '', $html);
 
-				$tidy = trim($tidy);
+				$html = trim($html);
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
-				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<pre>" . htmlentities( $original_html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
-				echo "<pre class=\"clean\">" . htmlentities( $tidy, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<pre class=\"clean\">" . htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
 				if (formGet("save_tidy") == "Run Tidy") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					//db_MAIN("UPDATE migrate_content SET tidy = '" . $mysqli->real_escape_string($tidy) . "' WHERE id = " . $row->id . " LIMIT 1");
-
 					db_setTidyCode( array(
-						'tidy' => $mysqli->real_escape_string($tidy),
+						'tidy' => $html,
 						'id' => $row->id
 					) );
 

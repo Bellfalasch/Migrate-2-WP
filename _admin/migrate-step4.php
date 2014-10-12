@@ -13,118 +13,117 @@
 
 	if (ISPOST)
 	{
-		
+
 		$result = db_getContentFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 			while ( $row = $result->fetch_object() )
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
-				
-				$content = $row->content;
-				$clean = $content;
-				
+
+				$html = $row->content;
+
+				$original_html = $html;
+
 				// Start replacing old bad markup ... at the moment very manual work =/
 
 				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>',  '<span class="stars"><span class="lit">*</span>****</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>',         '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>***',             '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>',  '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>',      '<span class="stars"><span class="lit">**</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>',         '<span class="stars"><span class="lit">***</span>**</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>',         '<span class="stars"><span class="lit">****</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>',         '<span class="stars"><span class="lit">*****</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">****</FONT></B>',        '<span class="stars"><span class="lit">****</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>',        '<span class="stars"><span class="lit">***</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT>*',            '<span class="stars"><span class="lit">***</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>',        '<span class="stars"><span class="lit">**</span>**</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>',        '<span class="stars"><span class="lit">*</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">***</FONT></B>',      '<span class="stars"><span class="lit">***</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>',      '<span class="stars"><span class="lit">**</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT>*',          '<span class="stars"><span class="lit">**</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>',      '<span class="stars"><span class="lit">*</span>**</span>', $clean);
-				$clean = str_replace('<B><font size="2" COLOR="Orange">**</font><font size="2">*</font></B>', '<span class="stars"><span class="lit">**</span>*</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange" size="2">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $clean);
-				$clean = str_replace('<B><font size="2" COLOR="Orange">*</font><font size="2">**</font></B>', '<span class="stars"><span class="lit">*</span>**</span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">**</FONT></B>', '<span class="stars"><span class="lit">**</span></span>', $clean);
-				$clean = str_replace('<B><FONT COLOR="Orange">*</FONT>*</B>', '<span class="stars"><span class="lit">*</span>*</span>', $clean);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>',  '<span class="stars"><span class="lit">*</span>****</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>',         '<span class="stars"><span class="lit">**</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>***',             '<span class="stars"><span class="lit">**</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>',  '<span class="stars"><span class="lit">**</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>',      '<span class="stars"><span class="lit">**</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>',         '<span class="stars"><span class="lit">***</span>**</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>',         '<span class="stars"><span class="lit">****</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>',         '<span class="stars"><span class="lit">*****</span></span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">****</FONT></B>',        '<span class="stars"><span class="lit">****</span></span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>',        '<span class="stars"><span class="lit">***</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>*',            '<span class="stars"><span class="lit">***</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>',        '<span class="stars"><span class="lit">**</span>**</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>',        '<span class="stars"><span class="lit">*</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">***</FONT></B>',      '<span class="stars"><span class="lit">***</span></span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>',      '<span class="stars"><span class="lit">**</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>*',          '<span class="stars"><span class="lit">**</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>',      '<span class="stars"><span class="lit">*</span>**</span>', $html);
+				$html = str_replace('<B><font size="2" COLOR="Orange">**</font><font size="2">*</font></B>', '<span class="stars"><span class="lit">**</span>*</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange" size="2">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $html);
+				$html = str_replace('<B><font size="2" COLOR="Orange">*</font><font size="2">**</font></B>', '<span class="stars"><span class="lit">*</span>**</span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">**</FONT></B>', '<span class="stars"><span class="lit">**</span></span>', $html);
+				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>*</B>', '<span class="stars"><span class="lit">*</span>*</span>', $html);
 
 				// Old footer copyright notice from an old site of mine, remove if you like
-				$clean = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $clean);
-				$clean = str_replace('Site graphics, layout, text and parts of this site is &copy;opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $clean);
-				$clean = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $clean);
-				$clean = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $clean);
+				$html = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $html);
+				$html = str_replace('Site graphics, layout, text and parts of this site is &copy;opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $html);
+				$html = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $html);
+				$html = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $html);
 
 				// Can't remove trailing font-tag or Tidy in next step will go nuts
-				//$clean = str_replace('</FONT>', '</span>', $clean);
+				//$html = str_replace('</FONT>', '</span>', $html);
 
 				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-				$clean = preg_replace( '@<FONT[^>]*?>@siu', '', $clean );
+				$html = preg_replace( '@<FONT[^>]*?>@siu', '', $html );
 
 				// My pages have a ad from Google on every page, but it's always kept in this div - so just remove it all
-				$clean = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $clean );
+				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html );
 
 				// Another block of code for RSS-buttons etc on my sites, I'm just removing it all
-				$clean = preg_replace( '/<div class="area_body">(.*)<\/div>/Uis', '', $clean );
+				$html = preg_replace( '/<div class="area_body">(.*)<\/div>/Uis', '', $html );
 
 				// Remove all HTML comments and their contents - if setting is activated
 				if ( formGet('comments') ) {
-					$clean = preg_replace( '/<!--(.*)-->/Uis', '', $clean );
+					$html = preg_replace( '/<!--(.*)-->/Uis', '', $html );
 				}
 
 				// Some markup we need to delete
-				$clean = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $clean);
-				$clean = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $clean);
-				$clean = str_replace('<CENTER><FONT STYLE="font-size:10pt">', '', $clean);
-				$clean = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $clean);
-				$clean = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $clean);
-				$clean = str_replace('<BR><BR></TD></TR></TABLE>', '', $clean);
-				$clean = str_replace(' VALIGN="top"', '', $clean);
-				$clean = str_replace(' ALIGN="left"', '', $clean);
-				$clean = str_replace(' ALIGN="right"', '', $clean);
-				$clean = str_replace(' ALIGN="center"', '', $clean);
-				
+				$html = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $html);
+				$html = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $html);
+				$html = str_replace('<CENTER><FONT STYLE="font-size:10pt">', '', $html);
+				$html = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $html);
+				$html = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $html);
+				$html = str_replace('<BR><BR></TD></TR></TABLE>', '', $html);
+				$html = str_replace(' VALIGN="top"', '', $html);
+				$html = str_replace(' ALIGN="left"', '', $html);
+				$html = str_replace(' ALIGN="right"', '', $html);
+				$html = str_replace(' ALIGN="center"', '', $html);
+
 				// Some markup we can improve
-				$clean = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $clean);
-				
+				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
+
 				// This should be handled by Tidy ... let's try without
-				// $clean = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $clean);
+				// $html = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $html);
 
 				// Some markup we potentially could improve, but they were more or less used for "design" and should be removed
-				$clean = str_replace('<CENTER>', '', $clean);
-				$clean = str_replace('</CENTER>', '', $clean);
-				$clean = str_replace('<SMALL>', '', $clean);
-				$clean = str_replace('</SMALL>', '', $clean);
-				$clean = str_replace('<U>', '', $clean);
-				$clean = str_replace('</U>', '', $clean);
+				$html = str_replace('<CENTER>', '', $html);
+				$html = str_replace('</CENTER>', '', $html);
+				$html = str_replace('<SMALL>', '', $html);
+				$html = str_replace('</SMALL>', '', $html);
+				$html = str_replace('<U>', '', $html);
+				$html = str_replace('</U>', '', $html);
 
 				// Old e-mails and names we wanna clean up
-				$clean = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $clean);
-				$clean = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $clean);
-				$clean = str_replace('Bobby Vestberg', 'Bobby Westberg', $clean);
+				$html = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $html);
+				$html = str_replace('bobby@westberg.org', 'webmaster@ffuniverse.nu', $html);
+				$html = str_replace('Bobby Vestberg', 'Bobby Westberg', $html);
 
-				$clean = trim($clean);
+				$html = trim($html);
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"spalt\"><strong>Original code:</strong>";
-				echo "<pre>" . htmlentities( $content, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<pre>" . htmlentities( $original_html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
 				echo "<div class=\"spalt\"><strong>Washed code:</strong>";
-				echo "<pre class=\"clean\">" . htmlentities( $clean, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
+				echo "<pre class=\"clean\">" . htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
 				if (formGet("save_wash") == "Run wash") {
 
 					echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-					//db_MAIN("UPDATE migrate_content SET wash = '" . $mysqli->real_escape_string($clean) . "' WHERE id = " . $row->id . " LIMIT 1");
-
 					db_setWashCode( array(
-						'wash' => $clean,
+						'wash' => $html,
 						'id' => $row->id
 					) );
 
@@ -134,16 +133,16 @@
 					) );
 
 				} else {
-					
+
 					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-				
+
 				}
 				echo "</div>";
 
 				echo "<hr /><br />";
-			
+
 			}
-		
+
 		}
 
 	}
@@ -152,7 +151,7 @@
 
 	<?php
 		outputErrors($SYS_errors);
-	
+
 		if (!ISPOST) {
 	?>
 
