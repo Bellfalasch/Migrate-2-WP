@@ -163,20 +163,21 @@
 					$html = str_replace("<p>\n<br />", '<p>', $html);
 */
 
-					// Just blank newlines
+					// Remove blank double newlines
 					$html = str_replace("\n\n", '', $html);
-					// Just tab then blank new line
+					// Remove lines with only tab and then blank new line
 					$html = str_replace("\t\n", '', $html);
 
 					// Trying my wings on some Regex for this since the manual replace-strings really really really sucks!
-//					$html = preg_replace( '/\s*<br.+[\/]+>\s*<br.+[\/]+>/i', '', $html );
+					// Replace three br on separate rows with just two
+					$html = preg_replace( '/\s*<br.+[\/]+>\s*<br.+[\/]+>\s*<br.+[\/]+>/i', '<br /><br />', $html );
 
 					// Match </p> <br /> <p> and remove that middle <br /> (will also match <br/> and <br>)
 					$html = preg_replace( '/\s*<\/p>\s*<br.+[\/]+>\s*<p>\s*/i', "\n</p>\n<p>\n", $html );
 
 					// Linebreak after each </p> and each <br /> if there is none yet
-					//$html = preg_replace( '/(<\/p>)(\S)/i', "$0\n$1", $html );
-					//$html = preg_replace( '/(<br.+[\/]+>)(\S)/i', "$0\n$1", $html );
+					$html = preg_replace( '/(<\/p>)(\S)/i', "$1\n$2", $html );
+					$html = preg_replace( '/(<br\s+[\/]+>)(\S)/i', "$1\n$2", $html );
 
 					// Do double line breaks after a stack of br-tags for readability
 					$html = str_replace("<br /><br />\n", "<br /><br />\n\n", $html);
