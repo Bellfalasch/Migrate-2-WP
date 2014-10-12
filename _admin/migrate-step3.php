@@ -7,7 +7,7 @@
 ?>
 <?php require('_global.php'); ?>
 
-<?php 
+<?php
 
 	// Form generator
 	addField( array(
@@ -20,8 +20,6 @@
 						"min" => "Please keep number of character's on at least [MIN].",
 					)
 	) );
-
-	$split_id = qsGet("split");
 
 ?>
 <?php include('_header.php'); ?>
@@ -58,15 +56,6 @@
 			</p>
 		</div>
 
-<!--
-<?php if ($split_id > 0) { ?>
-		<div class="span3 offset1">
-			
-			<a class="btn btn-success" href="<?= $SYS_root . $SYS_folder ?>/<?= $SYS_script ?>.php"><i class="icon-plus-sign icon-white"></i> Setup new 'Split'</a>
-		
-		</div>
-<?php } ?>
--->
 	</div>
 
 <?php
@@ -86,6 +75,8 @@
 // Do the splitting
 // ****************************************************************************
 
+	$split_id = qsGet("split");
+
 	if ( $split_id > 0 ) {
 
 		if (ISPOST)
@@ -93,8 +84,6 @@
 			validateForm();
 
 			if (empty($SYS_errors)) {
-				
-				echo "<div class='alert alert-block alert-info'><h4>Beware!</h4><p>Early alpha code ...</p></div>";
 
 				// Stupid way of getting all the form data into variables for use to save the data.
 				$splitcode = $PAGE_form[0]["content"];
@@ -129,8 +118,50 @@
 
 	}
 
+
+// Delete page
+// ****************************************************************************
+
+	$del_id = qsGet("del");
+
+	if ( $del_id > 0 ) {
+
+		$del = db_delPage( array(
+					'id' => $del_id,
+					'site' => $PAGE_siteid
+				) );
+
+		if ($del >= 0) {
+			echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The selected page has been deleted.</p></div>";
+		} else {
+			pushError("Delete of page failed, please try again.");
+		}
+
+	}
+
+
+// Duplicate page
+// ****************************************************************************
+
+	$dup_id = qsGet("dup");
+
+	if ( $dup_id > 0 ) {
+
+		$dup = db_setDuplicatePage( array(
+					'id' => $dup_id,
+					'site' => $PAGE_siteid
+				) );
+
+		if ($dup >= 0) {
+			echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
+		} else {
+			pushError("Duplication of page failed, please try again.");
+		}
+
+	}
+
 ?>
-	
+
 		<?php if ( $split_id > 0 ) { ?>
 
 <!-- <form class="form-horizontal" action="" method="post"> -->
@@ -168,7 +199,7 @@
 				Use it as a subpage too
 			</label>
 			<br />
-		
+
 			<input type="submit" name="split" value="Run split" class="btn btn-primary" />
 
 			<input type="submit" name="split" value="Test split" class="btn" />
@@ -182,19 +213,19 @@
 </form>
 
 		<?php } ?>
-	
+
 
 <?php
 
 // The actual code
-// ****************************************************************************	
+// ****************************************************************************
 
 	if ($split_id > 0) {
 
-		$result = db_getHtmlFromPage( array( 
-				'site' => $PAGE_siteid,
-				'id' => $split_id
-			) );
+		$result = db_getHtmlFromPage( array(
+						'site' => $PAGE_siteid,
+						'id' => $split_id
+					) );
 
 		if ( isset( $result ) )
 		{
@@ -235,7 +266,7 @@
 				for ($i = 0; $i < $length_arr; $i++ ) {
 
 					if ($i <= $length_title && $i+1 < $length_arr) {
-					
+
 						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
 
 						$title   = $arr_titles[1][$i];
@@ -367,7 +398,7 @@ if ( 1 === 3 ) {
 	}
 
 
-	
+
 	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
 	if ( isset( $result ) )
@@ -381,19 +412,19 @@ if ( 1 === 3 ) {
 			} else {
 				echo '<tr>';
 			}
-			
+
 			if ($split_id > 0) {
 				echo "<td>-</td>";
 			} else {
-				echo "<td><a href=\"?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Split</a></td>";
+				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Split</a></td>";
 			}
 
 			$page = $row->page;
 
 			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
 //			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
-			echo "<td><a href=\"#0\" class=\"btn btn-mini btn-warning\">Duplicate</a></td>";
-			echo "<td><a href=\"#0\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			echo "<td><a href=\"" . $SYS_pageself . "?dup=" . $row->id . "\" class=\"btn btn-mini btn-warning\">Duplicate</a></td>";
+			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
 			echo '</tr>';
 		}
 

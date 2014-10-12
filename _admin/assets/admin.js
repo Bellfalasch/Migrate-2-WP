@@ -19,4 +19,14 @@ $(function() {
 
 	});
 
+	// "Manage"
+	//////////////////////////////////////////////////////////////
+	$("body.migrate-step3 .btn-danger").click( function() {
+		
+		var answer = confirm("Are you sure you want to delete this entire page and all of its content? Can't be undone!");
+
+		return answer;
+
+	});
+
 });

@@ -89,49 +89,6 @@
 
 	/* Step 3 */
 	/* **************************************************************************** */
-	function db_setWashCode($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET `wash` = {$in['wash']}
-			WHERE `id` = {$in['id']}
-			LIMIT 1
-		");
-	}
-
-	// Also used in Step 4 and 5
-	function db_getContentFromSite($in) { cleanup($in);
-		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`
-			FROM `migrate_content`
-			WHERE `site` = {$in['site']}
-			ORDER BY `page` ASC
-		");
-	}
-
-	/* Step 4 */
-	/* **************************************************************************** */
-	function db_setTidyCode($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET `tidy` = {$in['tidy']}
-			WHERE `id` = {$in['id']}
-			LIMIT 1
-		");
-	}
-
-	/* Step 5 */
-	/* **************************************************************************** */
-	function db_setCleanCode($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET `clean` = {$in['clean']}
-			WHERE `id` = {$in['id']}
-			LIMIT 1
-		");
-	}
-
-	/* Step 5b (sub pages) */
-	/* **************************************************************************** */
 	function db_getHtmlFromPage($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`
@@ -152,7 +109,70 @@
 		");
 	}
 
+	function db_delPage($in) { cleanup($in);
+		return db_MAIN("
+			DELETE FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			AND `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	function db_setDuplicatePage($in) { cleanup($in);
+		return db_MAIN("
+			INSERT INTO `migrate_content`
+			( `page`, `html`, `site`, `content`, `wash`, `tidy`, `clean` )
+			SELECT `page`, `html`, `site`, `content`, `wash`, `tidy`, `clean`
+			FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			AND `id` = {$in['id']}
+		");
+	}
+
+	/* Step 4 */
+	/* **************************************************************************** */
+	function db_setWashCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `wash` = {$in['wash']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	// Also used in Step 5 and 6
+	function db_getContentFromSite($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `page`, `content`, `wash`, `tidy`
+			FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			ORDER BY `page` ASC
+		");
+	}
+
+	/* Step 5 */
+	/* **************************************************************************** */
+	function db_setTidyCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `tidy` = {$in['tidy']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
 	/* Step 6 */
+	/* **************************************************************************** */
+	function db_setCleanCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `clean` = {$in['clean']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
+
+	/* Step 7 */
 	/* **************************************************************************** */
 	function db_getWPDataFromSite($in) { cleanup($in);
 		return db_MAIN("
@@ -208,7 +228,7 @@
 		");
 	}
 
-	/* Step 7 */
+	/* Step 8 */
 	/* **************************************************************************** */
 	function db_getWPDataFromSite2($in) { cleanup($in);
 		return db_MAIN("
