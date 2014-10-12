@@ -13,14 +13,14 @@
 
 	if (ISPOST)
 	{
-		
+
 		$result = db_getContentFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 			while ( $row = $result->fetch_object() )
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
-				
+
 				$html = $row->tidy;
 
 				// If we haven't run the Tidy-step, use the Wash-data
@@ -154,7 +154,7 @@
 				$html = str_replace(' bgcolor="#C0C0C0"', '', $html);
 				$html = str_replace(' bgcolor="#E0E0E0"', '', $html);
 
-				// If user adds h1 programatically in WP themes we want to get rid of h1 in content and turn them into h2 
+				// If user adds h1 programatically in WP themes we want to get rid of h1 in content and turn them into h2
 				if ( formGet('h1') === 'yes' ) {
 
 					$html = str_replace("<h1>", '<h2>', $html);
@@ -162,42 +162,38 @@
 
 				}
 
-				// Ugly code, but remove myriad of line breaks left behind in the code
+				// Remove all those extra line breaks left behind in the code (empty p and br-tags)
 				if ( formGet('linebreaks') === 'yes' ) {
-/*					
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-					$html = str_replace("<br />\n<br />", '<br /><br />', $html);
-*/
+/*
 					$html = str_replace("<br /></p>", '</p>', $html);
 					$html = str_replace("<br /></p>", '</p>', $html);
 					$html = str_replace("<br /></p>", '</p>', $html);
 					$html = str_replace("<p><br />", '<p>', $html);
 					$html = str_replace("<p><br />", '<p>', $html); // Starting breaking tag directly inside a p-tag is pretty common
 					$html = str_replace("<p>\n<br />", '<p>', $html);
+*/
 
-					// TODO: These not working so great:
 					// Just blank newlines
 					$html = str_replace("\n\n", '', $html);
 					// Just tab then blank new line
 					$html = str_replace("\t\n", '', $html);
-					
+
+					// Trying my wings on some Regex for this since the manual replace-strings really really really sucks!
+//					$html = preg_replace( '/\s*<br.+[\/]+>\s*<br.+[\/]+>/i', '', $html );
+
+					// Match </p> <br /> <p> and remove that middle <br /> (will also match <br/> and <br>)
+					$html = preg_replace( '/\s*<\/p>\s*<br.+[\/]+>\s*<p>\s*/i', "\n</p>\n<p>\n", $html );
+
+					// Linebreak after each </p> and each <br /> if there is none yet
+					//$html = preg_replace( '/(<\/p>)(\S)/i', "$0\n$1", $html );
+					//$html = preg_replace( '/(<br.+[\/]+>)(\S)/i', "$0\n$1", $html );
 
 					// Do double line breaks after a stack of br-tags for readability
 					$html = str_replace("<br /><br />\n", "<br /><br />\n\n", $html);
 
-					// Trying my wings on some Regex for this since the manual replace-strings really really really sucks!
-					$html = preg_replace( '/\s*<br.+[\/]+>\s*<br.+[\/]+>/i', '', $html );
-
-					// Match </p> <br /> <p> and remove that middle <br /> (will also match <br/> and <br>)
-					$html = preg_replace( '/\s*<\/p>\s*<br.+[\/]+>\s*<p>\s*/i', "\n</p>\n<p>\n", $html );
+					// Not too many br's in row please
+					//$html = str_replace("<br />\n\r<br />\n\r<br />\n\r", "<br /><br />\n\n", $html);
+					//$html = preg_replace( '/\s*<br.+[\/]+>\s*<br.+[\/]+>\s*<br.+[\/]+>\s*/i', "<br /><br />\n", $html );
 				}
 
 				// Some last manual adjustments of the code (minor)
@@ -284,16 +280,16 @@
 					) );
 
 				} else {
-					
+
 					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-				
+
 				}
 				echo "</div>";
 
 				echo "<hr /><br />";
-			
+
 			}
-		
+
 		}
 
 	}
@@ -302,7 +298,7 @@
 
 	<?php
 		outputErrors($SYS_errors);
-	
+
 		if (!ISPOST) {
 	?>
 
@@ -340,7 +336,7 @@
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="linebreaks" value="yes"<?php if (isset($_POST['linebreaks'])) { ?> checked="checked"<?php } ?> />
-				Try to remove clusters of extra linebreaks and br-tags? 
+				Try to remove clusters of extra linebreaks and br-tags?
 			</label>
 			<br />
 
