@@ -34,7 +34,7 @@
 		$wp_dburl = DB_HOST;
 		$wp_dbuser = DB_USER;
 		$wp_dbpass = DB_PASS;
-		$wp_dbname = DB_NAME;
+		$wp_dbname = "wordpress";
 		$wp_table = "wp";
 	}
 

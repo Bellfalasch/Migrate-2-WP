@@ -173,6 +173,10 @@
 	}
 	echo '</table>';
 
+//echo $wp_table;
+//echo $wp_dbname;
+//echo $wp_dburl;
+
 	// The WordPress side
 	$result = db_getDataFromWordpress($wp_table);
 	//var_dump( $result );

@@ -165,10 +165,6 @@
 			$wp_dbuser = $PAGE_form[6]["content"];
 			$wp_dbpass = $PAGE_form[7]["content"];
 
-			// Do some simple cleaning of data
-			// Todo, if not washed when validated - answer: not washed
-			// * Wash data
-
 			// Save data in cookies
 			$expire = time() + (60*60*24*31);
 			setcookie( "wp_dburl",   $wp_dburl,   $expire );
@@ -252,6 +248,7 @@
 				$PAGE_form[0]["content"] = $row->name;
 				$PAGE_form[1]["content"] = $row->url;
 				$PAGE_form[2]["content"] = $row->new_url;
+				$current_step = $row->step;
 
 			} else {
 				pushError("Couldn't find the requested data");
@@ -350,8 +347,11 @@
 		<button type="submit" class="btn btn-primary">Save project</button>
 
 		<?php if ($PAGE_dbid > 0) { ?>
-			<a href="?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
-			<a href="?truncate=<?= $PAGE_dbid ?>" class="btn btn-mini btn-warning">Delete data (keep project)</a>
+			<a href="<?= $SYS_pageself ?>?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
+			<?= $PAGE_sitestep ?>
+			<?php if ($current_step > 1) { ?>
+				<a href="<?= $SYS_pageself ?>?truncate=<?= $PAGE_dbid ?>" class="btn btn-mini btn-warning" title="Truncate">Delete data (keep project)</a>
+			<?php } ?>
 		<?php } ?>
 	</div>
 
