@@ -348,7 +348,6 @@
 
 		<?php if ($PAGE_dbid > 0) { ?>
 			<a href="<?= $SYS_pageself ?>?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
-			<?= $PAGE_sitestep ?>
 			<?php if ($current_step > 1) { ?>
 				<a href="<?= $SYS_pageself ?>?truncate=<?= $PAGE_dbid ?>" class="btn btn-mini btn-warning" title="Truncate">Delete data (keep project)</a>
 			<?php } ?>
