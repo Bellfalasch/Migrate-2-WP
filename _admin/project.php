@@ -158,7 +158,7 @@
 			$formURL      = $PAGE_form[1]["content"];
 			$formNewURL   = $PAGE_form[2]["content"];
 
-			// Stupid way of getting all the form data into variables for use to save the data.
+			// Collect data for the cookie
 			$wp_dburl  = $PAGE_form[3]["content"];
 			$wp_dbname = $PAGE_form[4]["content"];
 			$wp_table  = $PAGE_form[5]["content"];

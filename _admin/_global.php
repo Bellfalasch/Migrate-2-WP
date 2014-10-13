@@ -116,10 +116,12 @@
 	// Migration settings for WordPress:
 	//////////////////////////////////////////////////////////////////////////////////
 
-	if ( $PAGE_dbid > 0 ) {
+	//var_dump( $_COOKIE );
+
+	//if ( $PAGE_dbid > 0 && !ISPOST ) {
+	//if ( !ISPOST ) {
 
 //		var_dump( $_COOKIE['wp_dburl[' . $PAGE_dbid . ']'] );
-//		var_dump( $_COOKIE );
 
 		if (isset($_COOKIE['wp_dburl'])) {
 
@@ -137,15 +139,15 @@
 //			var_dump( $_COOKIE['wp_dburl[' . $PAGE_dbid . ']'] );
 
 		}
-	}
-
+	//}
+/*
 	// Defaults
 	$cleaner_dburl  = "localhost";
 	$cleaner_dbname = "test";
 	$cleaner_table  = "migrate_content";
 	$cleaner_dbuser = "root";
 	$cleaner_dbpass = "";
-
+*/
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Admin specifics:
