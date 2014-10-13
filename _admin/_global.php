@@ -1,5 +1,5 @@
 <?
-	
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Settings:
 	//////////////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 
 	// Dynamic links etc based on where we have the code-files
 	$SYS_domain = $_SERVER['SERVER_NAME'];
-	
+
 	// Get the current folder the files are in, account for different servers by exploding the variable differently.
 	$TMP_folders = __FILE__;
 	if ( strpos($TMP_folders,'\\') > 0 )
@@ -97,9 +97,9 @@
 
 	// Fetch current site - if any - and store data about it for all the Steps
 	if ($PAGE_siteid > 0) {
-	
+
 		$result = db_getSite( array('id' => $PAGE_siteid) );
-	
+
 		if (!is_null($result))
 		{
 			$row = $result->fetch_object();
@@ -115,14 +115,14 @@
 	//////////////////////////////////////////////////////////////////////////////////
 	// Migration settings for WordPress:
 	//////////////////////////////////////////////////////////////////////////////////
-	
+
 	if ( $PAGE_dbid > 0 ) {
 
 //		var_dump( $_COOKIE['wp_dburl[' . $PAGE_dbid . ']'] );
 //		var_dump( $_COOKIE );
 
 		if (isset($_COOKIE['wp_dburl'])) {
-			
+
 			$wp_dburl  = $_COOKIE['wp_dburl'];
 			$wp_dbname = $_COOKIE['wp_dbname'];
 			$wp_table  = $_COOKIE['wp_table'];
@@ -139,14 +139,14 @@
 		}
 	}
 
-	// Defaults	
+	// Defaults
 	$cleaner_dburl  = "localhost";
 	$cleaner_dbname = "test";
 	$cleaner_table  = "migrate_content";
 	$cleaner_dbuser = "root";
 	$cleaner_dbpass = "";
 
-	
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Admin specifics:
 	//////////////////////////////////////////////////////////////////////////////////
@@ -187,7 +187,7 @@
 	}
 
 	function generateField($field) {
-		
+
 		//var_dump($field);
 
 		if (isset($field["errors"]))
@@ -203,7 +203,7 @@
 		// If it's a text-field (support for other fields will be added later) we can add the maxlentgh attribute, if asked for.
 		$maxlength = "";
 		$areaType = $field["type"];
-		
+
 		if (mb_substr($areaType,0,4) == "text") {
 			if (isset($field["max"]))
 				$maxlength = " maxlength=\"" . $field["max"] . "\"";
@@ -216,10 +216,10 @@
 			$description = $field["description"];
 			if ( isset($field["min"]) )
 				$description = str_replace("[MIN]",$field["min"],$description);
-			
+
 			if ( isset($field["max"]) )
 				$description = str_replace("[MAX]",$field["max"],$description);
-			
+
 			$description = str_replace("[LABEL]", str_replace(":","",$field["label"]), $description);
 
 			$description = "<p class=\"help-block\">" . $description . "</p>";
@@ -278,7 +278,7 @@
 			foreach($thisSettings as $settings)
 			{
 				if (trim($settings) != "") {
-				
+
 //					var_dump($settings);
 
 					$settingsPair = explode(":",trim($settings));
@@ -323,7 +323,7 @@
 
 			case "fold":
 				$strField .= "<select name=\"" . $thisName . "\" class=\"span" . $areaSizeCols . "\" id=\"" . $thisId . "\">";
-			
+
 				$files = scandir($thisSetDir);
 				$strSelected = "";
 				$somethingChecked = false;
@@ -358,7 +358,7 @@
 							$somethingChecked = true;
 						} else
 							$strSelected = '';
-							
+
 						$strField .= '<option value="' . $value . '"' . $strSelected . '>' . $value . '</option>';
 					}
 				}
@@ -411,12 +411,12 @@
 			$temp["content"] = formGet(strtolower($thisId));
 			$field["content"] = $temp["content"];
 			//echo "<p>" . $field["content"] . "</p>";
-			
+
 			// If set to use null, set null instead of empty string on this field.
 			if (isset($field["null"]))
 				if ($field["null"] && $field["content"] == '')
 					$field["content"] = null;
-			
+
 			if (isset($field["errors"]))
 				$errors = $field["errors"];
 			else
@@ -435,7 +435,7 @@
 				$error = str_replace("[LABEL]", str_replace(":","",$field["label"]), $error);
 				$error = str_replace("[CONTENT]",$field["content"],$error);
 			}
-			
+
 
 			// Check for "empty"-validation and if present push the empty-error.
 			if ((isset($errors["min"]) && isset($field["min"]) )) {
@@ -492,7 +492,7 @@
 		if (in_array($SYS_script,$arrPages))
 			return true;
 		else {
-				
+
 				if (strpos($SYS_script,"-") > 0)
 				{
 					$arrThisPart = explode("-",$SYS_script);
