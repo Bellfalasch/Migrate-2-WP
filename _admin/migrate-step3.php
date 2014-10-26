@@ -232,7 +232,25 @@
 
 			$row = $result->fetch_object();
 
-			$codeoutput = $row->content; // clean
+			// Waterfall-choose the best (cleanest) html from the database depending on which is available
+			if ( is_null($row->clean) ) {
+
+				$codeoutput = $row->clean;
+
+			} elseif ( is_null($row->tidy) ) {
+
+				$codeoutput = $row->tidy;
+
+			} elseif ( is_null($row->wash) ) {
+
+				$codeoutput = $row->wash;
+
+			} else {
+
+				$codeoutput = $row->content;
+
+			}
+
 			$baseurl    = $row->page;
 			$baseid     = $row->id;
 
@@ -304,8 +322,8 @@ if ( 1 === 3 ) {
 
 						// Convert page title into something more URL friendly
 						$title_db = trim( strtolower($title) );
-						$title_db = str_replace(' ', '-', $title);
-						$title_db = str_replace(',', '', $title);
+						$title_db = str_replace(' ', '-', $title); // Space to dash
+						$title_db = str_replace(',', '', $title); // Everything else removed
 						$title_db = str_replace('.', '', $title);
 						$title_db = str_replace('&', '', $title);
 						$title_db = str_replace('%', '', $title);
