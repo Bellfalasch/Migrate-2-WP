@@ -43,50 +43,6 @@
 	$mysqWP->set_charset('utf8');
 
 
-
-
-// Prepared SQL-functions extracting data from db.
-// ****************************************************************************
-
-	// SELECT example (not used)
-	function db_campaignFind($in) { cleanup($in);
-		return db_MAIN("
-			SELECT `id`, `start`, `stop`
-			FROM `mb_campaigns`
-			WHERE
-				url LIKE {$in['url']}
-		");
-	}
-
-	// INSERT example (not used)
-	function db_userCreate($in) { cleanup($in);
-		return db_MAIN("
-			INSERT INTO `mb_recruiter`
-				(`sessionid`, `firstname`, `lastname`, `mail`, `campaigns_id`, `orders_id`)
-			VALUES(
-				{$in['sessionid']},
-				{$in['firstname']},
-				{$in['lastname']},
-				{$in['mail']},
-				{$in['campaign']},
-				NULL
-			)
-		");
-	}
-
-	// UPDATE example (not used)
-	function db_userSetHash($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE mb_recruiter
-			SET hash = {$in['hash']}
-			WHERE id = {$in['id']}
-		");
-	}
-
-
-
-
-
 // Database main functions (does all the talking to the database class and handling of errors)
 // ****************************************************************************	
 
