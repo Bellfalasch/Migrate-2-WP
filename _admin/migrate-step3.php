@@ -233,15 +233,15 @@
 			$row = $result->fetch_object();
 
 			// Waterfall-choose the best (cleanest) html from the database depending on which is available
-			if ( is_null($row->clean) ) {
+			if ( !is_null($row->clean) ) {
 
 				$codeoutput = $row->clean;
 
-			} elseif ( is_null($row->tidy) ) {
+			} elseif ( !is_null($row->tidy) ) {
 
 				$codeoutput = $row->tidy;
 
-			} elseif ( is_null($row->wash) ) {
+			} elseif ( !is_null($row->wash) ) {
 
 				$codeoutput = $row->wash;
 
