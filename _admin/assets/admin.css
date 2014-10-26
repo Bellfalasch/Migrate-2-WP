@@ -377,6 +377,7 @@ label strong {
 }
 hr {
 	clear: both;
+	margin: 2em 0;
 }
 pre {
 	font-size: 7pt;

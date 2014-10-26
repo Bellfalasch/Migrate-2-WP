@@ -113,10 +113,12 @@
 									'site' => $del_id
 								) );
 
-			if ($del >= 0)
-				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The entire project and all of its content is now deleted.</p></div>";
-			else
+			if ($del >= 0) {
+				//echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The entire project and all of its content is now deleted.</p></div>";
+				fn_infobox("Delete successful", "The entire project and all of its content is now deleted.",'');
+			} else {
 				pushError("Delete of data failed, please try again.");
+			}
 		}
 
 		////////////////////////////////////////////////////////
@@ -137,10 +139,12 @@
 				'id' => $del_id
 			) );
 
-			if ($del >= 0)
-				echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The project is kept but its now empty, all the crawled pages has been removed.</p></div>";
-			else
+			if ($del >= 0) {
+				//echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The project is kept but its now empty, all the crawled pages has been removed.</p></div>";
+				fn_infobox("Delete successful", "The project is kept but its now empty, all the crawled pages has been removed.",'');
+			} else {
 				pushError("Delete of data failed, please try again.");
+			}
 		}
 
 		////////////////////////////////////////////////////////
@@ -273,9 +277,12 @@
 
 		if ( qsGet("saved") != "" ) {
 			if ( qsGet("saved") == "true" ) {
-				echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
+				//echo '<div class="alert alert-success"><h4>Save successful</h4><p></p></div>';
+				fn_infobox("Save successful", "Data updated",'');
+
 			} elseif ( qsGet("saved") !== "" ) {
-				echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . qsGet("saved") . '</p></div>';
+				//echo '<div class="alert alert-success"><h4>Save successful</h4><p></p></div>';
+				fn_infobox("Save successful", "New data saved, id: " . qsGet("saved"),'');
 			}
 		}
 

@@ -175,7 +175,6 @@
 							$header = "";
 						}
 						
-						// TODO: Footer should have a different kind of "> X" than 0 no?
 						if ($footerStart < mb_strlen($body) ) {
 							$footer = mb_substr( $body, $footerStart, $footerEnd-$footerStart );
 						} else {
@@ -199,19 +198,23 @@
 						
 						switch($needleUsed) {
 							case "yours":
-								echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needles was found on this page, awesome!</div>';
+								//echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needles was found on this page, awesome!</div>';
+								fn_infobox("", "<strong>Needle hit!</strong> Your Needles was found on this page, awesome!",'');
 								break;
 
 							case "body":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead</div>';
+								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead</div>';
+								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead", 'error');
 								break;
 
 							case "html":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
+								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
+								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead", 'error');
 								break;
 
 							case "none":
-								echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
+								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
+								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead", 'error');
 								break;
 						}
 
@@ -258,8 +261,8 @@
 					
 					}
 
-					echo "</div><br />";
-					echo "<hr style='clear:both;' /><br />";
+					echo "</div>";
+					echo "<hr />";
 
 				}
 

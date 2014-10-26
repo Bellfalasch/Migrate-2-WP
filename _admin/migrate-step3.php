@@ -106,7 +106,8 @@
 
 				} else {
 
-					echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
+					//echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
+					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
 
 				}
 
@@ -132,7 +133,8 @@
 				) );
 
 		if ($del >= 0) {
-			echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The selected page has been deleted.</p></div>";
+			//echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The selected page has been deleted.</p></div>";
+			fn_infobox("Delete successful", "Delete successful</h4><p>The selected page has been deleted.",'');
 		} else {
 			pushError("Delete of page failed, please try again.");
 		}
@@ -153,7 +155,8 @@
 				) );
 
 		if ($dup >= 0) {
-			echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
+			//echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
+			fn_infobox("Duplication successful", "The selected page has been duplicated.",'');
 		} else {
 			pushError("Duplication of page failed, please try again.");
 		}
@@ -344,7 +347,8 @@ if ( 1 === 3 ) {
 
 							if ( $result > 0 ) {
 
-								echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
+								//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
+								fn_infobox("Save successful", 'New page for ' . $title . ' created, id: ' . $result,'');
 
 							}
 
@@ -380,7 +384,8 @@ if ( 1 === 3 ) {
 
 						$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
 
-						echo '<div class="alert alert-error"><h4>Couldn\'t save</h4><p>New page for following code could not be created!</p></div>';
+						//echo '<div class="alert alert-error"><h4>Couldn\'t save</h4><p>New page for following code could not be created!</p></div>';
+						fn_infobox("Couldn't save", "New page for following code could not be created!", 'error');
 
 					}
 

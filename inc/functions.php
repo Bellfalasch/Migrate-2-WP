@@ -1,4 +1,24 @@
 <?php
+
+	// Output infoboxes with heading and text in different colors/formats (Bootstrap style)
+	function fn_infobox($heading,$text,$type) {
+
+		if ($type == '') {
+			$type = " alert-success";
+		} elseif ($type == 'error') {
+			$type = " alert-error";
+		}
+
+		$final = "<div class='alert" . $type . "'>";
+		if ($heading != '') {
+			$final .= "<h4>" . $heading . "</h4>";
+		}
+		$final .= "<p>" . $text . "</p>";
+		$final .= "</div>";
+
+		echo $final;
+	}
+
 	// Get correct ip even if user is on a proxy
 	// - http://roshanbh.com.np/2007/12/getting-real-ip-address-in-php.html
 	function getRealIpAddr() {
