@@ -69,7 +69,8 @@
 				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html );
 
 				// Another block of code for RSS-buttons etc on my sites, I'm just removing it all
-				$html = preg_replace( '/<div class="area_body">(.*)<\/div>/Uis', '', $html );
+				// Mistake! Loads of pages use this all over for important information
+//				$html = preg_replace( '/<div class="area_body">(.*)<\/div>/Uis', '', $html );
 
 				// Remove all HTML comments and their contents - if setting is activated
 				if ( formGet('comments') ) {
