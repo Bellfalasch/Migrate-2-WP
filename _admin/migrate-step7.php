@@ -179,8 +179,10 @@
 
 	// The WordPress side
 	$result = db_getDataFromWordpress($wp_table);
-	//var_dump( $result );
-	if ( isset( $result ) )
+	
+//	var_dump( $result );
+
+	if ( isset( $result->length ) )
 	{
 		echo '<table style="width:50%; float:left;">';
 		
@@ -222,13 +224,19 @@
 			// Wash URL so we get a good name
 			$pagename = $pages[$i];
 			$pagename = str_replace( $PAGE_siteurl, '', $pagename ); // Remove domain name
-			$pagename = str_replace( array('asp','php','html','htm'), '', $pagename ); // Removed file endings
+			$pagename = str_replace( array('aspx','asp','php','html','htm'), '', $pagename ); // Removed file endings
 			$pagename = str_replace( array('_','-','+'), ' ', $pagename ); // Change some usual chars to replace spaces
+			$pagename = str_replace( array('default','index'), '', $pagename ); // Change some usual main page names
+			$pagename = str_replace( array('?page='), '', $pagename ); // Remove querystrings (FFU-specific)
 			$pagename = str_replace( '.', '', $pagename ); // Remove any dot left from fileendings
 
 			$pagename = strtoupper(mb_substr( $pagename, 0, 1 ) ) . mb_substr( $pagename, 1 ); // Uppercase first letter
 
-			echo $pagename . "\n";
+			if ( $pagename != '' ) {
+				echo $pagename . "\n";
+			} else {
+				echo "Frontpage" . "\n";
+			}
 		}
 		
 		echo "</textarea>";
