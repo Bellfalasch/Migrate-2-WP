@@ -182,7 +182,8 @@
 	
 //	var_dump( $result );
 
-	if ( isset( $result->length ) )
+	//if ( isset( $result->length ) ) // This is the only one that will see that the result is empty and output a site structure, however it can never see if data is there ... big bug
+	if ( isset( $result ) )
 	{
 		echo '<table style="width:50%; float:left;">';
 		
