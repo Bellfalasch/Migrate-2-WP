@@ -86,11 +86,11 @@
 				$html = trim($html);
 
 				// Generate a view with original versus washed code
-				echo "<div class=\"spalt\"><strong>Original code:</strong>";
+				echo "<div class=\"column\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlentities( $original_html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 				echo "</div>";
 
-				echo "<div class=\"spalt\"><strong>Tidy:</strong>";
+				echo "<div class=\"column\"><strong>Tidy:</strong>";
 				echo "<pre class=\"clean\">" . htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
