@@ -390,7 +390,19 @@ pre {
 	color: white;
 	font-weight: bold;
 }
+.done {
+	opacity: 0.3;
+}
+.highlighted {
+	background-color: black;
+	color: white;
+	font-weight: bold;
+}
 .site-list {
 	width: 50%;
 	margin: 0 auto;
+}
+textarea.large {
+	width: 90%;
+	height: 600px;
 }

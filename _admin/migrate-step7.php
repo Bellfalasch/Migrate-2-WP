@@ -127,7 +127,7 @@
 	$pages = array();
 
 	// The crawled content side
-	echo '<table style="width:50%; float:left;">';
+	echo '<div class="column"><table>';
 	
 	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid ) );
 	if ( isset( $result ) )
@@ -137,14 +137,14 @@
 		{
 			if ($row->wp_postid > 0) {
 				if ($row->id == qsGet("connect") ) {
-					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
+					echo '<tr class="highlighted">';
 				} else {
-					echo '<tr style="opacity:0.3;">';
+					echo '<tr class="done">';
 				}
 				array_push($arrWPidDone, $row->wp_postid);
 			} else {
 				if ($row->id == qsGet("connect") ) {
-					echo '<tr style="background-color:black; color:white; font-weight:bold;">';
+					echo '<tr class="highlighted">';
 				} else {
 					echo '<tr>';
 				}
@@ -171,7 +171,7 @@
 		}
 
 	}
-	echo '</table>';
+	echo '</table></div>';
 
 //echo $wp_table;
 //echo $wp_dbname;
@@ -185,14 +185,14 @@
 	//if ( isset( $result->length ) ) // This is the only one that will see that the result is empty and output a site structure, however it can never see if data is there ... big bug
 	if ( isset( $result ) )
 	{
-		echo '<table style="width:50%; float:left;">';
+		echo '<div class="column"><table>';
 		
 		while ( $row = $result->fetch_object() )
 		{
 			if (!in_array($row->ID, $arrWPidDone))
 				echo '<tr>';
 			else
-				echo '<tr style="opacity:0.3;">';
+				echo '<tr class="done">';
 
 			if ( qsGet("connect") != "" )
 				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
@@ -208,15 +208,15 @@
 
 		}
 
-		echo '</table>';
+		echo '</table></div>';
 		
 	} else {
 		
-		echo '<div style="width:50%; float:left;">';
+		echo '<div class="column">';
 		echo "<p><strong>No pages in WordPress!</strong></p>";
 		echo "<p>1. Download and install the plugin '<a href=\"http://wordpress.org/extend/plugins/simple-add-pages-or-posts/\">Simple add pages or posts</a>' to WordPress.";
 		echo "<p>2. Copy and paste the text bellow and paste it into the plugin to create your site structure in a second!</p>";
-		echo "<textarea style=\"width:90%;height:600px;\">";
+		echo "<textarea class=\"large\">";
 		
 		// Loop out every page from the array of crawled pages
 		$pages_length = count($pages);

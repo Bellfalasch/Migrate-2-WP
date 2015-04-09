@@ -265,11 +265,11 @@
 				$html = trim($html);
 
 				// Generate a view with original versus washed code
-				echo "<div class=\"spalt\"><strong>Original code:</strong>";
+				echo "<div class=\"column\"><strong>Original code:</strong>";
 				echo "<pre>" . htmlspecialchars($original_html, ENT_QUOTES, "UTF-8") . "</pre>";
 				echo "</div>";
 
-				echo "<div class=\"spalt\"><strong>Cleaned code:</strong>";
+				echo "<div class=\"column\"><strong>Cleaned code:</strong>";
 				echo "<pre class=\"clean\">" . htmlspecialchars($html, ENT_QUOTES, "UTF-8") . "</pre>";
 
 				// Only save is the "Run"-button is pressed, skip if we're running a Test
