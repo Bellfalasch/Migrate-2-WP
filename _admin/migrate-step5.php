@@ -74,7 +74,7 @@
 				$html = str_replace('</html>', '', $html);
 
 				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
-				$html = preg_replace( array('@<style[^>]*?>.*?</style>@siu'), array(''), $html );
+				$html = preg_replace( array('/<style[^>]*?>.*?</style>/siu'), array(''), $html );
 
 				// Some more garbage code from tidy (remove all classes it creates on styled items)
 				$html = str_replace(' class="c1"', '', $html);
