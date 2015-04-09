@@ -158,6 +158,13 @@
 
 				}
 
+				// Some of my pages has a lot of h4 instead of h1, h2 and h3. This ugly one fixes this ;P
+				if ( formGet('h4-up') === 'yes' ) {
+
+					$html = str_replace("<h4>", '<h2>', $html);
+					$html = str_replace("</h4>", '</h2>', $html);
+				}
+
 				// Remove all those extra line breaks left behind in the code (empty p and br-tags)
 				if ( formGet('linebreaks') === 'yes' ) {
 /*
@@ -331,6 +338,10 @@
 			<label class="checkbox">
 				<input type="checkbox" name="h1" value="yes"<?php if (isset($_POST['h1'])) { ?> checked="checked"<?php } ?> />
 				Downgrade every h1-tag in the content to h2?
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" name="h4-up" value="yes"<?php if (isset($_POST['h4-up'])) { ?> checked="checked"<?php } ?> />
+				Upgrade every h4-tag to a h2?
 			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="empty" value="yes"<?php if (isset($_POST['empty'])) { ?> checked="checked"<?php } ?> />
