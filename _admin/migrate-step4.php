@@ -63,7 +63,7 @@
 				//$html = str_replace('</FONT>', '</span>', $html);
 
 				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-				$html = preg_replace( '@<FONT[^>]*?>@siu', '', $html );
+				$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
 
 				// My pages have a ad from Google on every page, but it's always kept in this div - so just remove it all
 				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html );
@@ -78,23 +78,27 @@
 				}
 
 				// Some markup we need to delete
-				$html = str_replace('<CENTER><A HREF=#Upp><B>Upp</B></A></CENTER>', '', $html);
-				$html = str_replace('<CENTER><IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $html);
-				$html = str_replace('<CENTER><FONT STYLE="font-size:10pt">', '', $html);
+				$html = str_replace('<A HREF=#Upp><B>Upp</B></A>', '', $html);
+				$html = str_replace('<IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $html);
+				$html = str_replace('<FONT STYLE="font-size:10pt">', '', $html);
 				$html = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $html);
 				$html = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $html);
 				$html = str_replace('<BR><BR></TD></TR></TABLE>', '', $html);
+/*
 				$html = str_replace(' VALIGN="top"', '', $html);
 				$html = str_replace(' ALIGN="left"', '', $html);
 				$html = str_replace(' ALIGN="right"', '', $html);
 				$html = str_replace(' ALIGN="center"', '', $html);
+*/
+				// Smarter regex removal of valign and align attributes
+				$html = preg_replace('/ [v]?align="(center|top|left|right)"/ig', "", $html);
 
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
 
 				// This should be handled by Tidy ... let's try without
 				// $html = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $html);
-
+/*
 				// Some markup we potentially could improve, but they were more or less used for "design" and should be removed
 				$html = str_replace('<CENTER>', '', $html);
 				$html = str_replace('</CENTER>', '', $html);
@@ -102,6 +106,11 @@
 				$html = str_replace('</SMALL>', '', $html);
 				$html = str_replace('<U>', '', $html);
 				$html = str_replace('</U>', '', $html);
+*/
+				// Old old tags used for design that we now can set with CSS instead. Just removed the tags.
+				$html = preg_replace('/<[\/]?center>/ig', "", $html); // [\/]+ removes start and ending tag
+				$html = preg_replace('/<[\/]?u>/ig', "", $html);
+				$html = preg_replace('/<[\/]?small>/ig', "", $html);
 
 				// Old e-mails and names we wanna clean up
 				$html = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $html);
