@@ -91,7 +91,7 @@
 				$html = str_replace(' ALIGN="center"', '', $html);
 */
 				// Smarter regex removal of valign and align attributes
-				$html = preg_replace('/ [v]?align="(center|top|left|right)"/ig', "", $html);
+				$html = preg_replace('/ [v]?align="(center|top|left|right)"/i', "", $html);
 
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
@@ -108,9 +108,9 @@
 				$html = str_replace('</U>', '', $html);
 */
 				// Old old tags used for design that we now can set with CSS instead. Just removed the tags.
-				$html = preg_replace('/<[\/]?center>/ig', "", $html); // [\/]+ removes start and ending tag
-				$html = preg_replace('/<[\/]?u>/ig', "", $html);
-				$html = preg_replace('/<[\/]?small>/ig', "", $html);
+				$html = preg_replace('/<[\/]?center>/i', "", $html); // [\/]+ removes start and ending tag
+				$html = preg_replace('/<[\/]?u>/i', "", $html);
+				$html = preg_replace('/<[\/]?small>/i', "", $html);
 
 				// Old e-mails and names we wanna clean up
 				$html = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $html);
