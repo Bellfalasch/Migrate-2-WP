@@ -165,7 +165,7 @@
 				$html = str_replace(' bgcolor="#E0E0E0"', '', $html);
 */
 				// Remove all bgcolor attributes and their content, no matter what setting (if valid hex-color only)
-				$html = preg_replace('/ bgcolor="?#[\da-f]*%?"?/i', "", $html);
+				$html = preg_replace('/ bgcolor="?#[\da-f]{6}"?/i', "", $html);
 
 				// If user adds a page title programatically in WP themes we want to get rid of any h-tag in the start of the text
 				if ( formGet('first-h') === 'yes' ) {
