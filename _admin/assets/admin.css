@@ -366,15 +366,6 @@ label strong {
 		}
 
 /* Design for some of the Steps */
-.spalt {
-	float: left;
-	width: 49%;
-	font-size: 7pt;
-	overflow: hidden;
-}
-.clean {
-	color: green;
-}
 hr {
 	clear: both;
 	margin: 2em 0;
@@ -390,7 +381,8 @@ pre {
 .code.removed {
 	color: red;
 }
-.code.kept {
+.code.kept,
+.clean {
 	color: green;
 }
 .selected {
