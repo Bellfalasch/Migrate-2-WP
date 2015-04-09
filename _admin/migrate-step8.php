@@ -89,20 +89,18 @@
 
 							echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
 
-	/*
+
 							// Update all the Links on ALL the pages in WP!!!
 							$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
-
 							$fixWP = 0;
-							//$fixWP2 = 0;
 
-							// Output a counter
-							if ($fixWP >= 0 OR $fixWP2 >= 0) {
+							// Output a counter if we got any hits
+							//if ($fixWP2 >= 0) {
 								
 								echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
-							}
-	*/
-							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
+							//}
+
+//							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
 							echo "<br />";
 
 						}
@@ -187,7 +185,7 @@
 			<label>
 				<input type="checkbox" name="fix" value="yes"<?php if (isset($_POST['fix'])) { ?> checked="checked"<?php } ?> />
 				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
-				<span class="help-block">This class is automatically removed on all links we can manage to update through the code.</span>
+				<span class="help-block">The class on links is removed on all links we can manage to update to the new correct links automatically.</span>
 			</label>
 			<label>
 				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
