@@ -165,8 +165,8 @@
 			// Add to an array to be used to suggest a page structure if WP is empty
 			array_push( $pages, $page );
 
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
-			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a><br />";
+			echo "&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
 			echo '</tr>';
 		}
 
@@ -201,9 +201,8 @@
 
 			//echo "<td>" . $row->ID . "</td>";
 			//echo "<td>" . $row->post_name . "</td>";
-			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a></td>";
-			
-			echo "<td>" . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . "</td>";
+			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a><br />";
+			echo "( " . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . " )</td>";
 			echo '</tr>';
 
 		}
