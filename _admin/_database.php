@@ -261,6 +261,16 @@
 		");
 	}
 
+	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
+		//global $mysqWP;
+		return wp_EXEC("
+			UPDATE `" . $wptable . "_posts`
+			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')
+			WHERE `post_status` = 'publish'
+		");
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// PROJECTS
 	//////////////////////////////////////////////////////////////////////////////////
