@@ -170,7 +170,7 @@
 				// If user adds a page title programatically in WP themes we want to get rid of any h-tag in the start of the text
 				if ( formGet('first-h') === 'yes' ) {
 
-					$html = preg_replace('/^<h[123456]>.*<\/h[123456]>/i', '', $html);
+					$html = preg_replace('/^<h[1-6]>.*<\/h[1-6]>/i', '', $html);
 				}
 
 				// If user adds h1 programatically in WP themes we want to get rid of h1 in content and turn them into h2
