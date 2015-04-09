@@ -144,6 +144,12 @@
 				$html = str_replace(' bgcolor="#C0C0C0"', '', $html);
 				$html = str_replace(' bgcolor="#E0E0E0"', '', $html);
 
+				// If user adds a page title programatically in WP themes we want to get rid of any h-tag in the start of the text
+				if ( formGet('first-h') === 'yes' ) {
+
+					$html = preg_replace('/^<h[123456]>.*<\/h[123456]>/i', '', $html);
+				}
+
 				// If user adds h1 programatically in WP themes we want to get rid of h1 in content and turn them into h2
 				if ( formGet('h1') === 'yes' ) {
 
@@ -318,6 +324,10 @@
 			</p>
 
 			<h3>Settings</h3>
+			<label class="checkbox">
+				<input type="checkbox" name="first-h" value="yes"<?php if (isset($_POST['first-h'])) { ?> checked="checked"<?php } ?> />
+				If the first line is any type of h-tag, remove it (you'll use the title-field from WordPress instead)?
+			</label>
 			<label class="checkbox">
 				<input type="checkbox" name="h1" value="yes"<?php if (isset($_POST['h1'])) { ?> checked="checked"<?php } ?> />
 				Downgrade every h1-tag in the content to h2?
