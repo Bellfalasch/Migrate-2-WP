@@ -280,7 +280,7 @@
 				//$codeoutput = htmlentities( $codeoutput );
 
 				echo "<strong>We found these sub pages:</strong>";
-				echo "<pre style='font-size:7pt;'>";
+				echo "<pre>";
 
 				$length_arr = count($arr_content);
 				$length_title = count($arr_titles[1]);
@@ -415,7 +415,7 @@ if ( 1 === 3 ) {
 				//$codeoutput = htmlentities( $codeoutput );
 				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
 
-				echo "<pre style='font-size:7pt;'>" . $codeoutput . "</pre>";
+				echo "<pre>" . $codeoutput . "</pre>";
 
 			}
 
@@ -429,12 +429,12 @@ if ( 1 === 3 ) {
 
 	if ( isset( $result ) )
 	{
-		echo '<table style="width:50%; margin:0 auto;">';
+		echo '<table class="site-list">';
 
 		while ( $row = $result->fetch_object() )
 		{
 			if ($row->id == $split_id ) {
-				echo '<tr style="background-color:#ebebeb; color:white; font-weight:bold;">';
+				echo '<tr class="selected">';
 			} else {
 				echo '<tr>';
 			}

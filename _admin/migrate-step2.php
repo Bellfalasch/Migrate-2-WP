@@ -232,9 +232,9 @@
 						echo "</div>";
 						echo "<div class='column'><strong>Stripped:</strong>";
 						echo "	<pre>";
-						echo "		<span class='code removed'>" . $header . "</span>";
-						echo "		<span class='code kept'>" . $body . "</span>";
-						echo "		<span class='code removed'>" . $footer . "</span>";
+							echo "<span class='code removed'>" . $header . "</span>";
+							echo "<span class='code kept'>" . $body . "</span>";
+							echo "<span class='code removed'>" . $footer . "</span>";
 						echo "	</pre>";
 						// End div comes after we have saved the result ...
 
