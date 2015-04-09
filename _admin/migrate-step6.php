@@ -143,7 +143,7 @@
 				$html = preg_replace('/ [v]?align="(center|top|left|right)"/i', "", $html);
 
 				// Remove all vspace and hspace attributes, and their value.
-				$html = preg_replace('/ [vh]+space="?[\d]*"?/i', "", $html);
+				$html = preg_replace('/ [vh]space="?[\d]*"?/i', "", $html);
 
 				// Remove all width attributes
 				$html = preg_replace('/ width="?[\d]*%?"?/i', "", $html);
