@@ -220,7 +220,9 @@
 				if ( formGet('empty') === 'yes' ) {
 
 					$html = str_replace("<p>\n</p>", '', $html);
-					$html = str_replace("<p><br /></p>\n", "", $html);
+					//$html = str_replace("<p><br /></p>\n", "", $html);
+					//$html = str_replace("<p><br /></p>", "", $html);
+					$html = preg_replace('/<p><br\s+[\/]+><\/p>\s*/i', "", $html);
 					$html = str_replace("<p><br /><br /></p>\n", "", $html);
 					$html = str_replace("<pre>\n</pre>\n", "", $html);
 					$html = str_replace("<pre>\n<br />\n</pre>\n", "", $html);
@@ -229,8 +231,7 @@
 					$html = str_replace("<p>&nbsp;</p>\n", "", $html);
 					$html = str_replace("<p></p>\n", "", $html);
 					$html = str_replace("<div></div>", "", $html);
-					$html = str_replace("<br />\n\r<br /></p>", "</p>", $html);
-					$html = preg_replace( '/<br\s+[\/]+>\s+<br\s+[\/]+><\/p>/i', "</p>", $html );
+					$html = preg_replace('/<br\s+[\/]+>\s+<br\s+[\/]+><\/p>/i', "</p>", $html);
 
 				}
 

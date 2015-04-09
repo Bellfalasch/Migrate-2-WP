@@ -99,6 +99,7 @@
 					$splitcode = str_replace('.', '\.', $splitcode);
 					$splitcode = str_replace('&', '\&', $splitcode);
 					$splitcode = str_replace('/', '\/', $splitcode);
+					$splitcode = str_replace('\'', '', $splitcode);
 					//$splitcode = str_replace('<', '\<', $splitcode);
 					//$splitcode = str_replace('>', '\>', $splitcode);
 					$splitcode = str_replace('[*]', '.*', $splitcode);
@@ -331,6 +332,8 @@ if ( 1 === 3 ) {
 						$title_db = str_replace('&', '', $title);
 						$title_db = str_replace('%', '', $title);
 						$title_db = str_replace('#', '', $title);
+						$title_db = str_replace('\'', '', $title);
+						$title_db = str_replace('"', '', $title);
 						$title_db = urlencode( $title );
 
 						$content_db = trim( $content );
