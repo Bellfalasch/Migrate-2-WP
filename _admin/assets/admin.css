@@ -398,6 +398,10 @@ pre {
 	color: white;
 	font-weight: bold;
 }
+.highlighted:hover {
+	background-color: black;
+	color: white;
+}
 .site-list {
 	width: 50%;
 	margin: 0 auto;
