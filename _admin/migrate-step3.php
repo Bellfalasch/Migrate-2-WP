@@ -326,15 +326,15 @@ if ( 1 === 3 ) {
 
 						// Convert page title into something more URL friendly
 						$title_db = trim( strtolower($title) );
-						$title_db = str_replace(' ', '-', $title); // Space to dash
-						$title_db = str_replace(',', '', $title); // Everything else removed
-						$title_db = str_replace('.', '', $title);
-						$title_db = str_replace('&', '', $title);
-						$title_db = str_replace('%', '', $title);
-						$title_db = str_replace('#', '', $title);
-						$title_db = str_replace('\'', '', $title);
-						$title_db = str_replace('"', '', $title);
-						$title_db = urlencode( $title );
+						$title_db = str_replace(' ', '-', $title_db); // Space to dash
+						$title_db = str_replace(',', '', $title_db); // Everything else removed
+						$title_db = str_replace('.', '', $title_db);
+						$title_db = str_replace('&', '', $title_db);
+						$title_db = str_replace('%', '', $title_db);
+						$title_db = str_replace('#', '', $title_db);
+						$title_db = str_replace('\'', '', $title_db);
+						$title_db = str_replace('"', '', $title_db);
+						$title_db = urlencode( $title_db );
 
 						$content_db = trim( $content );
 
