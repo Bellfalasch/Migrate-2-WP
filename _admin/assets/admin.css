@@ -382,3 +382,12 @@ hr {
 pre {
 	font-size: 7pt;
 }
+.column {
+	float: left; width: 49%; overflow: hidden;
+}
+.code.removed {
+	color: red;
+}
+.code.kept {
+	color: green;
+}

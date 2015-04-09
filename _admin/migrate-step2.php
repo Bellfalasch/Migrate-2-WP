@@ -227,15 +227,16 @@
 						$footer = htmlspecialchars($footer, ENT_QUOTES, "UTF-8");
 
 						// Ugly little presentation of how the needles work on each page.
-						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Original code:</strong>";
-						echo "<pre style='font-size: 7pt;'>" . $html . "</pre>";
+						echo "<div class='column'><strong>Original code:</strong>";
+						echo "	<pre>" . $html . "</pre>";
 						echo "</div>";
-						echo "<div style='float: left; width: 49%; overflow: hidden;'><strong>Stripped:</strong>";
-						echo "<pre style='font-size: 7pt;'>";
-						echo "<span style='color: red;'>" . $header . "</span>";
-						echo "<span style='color:green;'>" . $body . "</span>";
-						echo "<span style='color: red;'>" . $footer . "</span>";
-						echo "</pre>";
+						echo "<div class='column'><strong>Stripped:</strong>";
+						echo "	<pre>";
+						echo "		<span class='code removed'>" . $header . "</span>";
+						echo "		<span class='code kept'>" . $body . "</span>";
+						echo "		<span class='code removed'>" . $footer . "</span>";
+						echo "	</pre>";
+						// End div comes after we have saved the result ...
 
 					}
 
@@ -261,7 +262,7 @@
 					
 					}
 
-					echo "</div>";
+					echo "</div>"; // TODO: Looks like a bug. Ending the divs coming from inside a if ... investigate
 					echo "<hr />";
 
 				}
