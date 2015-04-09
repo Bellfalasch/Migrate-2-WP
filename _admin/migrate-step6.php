@@ -213,6 +213,7 @@
 					$html = str_replace("<pre>\n<br />\n</pre>\n", "", $html);
 					$html = str_replace("<pre>\n<br />\n\n</pre>\n", "", $html);
 					$html = str_replace("<p>&nbsp;&nbsp;</p>\n", "", $html);
+					$html = str_replace("<p>&nbsp;</p>\n", "", $html);
 					$html = str_replace("<p></p>\n", "", $html);
 					$html = str_replace("<div></div>", "", $html);
 
