@@ -386,6 +386,7 @@ if ( 1 === 3 ) {
 					} else {
 
 						$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
+						$content = "no matching content for this page!";
 
 						//echo '<div class="alert alert-error"><h4>Couldn\'t save</h4><p>New page for following code could not be created!</p></div>';
 						fn_infobox("Couldn't save", "New page for following code could not be created!", 'error');
