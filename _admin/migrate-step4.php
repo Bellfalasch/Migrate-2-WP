@@ -87,6 +87,7 @@
 				$html = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $html);
 				$html = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $html);
 				$html = str_replace('<BR><BR></TD></TR></TABLE>', '', $html);
+				$html = str_replace(' NOWRAP>', '>', $html);
 
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
