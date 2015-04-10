@@ -204,6 +204,7 @@
 					$html = str_replace("<div></div>", "", $html);
 					$html = preg_replace('/<br\s?[\/]?>\s*<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
 					$html = preg_replace('/<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
+					$html = preg_replace('/<p><br\s?[\/]?>\s*/i', "<p>", $html);
 
 				}
 
