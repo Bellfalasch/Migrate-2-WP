@@ -225,6 +225,7 @@
 				// Clean any fault remaining html
 				$html = str_replace("<p><p>", "<p>", $html);
 				$html = preg_replace('/<\/p>\s*<\/p>/i', "</p>", $html);
+				$html = preg_replace('/<p>$/i', '', $html);
 
 				// All this cleaning might've left more broken code, double check (if setting is active)
 				if ( formGet('empty') === 'yes' ) {
