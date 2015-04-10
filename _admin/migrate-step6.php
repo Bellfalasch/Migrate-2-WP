@@ -211,6 +211,18 @@
 
 				}
 
+				// Check if we have a <div class="panel#"> in the first row, then remove it and also the last div.
+				$count = 0;
+				$html = preg_replace('/^<div class="panel[0-9][1-9]+">/i', '', $html, -1, $count);
+
+				if ( $count > 0 ) {
+					$html = preg_replace('/</div>$/i', '', $html);
+				}
+
+				// Turn any remaining div's to p's
+				$html = str_replace("<div>", "<p>", $html);
+				$html = str_replace("</div>", "</p>", $html);
+
 				// Do some simple indentation - NO, ruins later replaces
 				//$html = str_replace('<td', "\t<td", $html);
 
