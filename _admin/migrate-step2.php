@@ -198,23 +198,19 @@
 						
 						switch($needleUsed) {
 							case "yours":
-								//echo '<div class="alert alert-success"><strong>Needle hit!</strong> Your Needles was found on this page, awesome!</div>';
-								fn_infobox("", "<strong>Needle hit!</strong> Your Needles was found on this page, awesome!",'');
+								fn_infobox("", "<strong>Needle hit!</strong> Your Needles were found on this page, awesome!",'');
 								break;
 
 							case "body":
-								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead</div>';
 								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the body-tag instead", 'error');
 								break;
 
 							case "html":
-								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
 								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead", 'error');
 								break;
 
 							case "none":
-								//echo '<div class="alert alert-error"><strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead</div>';
-								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the html-tag instead", 'error');
+								fn_infobox("", "<strong>Needle miss!</strong> Your Needles missed on this page, trying to use the entire result instead", 'error');
 								break;
 						}
 
