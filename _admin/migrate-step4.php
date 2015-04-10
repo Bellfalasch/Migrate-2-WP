@@ -77,6 +77,9 @@
 					$html = preg_replace( '/<!--(.*)-->/Uis', '', $html );
 				}
 
+				// My old way of creating headings should be updated to real headings
+				$html = preg_replace('/<SPAN CLASS="mark">(.*)?<\/SPAN>/i', '<h2>$1</h2>', $html);
+
 				// Some markup we need to delete
 				$html = str_replace('<A HREF=#Upp><B>Upp</B></A>', '', $html);
 				$html = str_replace('<IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $html);
