@@ -88,17 +88,6 @@
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
 
-				// This should be handled by Tidy ... let's try without
-				// $html = str_replace('WIDTH="15" LENGTH="15"', 'width="15" height="15"', $html);
-/*
-				// Some markup we potentially could improve, but they were more or less used for "design" and should be removed
-				$html = str_replace('<CENTER>', '', $html);
-				$html = str_replace('</CENTER>', '', $html);
-				$html = str_replace('<SMALL>', '', $html);
-				$html = str_replace('</SMALL>', '', $html);
-				$html = str_replace('<U>', '', $html);
-				$html = str_replace('</U>', '', $html);
-*/
 				// Old old tags used for design that we now can set with CSS instead. Just removed the tags.
 				$html = preg_replace('/<[\/]?center>/i', "", $html); // [\/]+ removes start and ending tag
 				$html = preg_replace('/<[\/]?u>/i', "", $html);
