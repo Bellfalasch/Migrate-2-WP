@@ -207,21 +207,29 @@
 					$html = str_replace("<p>&nbsp;</p>\n", "", $html);
 					$html = str_replace("<p></p>\n", "", $html);
 					$html = str_replace("<div></div>", "", $html);
-					$html = preg_replace('/<br\s?[\/]?>\s?<br\s?[\/]?><\/p>/i', "</p>", $html);
+					$html = preg_replace('/<br\s?[\/]?>\s*<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
 
 				}
 
-				// Check if we have a <div class="panel#"> in the first row, then remove it and also the last div.
+				// Replace double br-tags with wrapping p-tags instead
+				$html = preg_replace('/<br\s?[\/]?>\s*<br\s?[\/]?>\s*/i', "</p>\n<p>", $html);
+
+				// Check if we have a <div id="panel#"> in the first row, then remove it and also the last div.
 				$count = 0;
-				$html = preg_replace('/^<div class="panel[0-9][0-9]?">/i', '', $html, -1, $count);
+				$html = preg_replace('/^<div id="panel[0-9]+[0-9]?">/i', '', $html, -1, $count);
 
 				if ( $count > 0 ) {
-					$html = preg_replace('/</div>$/i', '', $html);
+					$html = preg_replace('/<\/div>$/i', '', $html);
 				}
 
 				// Turn any remaining div's to p's
 				$html = str_replace("<div>", "<p>", $html);
 				$html = str_replace("</div>", "</p>", $html);
+
+				// Clean any fault remaining html
+				$html = str_replace("<p><p>", "<p>", $html);
+				$html = str_replace("<p></p>\n", "", $html);
+				$html = preg_replace('/<\/p>\s*<\/p>/i', "</p>", $html);
 
 				// Do some simple indentation - NO, ruins later replaces
 				//$html = str_replace('<td', "\t<td", $html);
