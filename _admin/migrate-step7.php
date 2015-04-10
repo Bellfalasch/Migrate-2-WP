@@ -26,7 +26,7 @@
 			</p>
 			<p>
 				Select a page once more (with the connect-button) and click the disconnect-button that took its place to remove a page's
-				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 7 that page will
+				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 8 that page will
 				be skipped).
 			</p>
 
