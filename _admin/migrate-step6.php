@@ -101,44 +101,8 @@
 				$html = str_replace('<strong>***</strong>', '<span class="stars"><span class="lit">***</span></span>', $html);
 
 				// Old school attributes that should be remove (because of universal style now handling them)
-/*
-				$html = str_replace(' border="0"', '', $html);
-				$html = str_replace(' cellspacing="0"', '', $html);
-				$html = str_replace(' cellspacing="2"', '', $html);
-				$html = str_replace(' cellspacing="3"', '', $html);
-				$html = str_replace(' cellpadding="0"', '', $html);
-				$html = str_replace(' cellpadding="2"', '', $html);
-				$html = str_replace(' cellpadding="5"', '', $html);
-				$html = str_replace(' width="1%"', '', $html); // Examples of a lot of bad code I wrote back in the days
-				$html = str_replace(' width="2%"', '', $html);
-				$html = str_replace(' width="90%"', '', $html);
-				$html = str_replace(' width="100%"', '', $html);
-				$html = str_replace(' width="100%"', '', $html);
-				$html = str_replace(' width="750"', '', $html);
-				$html = str_replace(' width="740"', '', $html);
-				$html = str_replace(' width="10"', '', $html);
-				$html = str_replace(' width="20"', '', $html);
-				$html = str_replace(' width="30"', '', $html);
-				$html = str_replace(' width="60"', '', $html);
-				$html = str_replace(' width="485"', '', $html);
-				$html = str_replace(' border="1"', '', $html);
-				$html = str_replace(' align="texttop"', '', $html);
-				$html = str_replace(' hspace="9"', '', $html);
-				$html = str_replace(' hspace="3"', '', $html);
-				$html = str_replace(' vspace="3"', '', $html);
-				$html = str_replace(' hspace="2"', '', $html);
-				$html = str_replace(' vspace="2"', '', $html);
-				$html = str_replace(' align="c"', ' align="center"', $html);
-				$html = str_replace(' align="center"', '', $html);
-				$html = str_replace(' valign="top"', '', $html);
-*/
+				////////////////////////////////////////////////////////
 
-/*
-				$html = str_replace(' VALIGN="top"', '', $html);
-				$html = str_replace(' ALIGN="left"', '', $html);
-				$html = str_replace(' ALIGN="right"', '', $html);
-				$html = str_replace(' ALIGN="center"', '', $html);
-*/
 				// Smarter regex removal of valign and align attributes
 				$html = preg_replace('/ [v]?align="(center|top|left|right)"/i', "", $html);
 
@@ -152,18 +116,7 @@
 				$html = preg_replace('/ border="?[\d]*"?/i', "", $html);
 				$html = preg_replace('/ cellpadding="?[\d]*"?/i', "", $html);
 				$html = preg_replace('/ cellspacing="?[\d]*"?/i', "", $html);
-/*
-				// Remove old color styles
-				$html = str_replace(' bgcolor="#151515"', '', $html);
-				$html = str_replace(' bgcolor="#303030"', '', $html);
-				$html = str_replace(' bgcolor="#606060"', '', $html);
-				$html = str_replace(' bgcolor="#202020"', '', $html);
-				$html = str_replace(' bgcolor="#FFFFFF"', '', $html);
-				$html = str_replace(' bgcolor="#A0A0A0"', '', $html);
-				$html = str_replace(' bgcolor="#BBBBBB"', '', $html);
-				$html = str_replace(' bgcolor="#C0C0C0"', '', $html);
-				$html = str_replace(' bgcolor="#E0E0E0"', '', $html);
-*/
+
 				// Remove all bgcolor attributes and their content, no matter what setting (if valid hex-color only)
 				$html = preg_replace('/ bgcolor="?#[\da-f]{6}"?/i', "", $html);
 
@@ -262,7 +215,7 @@
 				//$html = str_replace('<td', "\t<td", $html);
 
 				// Old images should all be moved to the assets-folder
-				// Deaktivated, it doesn't serve any purpose since new URL's are also wrong and we can't easily get them right - images should be uploaded manually through WordPress.
+				// De-activated, it doesn't serve any purpose since new URL's are also wrong and we can't easily get them right - images should be uploaded manually through WordPress.
 /*
 				if (isset($_POST['images'])) {
 					$html = str_replace(' src="b/', ' src="assets/_old/', $html);
