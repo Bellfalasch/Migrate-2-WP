@@ -135,7 +135,7 @@
 
 		if ($del >= 0) {
 			//echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The selected page has been deleted.</p></div>";
-			fn_infobox("Delete successful", "Delete successful</h4><p>The selected page has been deleted.",'');
+			fn_infobox("Delete successful", "The selected page has been deleted.",'');
 		} else {
 			pushError("Delete of page failed, please try again.");
 		}
