@@ -205,6 +205,8 @@
 					$html = preg_replace('/<br\s?[\/]?>\s*<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
 					$html = preg_replace('/<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
 					$html = preg_replace('/<p><br\s?[\/]?>\s*/i', "<p>", $html);
+					$html = preg_replace('/<p><\/p>\s*/i', "", $html);
+					$html = preg_replace('/<table>\s*<tr>\s*<td><\/td>\s*<\/tr>\s*<\/table>/i', "", $html);
 
 				}
 
