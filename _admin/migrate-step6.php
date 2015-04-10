@@ -120,12 +120,6 @@
 				// Remove all bgcolor attributes and their content, no matter what setting (if valid hex-color only)
 				$html = preg_replace('/ bgcolor="?#[\da-f]{6}"?/i', "", $html);
 
-				// If user adds a page title programatically in WP themes we want to get rid of any h-tag in the start of the text
-				if ( formGet('first-h') === 'yes' ) {
-
-					$html = preg_replace('/^<h[1-6]>.*<\/h[1-6]>/i', '', $html);
-				}
-
 				// If user adds h1 programatically in WP themes we want to get rid of h1 in content and turn them into h2
 				if ( formGet('h1') === 'yes' ) {
 
@@ -223,13 +217,25 @@
 				}
 
 				// Turn any remaining div's to p's
-				$html = str_replace("<div>", "<p>", $html);
-				$html = str_replace("</div>", "</p>", $html);
+				if ( formGet('div2p') === 'yes' ) {
+					$html = str_replace("<div>", "<p>", $html);
+					$html = str_replace("</div>", "</p>", $html);
+				}
 
 				// Clean any fault remaining html
 				$html = str_replace("<p><p>", "<p>", $html);
-				$html = str_replace("<p></p>\n", "", $html);
 				$html = preg_replace('/<\/p>\s*<\/p>/i', "</p>", $html);
+
+				// All this cleaning might've left more broken code, double check (if setting is active)
+				if ( formGet('empty') === 'yes' ) {
+					$html = str_replace("<p></p>\n", "", $html);
+				}
+
+				// If user adds a page title programatically in WP themes we want to get rid of any h-tag in the start of the text
+				if ( formGet('first-h') === 'yes' ) {
+
+					$html = preg_replace('/^<h[1-6]>.*<\/h[1-6]>/i', '', $html);
+				}
 
 				// Do some simple indentation - NO, ruins later replaces
 				//$html = str_replace('<td', "\t<td", $html);
@@ -349,6 +355,10 @@
 			<label class="checkbox">
 				<input type="checkbox" name="linebreaks" value="yes"<?php if (isset($_POST['linebreaks'])) { ?> checked="checked"<?php } ?> />
 				Try to remove clusters of extra linebreaks and br-tags?
+			</label>
+			<label class="checkbox">
+				<input type="checkbox" name="div2p" value="yes"<?php if (isset($_POST['div2p'])) { ?> checked="checked"<?php } ?> />
+				Try to change all div-tags into p-tags?
 			</label>
 			<br />
 
