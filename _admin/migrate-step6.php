@@ -210,7 +210,7 @@
 
 				// Check if we have a <div id="panel#"> in the first row, then remove it and also the last div.
 				$count = 0;
-				$html = preg_replace('/^<div id="panel[0-9]+[0-9]?">/i', '', $html, -1, $count);
+				$html = preg_replace('/^<div id="panel[0-9]+[0-9]?">\s*/i', '', $html, -1, $count);
 
 				if ( $count > 0 ) {
 					$html = preg_replace('/<\/div>$/i', '', $html);
