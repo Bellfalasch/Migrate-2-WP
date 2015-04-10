@@ -170,7 +170,7 @@
 <form class="well form" action="" method="post">
 
 	<div class="row">
-		<div class="span12">
+		<div class="span11">
 
 			<p>
 				Activating this step will run through your old clean pages and push all the code

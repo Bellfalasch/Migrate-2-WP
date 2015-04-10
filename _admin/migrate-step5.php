@@ -137,7 +137,7 @@
 <form class="well form-inline" action="" method="post">
 
 	<div class="row">
-		<div class="span12">
+		<div class="span11">
 
 			<p>
 				This step configures and run the Tidy plugin in PHP. It brings old html version 3 and 4

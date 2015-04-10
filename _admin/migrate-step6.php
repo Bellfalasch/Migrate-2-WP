@@ -323,7 +323,7 @@
 <form class="well form" action="" method="post">
 
 	<div class="row">
-		<div class="span12">
+		<div class="span11">
 
 			<p>
 				A bunch of manual lines of replacement code will be run on the code Tidy has

@@ -623,7 +623,7 @@ if (DEBUG) {
 <form class="well form" action="" method="post">
 
 	<div class="row">
-		<div class="span12">
+		<div class="span11">
 
 			<p>
 				The crawler will find any links on the URL you've set up on the settings page "Project" for this Project. Only valid links
