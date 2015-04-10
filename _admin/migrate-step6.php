@@ -198,7 +198,7 @@
 					$html = str_replace("<p>\n</p>", '', $html);
 					//$html = str_replace("<p><br /></p>\n", "", $html);
 					//$html = str_replace("<p><br /></p>", "", $html);
-					$html = preg_replace('/<p><br\s+[\/]+><\/p>\s*/i', "", $html);
+					$html = preg_replace('/<p><br\s?[\/]?><\/p>\s*/i', "", $html);
 					$html = str_replace("<p><br /><br /></p>\n", "", $html);
 					$html = str_replace("<pre>\n</pre>\n", "", $html);
 					$html = str_replace("<pre>\n<br />\n</pre>\n", "", $html);
@@ -207,13 +207,13 @@
 					$html = str_replace("<p>&nbsp;</p>\n", "", $html);
 					$html = str_replace("<p></p>\n", "", $html);
 					$html = str_replace("<div></div>", "", $html);
-					$html = preg_replace('/<br\s+[\/]+>\s+<br\s+[\/]+><\/p>/i', "</p>", $html);
+					$html = preg_replace('/<br\s?[\/]?>\s?<br\s?[\/]?><\/p>/i', "</p>", $html);
 
 				}
 
 				// Check if we have a <div class="panel#"> in the first row, then remove it and also the last div.
 				$count = 0;
-				$html = preg_replace('/^<div class="panel[0-9][1-9]+">/i', '', $html, -1, $count);
+				$html = preg_replace('/^<div class="panel[0-9][0-9]?">/i', '', $html, -1, $count);
 
 				if ( $count > 0 ) {
 					$html = preg_replace('/</div>$/i', '', $html);
