@@ -185,6 +185,7 @@
 				$html = str_replace("</strong></span></h3>", "</h3>", $html);
 				$html = str_replace("<td><span class=\"td_rubrik\">", "<th>", $html);
 				$html = str_replace("</span></td>", "</th>", $html);
+				$html = str_replace("> &nbsp;<", "><", $html);
 
 				// Delete empty tags
 				if ( formGet('empty') === 'yes' ) {
@@ -202,6 +203,7 @@
 					$html = str_replace("<p></p>\n", "", $html);
 					$html = str_replace("<div></div>", "", $html);
 					$html = preg_replace('/<br\s?[\/]?>\s*<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
+					$html = preg_replace('/<br\s?[\/]?>\s*<\/p>/i', "</p>", $html);
 
 				}
 
