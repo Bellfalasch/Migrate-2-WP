@@ -13,6 +13,10 @@ Until version 1.0 is reached it's highly recommended to use proper backups of yo
 Updates:
 ----------------
 
+### 0.9.9
+
+Mostly improvements to the Wash and Clean steps, and general code quality. Sqitching out a lot of replace statements with smarter regex. Removing commented out code. Removing inline style. We're finally getting there! =)
+
 ### 0.9.8
 
 After loads and loads of commits, we're closing in on 1.0. Only 22 Asana-tasks remain - 6 critical, and 10 low priority (refactoring-things). All the steps work - finally - and they all have a lot of improvements on speed and quality. I can't point on specific things fixed, but the crawler have been getting a lot of improvements, so has the new "Split"-step.
