@@ -15,7 +15,7 @@ Updates:
 
 ### 0.9.9
 
-Mostly improvements to the Wash and Clean steps, and general code quality. Sqitching out a lot of replace statements with smarter regex. Removing commented out code. Removing inline style. We're finally getting there! =)
+Mostly improvements to the Wash and Clean steps, and general code quality. Switching out a lot of replace statements with smarter regex. Removing commented out code. Removing inline style. We're finally getting there! =)
 
 ### 0.9.8
 
