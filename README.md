@@ -15,7 +15,7 @@ Updates:
 
 ### 0.9.9.1 - End of Life
 
-This is the last release. 0.9.9 is the final version, with only bug fix releases from now on. I came up with a lot of ideas that kind of changes the fundamentals of this project, so I'll start with these changes in "[a new repo going](https://github.com/Bellfalasch/Migrate-2-WordPress-2.0)" from 2.0 Beta up to the final 2.0 release. The new version will have a better file structure, and export a WordPress XML-file in the end instead of pushing data straight into the database. Also a lot of other improvements, of course.
+This is the last release. 0.9.9 is the final version, with only bug fix releases from now on. I came up with a lot of ideas that kind of changes the fundamentals of this project, so I'll start with these changes in [a new repo going](https://github.com/Bellfalasch/Migrate-2-WordPress-2.0) from 2.0 Beta up to the final 2.0 release. The new version will have a better file structure, and export a WordPress XML-file in the end instead of pushing data straight into the database. Also a lot of other improvements, of course.
 
 ### 0.9.9
 
